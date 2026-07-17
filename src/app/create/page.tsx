@@ -19,7 +19,23 @@ export default function CreatePage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result as string);
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const MAX_WIDTH = 500; // Aggressive downscale for URL sharing
+          const scaleSize = MAX_WIDTH / img.width;
+          canvas.width = MAX_WIDTH;
+          canvas.height = img.height * scaleSize;
+          
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            // Compress heavily to keep URL size manageable
+            const compressedBase64 = canvas.toDataURL("image/jpeg", 0.3);
+            setImage(compressedBase64);
+          }
+        };
+        img.src = reader.result as string;
       };
       reader.readAsDataURL(file);
     }
