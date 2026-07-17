@@ -11,6 +11,8 @@ export default function CreatePage() {
   const [theme, setTheme] = useState("sakura-garden");
   const [puzzle, setPuzzle] = useState("memory");
   const [message, setMessage] = useState("");
+  const [puzzleQuestion, setPuzzleQuestion] = useState("");
+  const [puzzleAnswer, setPuzzleAnswer] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
 
@@ -51,6 +53,8 @@ export default function CreatePage() {
       name,
       theme,
       puzzle,
+      puzzleQuestion: puzzle === "unscramble" ? puzzleQuestion : undefined,
+      puzzleAnswer: puzzle === "unscramble" ? puzzleAnswer : undefined,
       message,
       image,
     };
@@ -118,6 +122,30 @@ export default function CreatePage() {
               ))}
             </select>
           </div>
+
+          {puzzle === "unscramble" && (
+            <div className="space-y-4 bg-orange-50/50 p-4 rounded-xl border border-orange-200/50">
+              <div className="space-y-2">
+                <Label htmlFor="puzzleQuestion">Secret Question</Label>
+                <Input 
+                  id="puzzleQuestion" 
+                  placeholder="e.g., Where did we first meet?" 
+                  value={puzzleQuestion}
+                  onChange={(e) => setPuzzleQuestion(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="puzzleAnswer">Answer (1-10 letters)</Label>
+                <Input 
+                  id="puzzleAnswer" 
+                  placeholder="e.g., PARIS" 
+                  value={puzzleAnswer}
+                  onChange={(e) => setPuzzleAnswer(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))}
+                  maxLength={10}
+                />
+              </div>
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="message">Secret Ending Message</Label>

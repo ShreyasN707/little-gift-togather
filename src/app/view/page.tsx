@@ -59,12 +59,14 @@ export default function ViewPage() {
             initial={{ y: -50, x: Math.random() * window.innerWidth, opacity: 0 }}
             animate={{ 
               y: window.innerHeight + 50, 
-              opacity: [0, 1, 0],
-              rotate: 360
+              x: [null, Math.random() * 100 - 50, Math.random() * -100 + 50, 0],
+              opacity: [0, 1, 1, 0],
+              rotate: [0, 180, 360]
             }}
             transition={{ 
-              duration: 5 + Math.random() * 5, 
+              duration: 8 + Math.random() * 7, 
               repeat: Infinity, 
+              ease: "easeInOut",
               delay: Math.random() * 5 
             }}
             className="absolute text-2xl sm:text-4xl drop-shadow-lg"
@@ -133,7 +135,11 @@ export default function ViewPage() {
           className="z-10 w-full flex justify-center"
         >
           {state.puzzle === "unscramble" ? (
-            <UnscramblePuzzle onComplete={() => setScene("reveal")} />
+            <UnscramblePuzzle 
+              onComplete={() => setScene("reveal")} 
+              question={state.puzzleQuestion}
+              answer={state.puzzleAnswer}
+            />
           ) : state.puzzle === "find-rose" ? (
             <FindRosePuzzle onComplete={() => setScene("reveal")} />
           ) : (

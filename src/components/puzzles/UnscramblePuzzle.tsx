@@ -3,9 +3,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export function UnscramblePuzzle({ onComplete }: { onComplete: () => void }) {
-  const targetWord = "FOREVER";
-  const [scrambled, setScrambled] = useState("VREEOFR".split(""));
+export function UnscramblePuzzle({ 
+  onComplete, 
+  question, 
+  answer 
+}: { 
+  onComplete: () => void,
+  question?: string,
+  answer?: string
+}) {
+  const targetWord = (answer || "FOREVER").toUpperCase();
+  const [scrambled, setScrambled] = useState(() => targetWord.split("").sort(() => Math.random() - 0.5));
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [currentGuess, setCurrentGuess] = useState("");
 
@@ -36,7 +44,10 @@ export function UnscramblePuzzle({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div className="p-6 sm:p-10 bg-[#fdfbf7] craft-border flex flex-col items-center max-w-sm w-full mx-4 relative z-10">
-      <h2 className="text-2xl font-serif text-[#2c1810] mb-6 text-center">Unscramble the word to unlock</h2>
+      <h2 className="text-xl sm:text-2xl font-serif text-[#2c1810] mb-2 text-center">
+        {question || "Unscramble the word to unlock"}
+      </h2>
+      <p className="text-sm text-[#a89f91] mb-6 font-serif">Tap the letters in the right order</p>
       
       <div className="flex gap-2 mb-8 h-14">
         {Array.from({ length: targetWord.length }).map((_, i) => (
