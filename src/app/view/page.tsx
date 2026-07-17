@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { themes } from "@/lib/themes";
 import { MemoryPuzzle } from "@/components/puzzles/MemoryPuzzle";
+import { UnscramblePuzzle } from "@/components/puzzles/UnscramblePuzzle";
+import { FindRosePuzzle } from "@/components/puzzles/FindRosePuzzle";
 import { Heart } from "lucide-react";
 
 export default function ViewPage() {
@@ -64,7 +66,7 @@ export default function ViewPage() {
               repeat: Infinity, 
               delay: Math.random() * 5 
             }}
-            className="absolute text-2xl"
+            className="absolute text-2xl sm:text-4xl drop-shadow-lg"
           >
             {currentTheme.particleType === 'blossom' && '🌸'}
             {currentTheme.particleType === 'star' && '✨'}
@@ -127,9 +129,15 @@ export default function ViewPage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="z-10"
+          className="z-10 w-full flex justify-center"
         >
-          <MemoryPuzzle onComplete={() => setScene("reveal")} />
+          {state.puzzle === "unscramble" ? (
+            <UnscramblePuzzle onComplete={() => setScene("reveal")} />
+          ) : state.puzzle === "find-rose" ? (
+            <FindRosePuzzle onComplete={() => setScene("reveal")} />
+          ) : (
+            <MemoryPuzzle onComplete={() => setScene("reveal")} />
+          )}
         </motion.div>
       )}
 
