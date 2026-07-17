@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter);
+  --font-sans: "Outfit", sans-serif;
+  --font-serif: "Playfair Display", serif;
 }
 
 @layer base {
   :root {
     --background: #ffffff;
-    --foreground: #09090b;
+    --foreground: #4c0519; /* Deep romantic rose-950 */
     --primary: #f43f5e; /* Rose 500 */
     --primary-foreground: #ffffff;
     --radius: 0.5rem;
