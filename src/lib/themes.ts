@@ -8,7 +8,6 @@ export const themes = [
       text: "text-[#4A2511]", // Deep brown for maximum contrast
     },
     particleType: "blossom",
-    sceneImage: "/scene-sakura.png"
   },
   {
     id: "night-sky",
@@ -19,7 +18,6 @@ export const themes = [
       text: "text-[#FDFBF7]", // Off-white on dark background
     },
     particleType: "star",
-    sceneImage: "/scene-nightsky.png"
   },
   {
     id: "sunset-beach",
@@ -30,7 +28,6 @@ export const themes = [
       text: "text-[#2C1810]",
     },
     particleType: "sparkle",
-    sceneImage: "/scene-sunset.png"
   },
   {
     id: "fairytale-forest",
@@ -41,7 +38,6 @@ export const themes = [
       text: "text-[#0B5345]",
     },
     particleType: "leaf",
-    sceneImage: "/scene-forest.png"
   }
 ];
 

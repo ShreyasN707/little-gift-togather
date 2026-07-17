@@ -49,29 +49,6 @@ export default function ViewPage() {
   return (
     <div className={`min-h-screen overflow-hidden ${currentTheme.colors.background} flex items-center justify-center relative`}>
       <div className="absolute inset-0 paper-texture z-0 pointer-events-none"></div>
-
-      {/* Diorama Animated Scene */}
-      {currentTheme.sceneImage && (
-        <motion.div 
-          className="absolute -bottom-10 md:-bottom-20 w-full max-w-5xl opacity-90 z-0 pointer-events-none mix-blend-multiply flex justify-center"
-          animate={{
-            scale: [1, 1.02, 1],
-            rotate: [0, 0.5, -0.5, 0],
-            y: [0, -15, 0]
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <img 
-            src={currentTheme.sceneImage} 
-            alt="romantic scene" 
-            className="w-full h-auto object-contain object-bottom drop-shadow-2xl" 
-          />
-        </motion.div>
-      )}
       
       {/* Background Particles Placeholder */}
       <div className="absolute inset-0 pointer-events-none opacity-50 flex flex-wrap justify-center overflow-hidden">

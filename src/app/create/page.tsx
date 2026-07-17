@@ -61,7 +61,8 @@ export default function CreatePage() {
 
     // Compress/encode state (simplistic for MVP)
     const encodedState = encodeURIComponent(JSON.stringify(state));
-    const url = `${window.location.origin}/view#${encodedState}`;
+    const safeName = encodeURIComponent(name.trim().replace(/\s+/g, '-'));
+    const url = `${window.location.origin}/to/${safeName}#${encodedState}`;
     setPublishedUrl(url);
   };
 
