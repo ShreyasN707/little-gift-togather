@@ -47,7 +47,8 @@ export default function ViewPage() {
   const currentTheme = themes.find(t => t.id === state.theme) || themes[0];
 
   return (
-    <div className={`min-h-screen overflow-hidden bg-gradient-to-br ${currentTheme.colors.background} flex items-center justify-center relative`}>
+    <div className={`min-h-screen overflow-hidden ${currentTheme.colors.background} flex items-center justify-center relative`}>
+      <div className="absolute inset-0 paper-texture z-0 pointer-events-none"></div>
       
       {/* Background Particles Placeholder */}
       <div className="absolute inset-0 pointer-events-none opacity-50 flex flex-wrap justify-center overflow-hidden">
@@ -101,7 +102,7 @@ export default function ViewPage() {
         >
           <motion.div 
             whileHover={{ scale: 1.02, rotate: -2 }}
-            className={`w-72 sm:w-80 h-52 sm:h-56 rounded-xl shadow-2xl relative flex items-center justify-center ${currentTheme.colors.envelope}`}
+            className={`w-72 sm:w-80 h-52 sm:h-56 relative flex items-center justify-center z-10 ${currentTheme.colors.envelope}`}
           >
             {/* Wax Seal */}
             <div className="absolute w-16 h-16 bg-red-800 rounded-full shadow-inner flex items-center justify-center border-2 border-red-900 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
@@ -113,11 +114,11 @@ export default function ViewPage() {
             </div>
           </motion.div>
 
-          <div className={`text-center space-y-4 px-4 ${currentTheme.colors.text}`}>
+          <div className={`text-center space-y-4 px-4 relative z-10 ${currentTheme.colors.text}`}>
             <h1 className="text-2xl sm:text-3xl font-serif">Hey my love, {state.name} ❤️</h1>
             <Button 
               onClick={() => setScene("puzzle")}
-              className="bg-white text-gray-900 hover:bg-gray-100 shadow-xl rounded-full px-8 py-6 text-lg font-serif"
+              className="bg-white text-gray-900 craft-border hover:bg-gray-100 rounded-none px-8 py-6 text-lg font-serif"
             >
               Open Letter
             </Button>
@@ -146,16 +147,13 @@ export default function ViewPage() {
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="z-10 w-full max-w-2xl mx-auto p-4 flex flex-col items-center"
+          className="z-20 w-full max-w-2xl mx-auto p-4 flex flex-col items-center"
         >
-          <div className="bg-white p-4 md:p-8 rounded-sm shadow-2xl transform rotate-1 w-full relative">
-            {/* Paper Texture Overlay */}
-            <div className="absolute inset-0 bg-[#fdfbf7] opacity-50 mix-blend-multiply pointer-events-none"></div>
-            
+          <div className="bg-[#fdfbf7] p-4 md:p-8 transform rotate-1 w-full relative craft-border">
             <img 
               src={state.image} 
               alt="Love Letter" 
-              className="w-full h-auto rounded shadow-inner relative z-10"
+              className="w-full h-auto relative z-10 craft-border"
             />
             
             <motion.div 

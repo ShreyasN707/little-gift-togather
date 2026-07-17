@@ -62,8 +62,9 @@ export default function CreatePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-6 sm:p-8 space-y-6">
+    <div className="min-h-screen bg-[#f5e6e6] flex items-center justify-center p-4 relative">
+      <div className="absolute inset-0 paper-texture z-0 pointer-events-none"></div>
+      <div className="max-w-md w-full bg-[#fdfbf7] p-6 sm:p-8 space-y-6 craft-border relative z-10">
         <div className="text-center space-y-2">
           <h1 className="text-2xl sm:text-3xl font-serif text-gray-900">Letters for My Love</h1>
           <p className="text-gray-500 text-sm sm:text-base">Create a magical experience</p>
@@ -129,7 +130,7 @@ export default function CreatePage() {
           </div>
 
           <Button 
-            className="w-full bg-rose-500 hover:bg-rose-600 text-white" 
+            className="w-full bg-[#d97777] hover:bg-[#c96666] text-white craft-border" 
             onClick={handlePublish}
           >
             Publish Letter

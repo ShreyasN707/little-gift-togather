@@ -7,18 +7,23 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #4c0519; /* Deep romantic rose-950 */
-    --primary: #f43f5e; /* Rose 500 */
+    --background: #fdfbf7; /* Warm craft paper white */
+    --foreground: #2c1810; /* Very dark sepia/brown for high contrast readability */
+    --primary: #d97777; /* Soft craft rose */
     --primary-foreground: #ffffff;
     --radius: 0.5rem;
   }
+}
+
+@layer utilities {
+  .paper-texture {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
   
-  .dark {
-    --background: #09090b;
-    --foreground: #fafafa;
-    --primary: #f43f5e;
-    --primary-foreground: #ffffff;
+  .craft-border {
+    border: 3px solid #2c1810;
+    box-shadow: 6px 6px 0px rgba(44, 24, 16, 0.15);
   }
 }
 

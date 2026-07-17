@@ -3,9 +3,9 @@ export const themes = [
     id: "sakura-garden",
     name: "Sakura Garden",
     colors: {
-      background: "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-100 via-rose-100 to-pink-200",
-      envelope: "bg-gradient-to-br from-pink-300 to-rose-300 border border-white/40",
-      text: "text-rose-950",
+      background: "bg-[#FADCD9] border-[12px] border-[#F8EDE3]", // Soft craft paper pink
+      envelope: "bg-[#E8A0BF] craft-border",
+      text: "text-[#4A2511]", // Deep brown for maximum contrast
     },
     particleType: "blossom",
   },
@@ -13,9 +13,9 @@ export const themes = [
     id: "night-sky",
     name: "Moonlit Sky",
     colors: {
-      background: "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900 via-indigo-950 to-blue-950",
-      envelope: "bg-gradient-to-br from-indigo-800 to-blue-900 border border-indigo-400/30",
-      text: "text-indigo-100",
+      background: "bg-[#2C3E50] border-[12px] border-[#1A252F]", // Craft navy
+      envelope: "bg-[#F1C40F] craft-border", // Gold paper envelope
+      text: "text-[#FDFBF7]", // Off-white on dark background
     },
     particleType: "star",
   },
@@ -23,9 +23,9 @@ export const themes = [
     id: "sunset-beach",
     name: "Sunset Beach",
     colors: {
-      background: "bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-orange-300 via-rose-300 to-purple-400",
-      envelope: "bg-gradient-to-br from-orange-400 to-red-400 border border-white/30",
-      text: "text-orange-950",
+      background: "bg-[#F39C12] border-[12px] border-[#D35400]", // Craft orange layers
+      envelope: "bg-[#FDFBF7] craft-border", // Cream paper envelope
+      text: "text-[#2C1810]",
     },
     particleType: "sparkle",
   },
@@ -33,9 +33,9 @@ export const themes = [
     id: "fairytale-forest",
     name: "Fairytale Forest",
     colors: {
-      background: "bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-100 via-emerald-100 to-teal-200",
-      envelope: "bg-gradient-to-br from-emerald-600 to-teal-700 border border-emerald-300/40",
-      text: "text-emerald-950",
+      background: "bg-[#A3E4D7] border-[12px] border-[#16A085]", // Craft mint and teal
+      envelope: "bg-[#FDFBF7] craft-border",
+      text: "text-[#0B5345]",
     },
     particleType: "leaf",
   }
