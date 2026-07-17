@@ -15,6 +15,7 @@ export default function CreatePage() {
   const [puzzleAnswer, setPuzzleAnswer] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -43,11 +44,13 @@ export default function CreatePage() {
     }
   };
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if (!name || !image) {
       alert("Please provide a name and upload a letter image.");
       return;
     }
+
+    setPublishing(true);
 
     const state = {
       name,
@@ -59,11 +62,25 @@ export default function CreatePage() {
       image,
     };
 
-    // Compress/encode state (simplistic for MVP)
-    const encodedState = encodeURIComponent(JSON.stringify(state));
-    const safeName = encodeURIComponent(name.trim().replace(/\s+/g, '-'));
-    const url = `${window.location.origin}/to/${safeName}#${encodedState}`;
-    setPublishedUrl(url);
+    try {
+      const response = await fetch("https://bytebin.lucko.me/post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "User-Agent": "little-gift-together" },
+        body: JSON.stringify(state),
+      });
+      
+      if (!response.ok) throw new Error("Failed to post");
+      
+      const data = await response.json();
+      const safeName = encodeURIComponent(name.trim().replace(/\s+/g, '-'));
+      const url = `${window.location.origin}/to/${safeName}?id=${data.key}`;
+      setPublishedUrl(url);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to generate link. Please try again.");
+    } finally {
+      setPublishing(false);
+    }
   };
 
   return (
@@ -161,8 +178,9 @@ export default function CreatePage() {
           <Button 
             className="w-full bg-[#d97777] hover:bg-[#c96666] text-white craft-border" 
             onClick={handlePublish}
+            disabled={publishing}
           >
-            Publish Letter
+            {publishing ? "Creating Magic..." : "Publish Letter"}
           </Button>
         </div>
 

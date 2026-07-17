@@ -14,15 +14,18 @@ export default function ViewPage() {
   const [scene, setScene] = useState<"loading" | "envelope" | "puzzle" | "reveal">("loading");
 
   useEffect(() => {
-    // Read state from URL hash
-    const hash = window.location.hash.replace("#", "");
-    if (hash) {
-      try {
-        const decoded = JSON.parse(decodeURIComponent(hash));
-        setState(decoded);
-      } catch (e) {
-        console.error("Invalid URL state", e);
-      }
+    // Read short ID from URL query params
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (id) {
+      fetch(`https://bytebin.lucko.me/${id}`)
+        .then(res => res.json())
+        .then(data => setState(data))
+        .catch(e => {
+          console.error("Failed to load letter", e);
+          alert("Could not load your letter. The link might be expired or invalid.");
+        });
     } else {
       // Dummy state for testing if accessed directly
       setState({
