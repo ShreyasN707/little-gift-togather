@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { themes } from "@/lib/themes";
@@ -10,14 +11,12 @@ import { FindRosePuzzle } from "@/components/puzzles/FindRosePuzzle";
 import { Heart } from "lucide-react";
 
 export default function ViewPage() {
+  const params = useParams();
+  const id = params?.id as string;
   const [state, setState] = useState<any>(null);
   const [scene, setScene] = useState<"loading" | "envelope" | "puzzle" | "reveal">("loading");
 
   useEffect(() => {
-    // Read short ID from URL query params
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-
     if (id) {
       fetch(`https://bytebin.lucko.me/${id}`)
         .then(res => res.json())
@@ -43,7 +42,7 @@ export default function ViewPage() {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [id]);
 
   if (!state) return <div className="min-h-screen bg-rose-50 flex items-center justify-center text-rose-400">Loading magical moments...</div>;
 

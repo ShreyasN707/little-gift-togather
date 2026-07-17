@@ -65,15 +65,14 @@ export default function CreatePage() {
     try {
       const response = await fetch("https://bytebin.lucko.me/post", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "User-Agent": "little-gift-together" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(state),
       });
       
       if (!response.ok) throw new Error("Failed to post");
       
       const data = await response.json();
-      const safeName = encodeURIComponent(name.trim().replace(/\s+/g, '-'));
-      const url = `${window.location.origin}/to/${safeName}?id=${data.key}`;
+      const url = `${window.location.origin}/to/${data.key}`;
       setPublishedUrl(url);
     } catch (error) {
       console.error(error);
