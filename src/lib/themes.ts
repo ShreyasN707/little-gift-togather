@@ -42,6 +42,27 @@ export const envelopeStyles: EnvelopeStyle[] = [
     era: "Victorian Garden",
     accent: "#3F5E46",
   },
+  {
+    id: "art-deco-noir",
+    name: "1925 Art Deco Speakeasy",
+    tagline: "Glossy obsidian foil with 24K geometric chevron gilding & Gatsby postmark",
+    era: "Roaring 1920s",
+    accent: "#E5C158",
+  },
+  {
+    id: "retro-vinyl-gold",
+    name: "1974 Golden Vinyl Hi-Fi",
+    tagline: "Warm mustard-gold album sleeve with analog stereo record postmarks",
+    era: "Analog 1970s",
+    accent: "#D97706",
+  },
+  {
+    id: "cyber-holo-foil",
+    name: "2084 Orbital Holo-Foil",
+    tagline: "Iridescent prism foil envelope with luminous cyan cyber glyphs",
+    era: "Neo-Tokyo 2084",
+    accent: "#06B6D4",
+  },
 ];
 
 export interface LetterStyle {
@@ -100,6 +121,33 @@ export const letterStyles: LetterStyle[] = [
     textColor: "#1c1b18",
     crest: "⌨",
   },
+  {
+    id: "art-deco-gold",
+    name: "Speakeasy Velvet Vellum",
+    tagline: "Crisp obsidian vellum with geometric gold fan border & jazz club watermark",
+    paperBg: "bg-[#0d0f14]",
+    paperClass: "border-amber-400/50 text-[#fcedc7]",
+    textColor: "#fcedc7",
+    crest: "🪶",
+  },
+  {
+    id: "vintage-liner-notes",
+    name: "1970s Vinyl Liner Notes",
+    tagline: "Heavy cream album liner paper with warm retro typography & groove marks",
+    paperBg: "bg-[#fdf8ee]",
+    paperClass: "border-amber-800/40 text-[#2b180d]",
+    textColor: "#26150b",
+    crest: "♫",
+  },
+  {
+    id: "cyber-datapad",
+    name: "Holographic Cyber Datapad",
+    tagline: "Matte carbon obsidian sheet with illuminated cyan circuits & monospace code",
+    paperBg: "bg-[#060b13]",
+    paperClass: "border-cyan-500/50 text-[#e0f2fe]",
+    textColor: "#e0f2fe",
+    crest: "⏣",
+  },
 ];
 
 export interface VintageBadge {
@@ -152,6 +200,30 @@ export const vintageBadges: VintageBadge[] = [
     color: "from-red-900 via-amber-700 to-blue-900 border-amber-300",
     description: "Carried across continents with first-class courier priority.",
   },
+  {
+    id: "jazz-age-feather",
+    name: "Golden Quill of Gatsby",
+    title: "Order of the Jazz Age",
+    symbol: "🪶",
+    color: "from-amber-400 via-yellow-500 to-amber-700 border-yellow-200",
+    description: "Awarded for timeless elegance and high-society flair.",
+  },
+  {
+    id: "golden-vinyl",
+    name: "Analog Master Grooves",
+    title: "Solid-State Hi-Fi Medal",
+    symbol: "♫",
+    color: "from-amber-700 via-orange-600 to-amber-900 border-amber-300",
+    description: "Cut on 180g virgin vinyl with pure analog warmth.",
+  },
+  {
+    id: "cyber-core",
+    name: "Quantum Orbital Link",
+    title: "Neo-Tokyo 2084 Core",
+    symbol: "⏣",
+    color: "from-cyan-600 via-blue-600 to-indigo-900 border-cyan-300",
+    description: "Encrypted memory fragment transmitted across the neural net.",
+  },
 ];
 
 export interface WaxSeal {
@@ -203,6 +275,30 @@ export const waxSeals: WaxSeal[] = [
     borderColor: "#0B1119",
     textColor: "#BAC9E0",
     symbol: "☽",
+  },
+  {
+    id: "deco-emerald",
+    name: "Art Deco Emerald",
+    color: "from-[#064e3b] to-[#022c22]",
+    borderColor: "#022c22",
+    textColor: "#a7f3d0",
+    symbol: "🪶",
+  },
+  {
+    id: "amber-vinyl-wax",
+    name: "1974 Golden Amber",
+    color: "from-[#b45309] to-[#78350f]",
+    borderColor: "#451a03",
+    textColor: "#fde68a",
+    symbol: "♫",
+  },
+  {
+    id: "neon-cyber-core",
+    name: "Holo Cyber Core",
+    color: "from-[#0891b2] to-[#0e7490]",
+    borderColor: "#164e63",
+    textColor: "#cffafe",
+    symbol: "⏣",
   },
 ];
 

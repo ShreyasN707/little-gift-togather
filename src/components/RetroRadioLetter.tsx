@@ -39,8 +39,86 @@ export function RetroRadioLetter({
   const isBotanical = envelopeStyle === "botanical-herbarium" || letterStyle?.id === "love-poem-folio";
   const isTypewriter = letterStyle?.id === "antique-typewriter";
   const isTwine = envelopeStyle === "parchment-twine" || letterStyle?.id === "aged-parchment";
+  const isArtDeco = envelopeStyle === "art-deco-noir" || letterStyle?.id === "art-deco-gold";
+  const isVinyl = envelopeStyle === "retro-vinyl-gold" || letterStyle?.id === "vintage-liner-notes";
+  const isCyber = envelopeStyle === "cyber-holo-foil" || letterStyle?.id === "cyber-datapad";
 
-  const theme = isVictorian
+  const theme = isArtDeco
+    ? {
+        id: "artdeco",
+        name: "1925 Roaring Twenties Speakeasy Wireless",
+        era: "New York 1925",
+        chassisBg: "bg-gradient-to-r from-[#0d0e12] via-[#1a1b24] to-[#0d0e12]",
+        chassisBorder: "border-[#e5c158]",
+        topLedgeBg: "bg-gradient-to-r from-[#171822] via-[#242636] to-[#171822]",
+        topLedgeBorder: "border-yellow-400/50",
+        dialBg: "bg-[#090a0d] border-yellow-500/60 text-[#fef08a]",
+        dialRuler: "text-yellow-400/80 font-vintage-heading tracking-[0.2em]",
+        needleColor: "#eab308",
+        screwColor: "bg-gradient-to-br from-yellow-300 to-amber-600 border-amber-950",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#854d0e] via-[#a16207] to-[#713f12] text-yellow-100 border-yellow-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]",
+        soundBtnPlayLabel: "🪶 PLAY JAZZ ♫",
+        soundBtnPauseLabel: "❚❚ PAUSE",
+        stereoLed: "bg-yellow-400 shadow-[0_0_8px_#facc15]",
+        tunerBtnBg: "bg-[#10121a] text-yellow-200 border-yellow-500/50 hover:bg-[#1f2333]",
+        clampColor: "from-yellow-300 via-amber-500 to-yellow-900 border-amber-950",
+        crest: "🪶",
+        folioHeader: "THE GATSBY CLUB • SPEAKEASY FOLIO 1925",
+        footerWatermark: "INSCRIBED IN THE ROARING TWENTIES • 🪶",
+        pennedNote: "Penned in the jazz salon for",
+      }
+    : isVinyl
+    ? {
+        id: "vinyl70s",
+        name: "1974 Solid-State Walnut Hi-Fi",
+        era: "Studio Master 1974",
+        chassisBg: "bg-gradient-to-r from-[#2c1809] via-[#45260f] to-[#2c1809]",
+        chassisBorder: "border-[#b45309]",
+        topLedgeBg: "bg-gradient-to-r from-[#3b1e0b] via-[#542d10] to-[#3b1e0b]",
+        topLedgeBorder: "border-amber-400/40",
+        dialBg: "bg-[#120a04] border-amber-600/60 text-amber-100",
+        dialRuler: "text-amber-400/80 font-mono tracking-widest",
+        needleColor: "#f59e0b",
+        screwColor: "bg-gradient-to-br from-amber-300 to-amber-700 border-stone-900",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#9a3412] via-[#c2410c] to-[#7c2d12] text-amber-50 border-amber-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]",
+        soundBtnPlayLabel: "♫ SPIN VINYL",
+        soundBtnPauseLabel: "❚❚ STOP",
+        stereoLed: "bg-amber-400 shadow-[0_0_8px_#f59e0b]",
+        tunerBtnBg: "bg-[#1c0f06] text-amber-200 border-amber-600/50 hover:bg-[#2d180a]",
+        clampColor: "from-amber-400 via-amber-600 to-amber-950 border-stone-900",
+        crest: "♫",
+        folioHeader: "180G VIRGIN VINYL • ANALOG STEREO MASTER",
+        footerWatermark: "CUT ON WARM ANALOG GROOVES • ♫",
+        pennedNote: "Pressed on album liner notes for",
+      }
+    : isCyber
+    ? {
+        id: "cyberpunk",
+        name: "Neo-Tokyo 2084 Quantum Transceiver",
+        era: "Orbit Relay 2084",
+        chassisBg: "bg-gradient-to-r from-[#030712] via-[#0b172a] to-[#030712]",
+        chassisBorder: "border-cyan-400",
+        topLedgeBg: "bg-gradient-to-r from-[#071328] via-[#0f284e] to-[#071328]",
+        topLedgeBorder: "border-cyan-400/60",
+        dialBg: "bg-[#020610] border-cyan-400/60 text-cyan-200",
+        dialRuler: "text-cyan-300 font-mono tracking-widest",
+        needleColor: "#06b6d4",
+        screwColor: "bg-gradient-to-br from-cyan-300 to-blue-500 border-slate-900",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#0891b2] via-[#06b6d4] to-[#0e7490] text-cyan-950 font-black border-cyan-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]",
+        soundBtnPlayLabel: "⏣ HOLO LINK",
+        soundBtnPauseLabel: "❚❚ UNLINK",
+        stereoLed: "bg-cyan-400 shadow-[0_0_12px_#06b6d4]",
+        tunerBtnBg: "bg-[#030c1c] text-cyan-200 border-cyan-500/60 hover:bg-[#081d3d]",
+        clampColor: "from-cyan-300 via-blue-500 to-indigo-950 border-cyan-950",
+        crest: "⏣",
+        folioHeader: "QUANTUM RELAY • NEURAL ARCHIVE 2084",
+        footerWatermark: "ENCRYPTED ON THE NEURAL HIGHWAY • ⏣",
+        pennedNote: "Transmitted across the ether for",
+      }
+    : isVictorian
     ? {
         id: "victorian",
         name: "Victorian Royal Phonograph",

@@ -14,6 +14,7 @@ interface EnvelopeCardProps {
   onOpen?: () => void;
   interactive?: boolean;
   previewMode?: boolean;
+  isPoppedOut?: boolean;
 }
 
 export function EnvelopeCard({
@@ -25,6 +26,7 @@ export function EnvelopeCard({
   onOpen,
   interactive = true,
   previewMode = false,
+  isPoppedOut = false,
 }: EnvelopeCardProps) {
   const [hovered, setHovered] = useState(false);
   const seal = waxSeals.find((s) => s.id === waxSealId) || waxSeals[0];
@@ -41,10 +43,43 @@ export function EnvelopeCard({
   const isTwine = envelopeStyle === "parchment-twine";
   const isCelestial = envelopeStyle === "celestial-noir";
   const isBotanical = envelopeStyle === "botanical-herbarium";
+  const isArtDeco = envelopeStyle === "art-deco-noir";
+  const isVinyl = envelopeStyle === "retro-vinyl-gold";
+  const isCyber = envelopeStyle === "cyber-holo-foil";
 
   // Dynamic seal colors according to seal ID and envelope theme
   const sealColors =
-    seal.id === "forest-botanical" || isBotanical
+    seal.id === "deco-emerald" || isArtDeco
+      ? {
+          grad1: "#059669",
+          grad2: "#047857",
+          grad3: "#064e3b",
+          grad4: "#022c22",
+          inner: "#064e3b",
+          symbol: isArtDeco ? "🪶" : seal.symbol,
+          accent: "#fef08a",
+        }
+      : seal.id === "amber-vinyl-wax" || isVinyl
+      ? {
+          grad1: "#f59e0b",
+          grad2: "#d97706",
+          grad3: "#b45309",
+          grad4: "#78350f",
+          inner: "#92400e",
+          symbol: isVinyl ? "♫" : seal.symbol,
+          accent: "#fef3c7",
+        }
+      : seal.id === "neon-cyber-core" || isCyber
+      ? {
+          grad1: "#06b6d4",
+          grad2: "#0891b2",
+          grad3: "#0e7490",
+          grad4: "#164e63",
+          inner: "#155e75",
+          symbol: isCyber ? "⏣" : seal.symbol,
+          accent: "#67e8f9",
+        }
+      : seal.id === "forest-botanical" || isBotanical
       ? {
           grad1: "#2e6f40",
           grad2: "#1e4d2b",
@@ -113,6 +148,12 @@ export function EnvelopeCard({
               ? "airmail-chevron-border"
               : isVictorian
               ? "bg-[#2b080f] p-2 border-2 border-amber-500/70 shadow-[0_15px_35px_rgba(0,0,0,0.85)]"
+              : isArtDeco
+              ? "bg-[#0b0c10] p-2 border-2 border-yellow-500/80 shadow-[0_15px_35px_rgba(0,0,0,0.95)]"
+              : isVinyl
+              ? "bg-[#2a1708] p-2 border-2 border-amber-600/70 shadow-[0_15px_35px_rgba(0,0,0,0.85)]"
+              : isCyber
+              ? "bg-[#040915] p-1.5 border border-cyan-400/80 shadow-[0_0_30px_rgba(6,182,212,0.4)]"
               : isCelestial
               ? "bg-[#070b14] p-1.5 border border-cyan-400/50 shadow-[0_15px_35px_rgba(0,0,0,0.9)]"
               : isBotanical
@@ -123,7 +164,13 @@ export function EnvelopeCard({
           {/* Main Envelope Body */}
           <div
             className={`w-full h-full rounded-none relative overflow-hidden flex flex-col justify-between p-6 sm:p-8 border ${
-              isCelestial
+              isArtDeco
+                ? "bg-gradient-to-br from-[#16171e] via-[#0d0e13] to-[#050608] text-[#fef3c7] border-yellow-500/50"
+                : isVinyl
+                ? "bg-gradient-to-br from-[#f2ddba] via-[#e4c28f] to-[#d3a86c] text-[#241306] border-amber-800/40"
+                : isCyber
+                ? "bg-gradient-to-br from-[#061527] via-[#040b17] to-[#02050b] text-[#e0f2fe] border-cyan-400/60"
+                : isCelestial
                 ? "bg-gradient-to-br from-[#0c1322] via-[#080d19] to-[#04060c] text-[#f0f9ff] border-cyan-500/40"
                 : isVictorian
                 ? "bg-gradient-to-br from-[#4a121c] via-[#3b0c14] to-[#24060b] text-[#fce8ce] border-amber-500/50"
@@ -136,6 +183,23 @@ export function EnvelopeCard({
           >
             {/* Subtle paper grain */}
             <div className="absolute inset-0 paper-texture pointer-events-none opacity-40" />
+
+            {/* Internal Envelope Pocket Throat (Visible depth when open) */}
+            <div className="absolute top-0 left-0 right-0 h-14 bg-gradient-to-b from-black/85 via-black/40 to-transparent pointer-events-none z-10" />
+
+            {/* Peeking Game Parcel (Tucked inside envelope mouth before popcorn launch) */}
+            {isOpen && !isPoppedOut && (
+              <motion.div
+                initial={{ y: 24, opacity: 0 }}
+                animate={{ y: 2, opacity: 1 }}
+                exit={{ y: -40, opacity: 0 }}
+                className="absolute top-1 left-8 right-8 h-14 bg-[#fcf8ec] border border-amber-900/40 rounded-none shadow-lg z-15 flex items-center justify-center pointer-events-none"
+              >
+                <span className="text-[8px] font-vintage-serif tracking-widest uppercase text-amber-950 font-bold opacity-80">
+                  ✦ KEEPSAKE CHALLENGE PARCEL ✦
+                </span>
+              </motion.div>
+            )}
 
             {/* TWINE OVERLAY (if Twine style) */}
             {isTwine && (
@@ -414,7 +478,13 @@ export function EnvelopeCard({
           style={{
             transformStyle: "preserve-3d",
             clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-            backgroundColor: isCelestial
+            backgroundColor: isArtDeco
+              ? "#12141a"
+              : isVinyl
+              ? "#602c0c"
+              : isCyber
+              ? "#041426"
+              : isCelestial
               ? "#0c1424"
               : isVictorian
               ? "#450811"
@@ -423,7 +493,13 @@ export function EnvelopeCard({
               : isTwine
               ? "#3a2012"
               : "#2b1418",
-            borderColor: isCelestial
+            borderColor: isArtDeco
+              ? "#facc15"
+              : isVinyl
+              ? "#f59e0b"
+              : isCyber
+              ? "#06b6d4"
+              : isCelestial
               ? "#38bdf8"
               : isVictorian
               ? "#fbbf24"

@@ -54,6 +54,10 @@ export default function ViewPage({ params }: { params: Promise<{ id: string }> }
   const [state, setState] = useState<LetterState | null>(null);
   const [scene, setScene] = useState<"intro" | "envelope" | "puzzle" | "reveal">("intro");
   const [envelopeOpen, setEnvelopeOpen] = useState(false);
+  const [gamePopped, setGamePopped] = useState(false);
+  const [popcornParticles, setPopcornParticles] = useState<
+    { id: number; x: number; y: number; scale: number; rot: number; symbol: string; color: string }[]
+  >([]);
   const [mounted, setMounted] = useState(false);
   const [emberSparks, setEmberSparks] = useState<{ id: number; x: number; y: number }[]>([]);
 
@@ -106,7 +110,37 @@ function getThemeMeta(envelopeStyle?: string, letterStyleId?: string, occasion?:
   const isCelestial = envelopeStyle === "celestial-noir" || letterStyleId === "celestial-parchment";
   const isBotanical = envelopeStyle === "botanical-herbarium" || letterStyleId === "love-poem-folio";
   const isTwine = envelopeStyle === "parchment-twine" || letterStyleId === "aged-parchment";
+  const isArtDeco = envelopeStyle === "art-deco-noir" || letterStyleId === "art-deco-gold";
+  const isVinyl = envelopeStyle === "retro-vinyl-gold" || letterStyleId === "vintage-liner-notes";
+  const isCyber = envelopeStyle === "cyber-holo-foil" || letterStyleId === "cyber-datapad";
 
+  if (isArtDeco) {
+    return {
+      icon: "🪶",
+      defaultOccasion: "1925 Art Deco Speakeasy • Jazz Age",
+      subtitle: "A glossy obsidian envelope with 24K gold foil chevrons carrying a speakeasy wireless letter.",
+      footer: "KEEPSAKE • THE GATSBY SALON & NEW YORK JAZZ 1925",
+      loading: "Unsealing 1925 Art Deco Speakeasy Folio...",
+    };
+  }
+  if (isVinyl) {
+    return {
+      icon: "♫",
+      defaultOccasion: "1974 Golden Vinyl Hi-Fi • Analog Studio",
+      subtitle: "A warm vinyl record album sleeve carrying a solid-state walnut hi-fi receiver and liner note.",
+      footer: "KEEPSAKE • SOLID-STATE STEREO & ANALOG MASTER 1974",
+      loading: "Sliding Vinyl Record from Album Sleeve...",
+    };
+  }
+  if (isCyber) {
+    return {
+      icon: "⏣",
+      defaultOccasion: "Neo-Tokyo 2084 Quantum Folio • Cyberwave",
+      subtitle: "An iridescent prism foil envelope carrying an orbital quantum transceiver and holographic note.",
+      footer: "KEEPSAKE • ORBITAL RELAY & NEURAL ARCHIVE 2084",
+      loading: "Decrypting Quantum Hologram Transmission...",
+    };
+  }
   if (isVictorian) {
     return {
       icon: "👑",
@@ -158,10 +192,38 @@ function getThemeMeta(envelopeStyle?: string, letterStyleId?: string, occasion?:
   const themeMeta = getThemeMeta(state?.envelopeStyle, state?.letterStyle, state?.occasion);
 
   const handleEnvelopeOpen = () => {
+    if (envelopeOpen) return;
     setEnvelopeOpen(true);
+
+    // Flap unfolds open (~0.8s). At 400ms, the game POPS OUT like popcorn from inside the envelope!
     setTimeout(() => {
-      setScene("puzzle");
-    }, 1150);
+      sounds.playPopcornPop();
+      setGamePopped(true);
+
+      // Multi-particle golden popcorn kernel sparks bursting upwards
+      const particles = Array.from({ length: 22 }).map((_, i) => {
+        const angle = (Math.PI / 20) * (i + 1) + (Math.random() * 0.12 - 0.06);
+        const distance = 90 + Math.random() * 150;
+        const x = Math.cos(angle) * (i % 2 === 0 ? distance : -distance) * 1.35;
+        const y = -Math.sin(angle) * distance - 80;
+        const symbols = ["✦", "✧", "⋆", "•", "⚜", "✦", "🍿"];
+        const colors = ["#fef08a", "#fde047", "#fbbf24", "#f59e0b", "#fed7aa", "#ffffff"];
+        return {
+          id: Date.now() + i,
+          x,
+          y,
+          scale: 0.85 + Math.random() * 1.3,
+          rot: Math.random() * 360 - 180,
+          symbol: symbols[i % symbols.length],
+          color: colors[i % colors.length],
+        };
+      });
+      setPopcornParticles(particles);
+
+      setTimeout(() => {
+        setPopcornParticles([]);
+      }, 1600);
+    }, 420);
   };
 
   const handlePuzzleComplete = () => {
@@ -289,7 +351,7 @@ function getThemeMeta(envelopeStyle?: string, letterStyleId?: string, occasion?:
             </motion.div>
           )}
 
-          {/* SCENE 2: THE ENVELOPE */}
+          {/* SCENE 2: THE ENVELOPE & POPCORN GAME DISPATCH */}
           {scene === "envelope" && (
             <motion.div
               key="envelope"
@@ -297,23 +359,116 @@ function getThemeMeta(envelopeStyle?: string, letterStyleId?: string, occasion?:
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.55 }}
-              className="flex flex-col items-center space-y-6 w-full"
+              className="relative flex flex-col items-center justify-center w-full min-h-[480px] py-4"
             >
-              <EnvelopeCard
-                name={state.name}
-                theme={currentTheme}
-                envelopeStyle={state.envelopeStyle || "vintage-airmail"}
-                waxSealId={state.waxSeal || "burgundy-monogram"}
-                isOpen={envelopeOpen}
-                onOpen={handleEnvelopeOpen}
-                interactive={!envelopeOpen}
-              />
-
-              <div className="text-center space-y-1">
-                <p className="text-xs font-vintage-serif tracking-widest uppercase text-amber-200/60">
-                  Break the wax seal to inspect the radio letter
-                </p>
+              {/* Popcorn Burst Sparks / Confetti Particles */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-50">
+                {popcornParticles.map((p) => (
+                  <motion.div
+                    key={p.id}
+                    initial={{ x: 0, y: 0, scale: 0.2, opacity: 1, rotate: 0 }}
+                    animate={{
+                      x: p.x,
+                      y: p.y,
+                      scale: [0.2, p.scale, 0],
+                      opacity: [1, 1, 0],
+                      rotate: p.rot,
+                    }}
+                    transition={{
+                      duration: 0.95,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="absolute font-bold text-sm select-none"
+                    style={{
+                      color: p.color,
+                      textShadow: "0 0 10px rgba(251,191,36,0.85)",
+                    }}
+                  >
+                    {p.symbol}
+                  </motion.div>
+                ))}
               </div>
+
+              {/* The Envelope: Starts centered, smoothly settles downward as game launches out */}
+              <motion.div
+                animate={
+                  gamePopped
+                    ? { y: 155, scale: 0.78, opacity: 0.32, filter: "blur(0.5px)" }
+                    : { y: 0, scale: 1, opacity: 1, filter: "blur(0px)" }
+                }
+                transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
+                className="relative z-10 transition-all flex flex-col items-center"
+              >
+                <EnvelopeCard
+                  name={state.name}
+                  theme={currentTheme}
+                  envelopeStyle={state.envelopeStyle || "vintage-airmail"}
+                  waxSealId={state.waxSeal || "burgundy-monogram"}
+                  isOpen={envelopeOpen}
+                  isPoppedOut={gamePopped}
+                  onOpen={handleEnvelopeOpen}
+                  interactive={!envelopeOpen}
+                />
+
+                {!envelopeOpen && (
+                  <div className="text-center mt-4 space-y-1">
+                    <p className="text-xs font-vintage-serif tracking-widest uppercase text-amber-200/60">
+                      Break the wax seal to inspect the radio letter
+                    </p>
+                  </div>
+                )}
+              </motion.div>
+
+              {/* THE GAME THAT POPS OUT FROM INSIDE THE ENVELOPE LIKE POPCORN */}
+              {gamePopped && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 95,
+                    scale: 0.2,
+                    rotate: -12,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: [95, -145, 18, -8, 0],
+                    scale: [0.2, 1.15, 0.94, 1.02, 1],
+                    rotate: [-12, 6, -3, 1, 0],
+                  }}
+                  transition={{
+                    duration: 1.05,
+                    times: [0, 0.36, 0.68, 0.85, 1],
+                    ease: "easeOut",
+                  }}
+                  className="absolute top-0 z-40 w-full max-w-xl mx-auto flex flex-col items-center"
+                >
+                  {/* Vintage Dispatch Banner Header */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.85, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ delay: 0.45, duration: 0.4 }}
+                    className="mb-3 px-3.5 py-1 bg-amber-950/95 border border-amber-400/70 text-amber-200 text-[10px] font-vintage-serif uppercase tracking-[0.25em] shadow-2xl flex items-center gap-2 rounded-none"
+                  >
+                    <span className="text-amber-400 animate-pulse">✦</span>
+                    <span>POPPED FROM ENVELOPE • SOLVE CHALLENGE</span>
+                    <span className="text-amber-400 animate-pulse">✦</span>
+                  </motion.div>
+
+                  {/* Puzzle Game Frame */}
+                  <div className="w-full shadow-2xl">
+                    {state.puzzle === "unscramble" ? (
+                      <UnscramblePuzzle
+                        onComplete={handlePuzzleComplete}
+                        question={state.puzzleQuestion}
+                        answer={state.puzzleAnswer}
+                      />
+                    ) : state.puzzle === "find-rose" ? (
+                      <FindRosePuzzle onComplete={handlePuzzleComplete} />
+                    ) : (
+                      <MemoryPuzzle onComplete={handlePuzzleComplete} />
+                    )}
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           )}
 
@@ -369,24 +524,6 @@ function getThemeMeta(envelopeStyle?: string, letterStyleId?: string, occasion?:
                   interactive={true}
                 />
               </motion.div>
-
-              {/* Action Bar */}
-              <div className="flex flex-wrap items-center justify-center gap-4 w-full">
-                <button
-                  onClick={handleSendWarmth}
-                  className="px-6 py-3 rounded-none bg-amber-950/80 border border-amber-500/40 text-amber-200 font-vintage-serif text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-amber-900 transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  <span>Send Remembrance</span>
-                  <span className="text-amber-400">❦</span>
-                </button>
-
-                <a
-                  href="/create"
-                  className="px-6 py-3 rounded-none bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-amber-50 font-vintage-serif text-xs uppercase tracking-[0.2em] shadow-xl border border-amber-400/40 hover:from-amber-600 hover:to-amber-800 transition-colors cursor-pointer"
-                >
-                  Write Your Own Letter
-                </a>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
