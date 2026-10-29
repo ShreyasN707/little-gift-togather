@@ -2,20 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Trophy, Heart } from "lucide-react";
 import { sounds } from "@/lib/audio";
+import { triggerConfetti } from "@/lib/confetti";
 
-const EMOJI_PAIRS = ["❤️", "🌹", "🧸", "💌", "✨", "🎀"];
+const ARCHIVAL_SYMBOLS = ["❦", "✦", "☽", "𐇲", "♥", "☼"];
 
 export function MemoryPuzzle({ onComplete }: { onComplete: () => void }) {
   const [cards, setCards] = useState<string[]>([]);
   const [flipped, setFlipped] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
-  const [moves, setMoves] = useState(0);
+  const [attempts, setAttempts] = useState(0);
 
   useEffect(() => {
-    // 4 pairs (8 cards) for a fun, sweet, stress-free mini-game
-    const selected = EMOJI_PAIRS.slice(0, 4);
+    const selected = ARCHIVAL_SYMBOLS.slice(0, 4);
     const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
     setCards(deck);
   }, []);
@@ -24,14 +23,13 @@ export function MemoryPuzzle({ onComplete }: { onComplete: () => void }) {
     if (flipped.length === 2 || flipped.includes(index) || matched.includes(index)) return;
 
     sounds.playPop();
-    const newFlipped = [...flipped, index];
-    setFlipped(newFlipped);
+    const nextFlipped = [...flipped, index];
+    setFlipped(nextFlipped);
 
-    if (newFlipped.length === 2) {
-      setMoves((m) => m + 1);
-      const [first, second] = newFlipped;
+    if (nextFlipped.length === 2) {
+      setAttempts((a) => a + 1);
+      const [first, second] = nextFlipped;
       if (cards[first] === cards[second]) {
-        // Matched!
         setTimeout(() => {
           sounds.playChime();
           const nextMatched = [...matched, first, second];
@@ -40,92 +38,78 @@ export function MemoryPuzzle({ onComplete }: { onComplete: () => void }) {
 
           if (nextMatched.length === cards.length) {
             sounds.playVictoryFanfare();
-            import("canvas-confetti").then((module) => {
-              const confetti = module.default || module;
-              confetti({
-                particleCount: 70,
-                spread: 80,
-                origin: { y: 0.6 },
-                colors: ["#f472b6", "#fb7185", "#ffd166", "#c084fc"],
-              });
+            triggerConfetti({
+              particleCount: 50,
+              spread: 70,
+              origin: { y: 0.65 },
+              colors: ["#C49B45", "#9C4E3D", "#8C6824", "#3F5E46"],
             });
-            setTimeout(onComplete, 1600);
+            setTimeout(onComplete, 1400);
           }
-        }, 400);
+        }, 350);
       } else {
         setTimeout(() => {
           setFlipped([]);
-        }, 900);
+        }, 850);
       }
     }
   };
 
-  const progressPercent = cards.length ? Math.round((matched.length / cards.length) * 100) : 0;
+  const pairsFound = matched.length / 2;
+  const totalPairs = cards.length / 2;
 
   return (
-    <div className="p-6 sm:p-8 bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-pink-200/80 flex flex-col items-center max-w-sm w-full mx-4 relative z-10 cute-shadow-lg">
-      {/* Decorative top ribbon */}
-      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-pink-50 border border-pink-200 rounded-full text-xs font-bold text-pink-700 mb-3">
-        <Sparkles className="w-3.5 h-3.5 text-pink-500" />
-        <span>Love Lock Puzzle</span>
+    <div className="p-7 sm:p-9 bg-white rounded-2xl border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm w-full mx-4 relative z-10">
+      <div className="text-center space-y-1 mb-6">
+        <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-stone-400 font-sans-clean">
+          Authentication Key
+        </span>
+        <h2 className="text-xl sm:text-2xl font-serif-editorial font-medium text-stone-900">
+          Match the Archival Pairs
+        </h2>
+        <p className="text-xs text-stone-500 font-serif-editorial italic">
+          Pair corresponding emblems to unfold the letter
+        </p>
       </div>
 
-      <h2 className="text-xl sm:text-2xl font-cute font-bold text-gray-800 text-center">
-        Match the Sweet Pairs 💕
-      </h2>
-      <p className="text-xs text-pink-900/60 font-medium mb-4 text-center">
-        Match all romantic icons to unlock your surprise letter
-      </p>
-
-      {/* Progress bar */}
-      <div className="w-full bg-pink-100/70 h-2 rounded-full overflow-hidden mb-5">
-        <motion.div
-          className="bg-gradient-to-r from-pink-400 to-rose-400 h-full rounded-full"
-          initial={{ width: 0 }}
-          animate={{ width: `${progressPercent}%` }}
-          transition={{ duration: 0.3 }}
-        />
-      </div>
-
-      {/* Cards grid */}
-      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 w-full mb-4">
-        {cards.map((card, i) => {
+      {/* Cards Grid */}
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 w-full mb-6">
+        {cards.map((symbol, i) => {
           const isFlipped = flipped.includes(i) || matched.includes(i);
           const isMatched = matched.includes(i);
 
           return (
             <motion.button
               key={i}
-              whileHover={{ scale: isMatched ? 1 : 1.06 }}
-              whileTap={{ scale: 0.94 }}
+              whileHover={{ scale: isMatched ? 1 : 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => handleCardClick(i)}
-              className={`h-16 sm:h-20 rounded-2xl flex items-center justify-center transition-all duration-300 relative select-none shadow-sm ${
+              className={`h-16 sm:h-20 rounded-xl flex items-center justify-center transition-all duration-200 relative select-none border ${
                 isMatched
-                  ? "bg-pink-100/90 border-2 border-pink-300 shadow-inner"
+                  ? "bg-stone-50 border-stone-300/80 text-stone-800"
                   : isFlipped
-                  ? "bg-white border-2 border-pink-400 shadow-md"
-                  : "bg-gradient-to-br from-pink-400 to-rose-400 text-white hover:from-pink-500 hover:to-rose-500 border border-pink-300 shadow-md"
+                  ? "bg-white border-stone-800 text-stone-900 shadow-editorial-sm"
+                  : "bg-[#F7F4EE] hover:bg-[#F0EBE0] border-stone-200/90 text-stone-400"
               }`}
             >
               {isFlipped ? (
-                <motion.span
-                  initial={{ scale: 0, rotate: -20 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  className="text-2xl sm:text-3xl filter drop-shadow"
-                >
-                  {card}
-                </motion.span>
+                <span className="text-2xl font-serif-editorial drop-shadow-xs select-none">
+                  {symbol}
+                </span>
               ) : (
-                <Heart className="w-5 h-5 text-pink-100 opacity-80" />
+                <span className="text-xs tracking-widest text-stone-300 font-serif-editorial">
+                  ✦
+                </span>
               )}
             </motion.button>
           );
         })}
       </div>
 
-      <div className="flex justify-between items-center w-full px-2 text-xs font-semibold text-gray-500">
-        <span>{matched.length / 2} / {cards.length / 2} Pairs Found</span>
-        <span>{moves} Taps</span>
+      {/* Progress */}
+      <div className="flex justify-between items-center w-full px-1 text-[11px] tracking-wide text-stone-500 font-sans-clean border-t border-stone-100 pt-3">
+        <span>{pairsFound} of {totalPairs} matched</span>
+        <span>{attempts} {attempts === 1 ? "attempt" : "attempts"}</span>
       </div>
     </div>
   );

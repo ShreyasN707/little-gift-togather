@@ -1,94 +1,156 @@
-export interface Theme {
+export interface EnvelopeStyle {
   id: string;
   name: string;
   tagline: string;
-  particleType: "blossom" | "star" | "sparkle" | "leaf" | "heart";
-  particleEmoji: string;
-  bgGradient: string;
-  bgClass: string;
-  envelopeClass: string;
-  envelopeLining: string;
-  textColor: string;
-  accentColor: string;
-  badgeBg: string;
-  paperStyle: string;
+  era: string;
+  accent: string;
 }
 
-export const themes: Theme[] = [
+export const envelopeStyles: EnvelopeStyle[] = [
   {
-    id: "sakura-garden",
-    name: "Sakura Blossom",
-    tagline: "Romantic soft pink & floating cherry petals",
-    particleType: "blossom",
-    particleEmoji: "🌸",
-    bgGradient: "from-[#ffebee] via-[#fff0f3] to-[#ffd1dc]",
-    bgClass: "bg-gradient-to-br from-[#ffebee] via-[#fff0f3] to-[#ffd1dc]",
-    envelopeClass: "bg-[#f4a7b9] border-[#e28498]",
-    envelopeLining: "#ffe4e9",
-    textColor: "text-[#5c2434]",
-    accentColor: "#e07a90",
-    badgeBg: "bg-pink-100 text-pink-700 border-pink-200",
-    paperStyle: "bg-[#fffafa] border-pink-100",
+    id: "vintage-airmail",
+    name: "1924 Transatlantic Airmail",
+    tagline: "Classic diagonal red & navy chevron border with London postmarks",
+    era: "Circa 1924",
+    accent: "#9E2A2B",
   },
   {
-    id: "starlight-sky",
-    name: "Moonlit Starlight",
-    tagline: "Celestial midnight blue with twinkling stars",
-    particleType: "star",
-    particleEmoji: "✨",
-    bgGradient: "from-[#1a1b35] via-[#24294a] to-[#121426]",
-    bgClass: "bg-gradient-to-br from-[#1a1b35] via-[#24294a] to-[#121426]",
-    envelopeClass: "bg-[#f6d860] border-[#d8b835]",
-    envelopeLining: "#343d68",
-    textColor: "text-[#fefae0]",
-    accentColor: "#ffd166",
-    badgeBg: "bg-indigo-900/60 text-yellow-200 border-indigo-700",
-    paperStyle: "bg-[#fdfbf7] border-amber-100",
+    id: "victorian-gilded",
+    name: "Royal Victorian Gilded",
+    tagline: "Deep antique crimson with ornate gold filigree floral scroll framing",
+    era: "Circa 1890",
+    accent: "#C59B48",
   },
   {
-    id: "strawberry-cream",
-    name: "Strawberry Cream",
-    tagline: "Sweet vanilla, strawberries & cozy warmth",
-    particleType: "heart",
-    particleEmoji: "💖",
-    bgGradient: "from-[#fff5f5] via-[#ffe3e3] to-[#ffc9c9]",
-    bgClass: "bg-gradient-to-br from-[#fff5f5] via-[#ffe3e3] to-[#ffc9c9]",
-    envelopeClass: "bg-[#ff8787] border-[#fa5252]",
-    envelopeLining: "#ffe3e3",
-    textColor: "text-[#671d1d]",
-    accentColor: "#fa5252",
-    badgeBg: "bg-red-100 text-red-700 border-red-200",
-    paperStyle: "bg-[#fffdfa] border-red-100",
+    id: "parchment-twine",
+    name: "Rustic Parchment & Twine",
+    tagline: "Aged deckled parchment envelope tied with vintage courier twine",
+    era: "Circa 1850",
+    accent: "#7A5230",
   },
   {
-    id: "enchanted-cottage",
-    name: "Fairytale Forest",
-    tagline: "Dreamy sage mint, wildflowers & cozy calm",
-    particleType: "leaf",
-    particleEmoji: "🍃",
-    bgGradient: "from-[#ebfbee] via-[#d3f9d8] to-[#b2f2bb]",
-    bgClass: "bg-gradient-to-br from-[#ebfbee] via-[#d3f9d8] to-[#b2f2bb]",
-    envelopeClass: "bg-[#69db7c] border-[#40c057]",
-    envelopeLining: "#d3f9d8",
-    textColor: "text-[#1b4332]",
-    accentColor: "#2b8a3e",
-    badgeBg: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    paperStyle: "bg-[#fefefe] border-emerald-100",
+    id: "celestial-noir",
+    name: "Midnight Constellation Folio",
+    tagline: "Deep indigo parchment with gold foil astronomical stars and moon seal",
+    era: "Astronomical",
+    accent: "#E2C37A",
   },
   {
-    id: "lavender-dream",
-    name: "Lavender Whispers",
-    tagline: "Serene lilac hues & gentle fairy dust",
-    particleType: "sparkle",
-    particleEmoji: "💜",
-    bgGradient: "from-[#f3f0ff] via-[#e5dbff] to-[#d0bfff]",
-    bgClass: "bg-gradient-to-br from-[#f3f0ff] via-[#e5dbff] to-[#d0bfff]",
-    envelopeClass: "bg-[#b197fc] border-[#9775fa]",
-    envelopeLining: "#e5dbff",
-    textColor: "text-[#3b2d54]",
-    accentColor: "#845ef7",
-    badgeBg: "bg-purple-100 text-purple-700 border-purple-200",
-    paperStyle: "bg-[#fbfaff] border-purple-100",
+    id: "botanical-herbarium",
+    name: "Botanical Herbarium",
+    tagline: "Sage green antique paper with pressed fern and olive botanical stamps",
+    era: "Victorian Garden",
+    accent: "#3F5E46",
+  },
+];
+
+export interface LetterStyle {
+  id: string;
+  name: string;
+  tagline: string;
+  paperBg: string;
+  paperClass: string;
+  textColor: string;
+  crest: string;
+}
+
+export const letterStyles: LetterStyle[] = [
+  {
+    id: "aged-parchment",
+    name: "Tea-Stained Aged Parchment",
+    tagline: "Warm sepia tea-wash with subtle burnished edges and antique ruled lines",
+    paperBg: "aged-parchment",
+    paperClass: "border-amber-900/40 text-[#28160c]",
+    textColor: "#26150b",
+    crest: "⚜",
+  },
+  {
+    id: "love-poem-folio",
+    name: "Pressed Wildflower Folio",
+    tagline: "Deckled ivory cotton paper with delicate pressed botanical rose margins",
+    paperBg: "bg-[#FDF9F3]",
+    paperClass: "border-rose-950/30 text-[#2d1b1f]",
+    textColor: "#2c171d",
+    crest: "⚘",
+  },
+  {
+    id: "royal-decree",
+    name: "Gilded Monogram Vellum",
+    tagline: "Crisp vellum with royal gold leaf border and heraldic crest letterhead",
+    paperBg: "bg-[#FAF7F0]",
+    paperClass: "gold-embossed-border text-[#1f1712]",
+    textColor: "#1f1712",
+    crest: "👑",
+  },
+  {
+    id: "celestial-parchment",
+    name: "Midnight Stardust Sheet",
+    tagline: "Deep navy parchment illuminated by stardust and gold calligraphy",
+    paperBg: "bg-[#161B26]",
+    paperClass: "border-amber-500/30 text-[#F5EEDB]",
+    textColor: "#F5EEDB",
+    crest: "✧",
+  },
+  {
+    id: "antique-typewriter",
+    name: "1940s Typewriter Dispatch",
+    tagline: "Off-white typewriter bond paper with authentic ink ribbon stamp marks",
+    paperBg: "bg-[#F5F2EB]",
+    paperClass: "border-stone-400 text-stone-900",
+    textColor: "#1c1b18",
+    crest: "⌨",
+  },
+];
+
+export interface VintageBadge {
+  id: string;
+  name: string;
+  title: string;
+  symbol: string;
+  color: string;
+  description: string;
+}
+
+export const vintageBadges: VintageBadge[] = [
+  {
+    id: "keeper-of-heart",
+    name: "Keeper of the Heart",
+    title: "Order of Eternal Fondness",
+    symbol: "⚜",
+    color: "from-amber-600 via-yellow-500 to-amber-700 border-amber-400",
+    description: "Awarded to the one who holds all affection and quiet trust.",
+  },
+  {
+    id: "eternal-rose",
+    name: "The Eternal Rose",
+    title: "Medal of Timeless Devotion",
+    symbol: "⚘",
+    color: "from-rose-800 via-rose-700 to-red-950 border-rose-400",
+    description: "For the bloom that never fades, through every passing season.",
+  },
+  {
+    id: "guiding-star",
+    name: "North Compass Star",
+    title: "Navigational Honor",
+    symbol: "✦",
+    color: "from-indigo-900 via-blue-800 to-indigo-950 border-cyan-300",
+    description: "Guiding light in the darkest skies, steadfast and true.",
+  },
+  {
+    id: "secret-keeper",
+    name: "Brass Skeleton Key",
+    title: "Order of Sacred Confidence",
+    symbol: "🗝",
+    color: "from-amber-700 via-amber-600 to-amber-900 border-amber-300",
+    description: "Granted to the sole guardian of all unspoken secrets.",
+  },
+  {
+    id: "first-class-love",
+    name: "Royal Airmail Post",
+    title: "Imperial Dispatch Medal",
+    symbol: "✉",
+    color: "from-red-900 via-amber-700 to-blue-900 border-amber-300",
+    description: "Carried across continents with first-class courier priority.",
   },
 ];
 
@@ -98,61 +160,126 @@ export interface WaxSeal {
   color: string;
   borderColor: string;
   textColor: string;
-  icon: string;
+  symbol: string;
 }
 
 export const waxSeals: WaxSeal[] = [
-  { id: "ruby-heart", name: "Ruby Heart", color: "from-[#b91c1c] to-[#7f1d1d]", borderColor: "#991b1b", textColor: "#fca5a5", icon: "❤️" },
-  { id: "rose-bow", name: "Rose Ribbon", color: "from-[#ec4899] to-[#be185d]", borderColor: "#9d174d", textColor: "#fbcfe8", icon: "🎀" },
-  { id: "gold-star", name: "Imperial Gold", color: "from-[#eab308] to-[#a16207]", borderColor: "#854d0e", textColor: "#fef08a", icon: "⭐" },
-  { id: "emerald-clover", name: "Lucky Clover", color: "from-[#10b981] to-[#047857]", borderColor: "#065f46", textColor: "#a7f3d0", icon: "🍀" },
-  { id: "lilac-moon", name: "Twilight Moon", color: "from-[#8b5cf6] to-[#5b21b6]", borderColor: "#4c1d95", textColor: "#ddd6fe", icon: "🌙" },
+  {
+    id: "burgundy-monogram",
+    name: "Burgundy Signet",
+    color: "from-[#801726] to-[#500C17]",
+    borderColor: "#420A13",
+    textColor: "#F1B7BF",
+    symbol: "⚜",
+  },
+  {
+    id: "antique-gold",
+    name: "Imperial Gold",
+    color: "from-[#C49B45] to-[#8C6824]",
+    borderColor: "#694C15",
+    textColor: "#FFF0C4",
+    symbol: "✦",
+  },
+  {
+    id: "forest-botanical",
+    name: "Forest Botanical",
+    color: "from-[#294B37] to-[#173022]",
+    borderColor: "#12251A",
+    textColor: "#C0DEC8",
+    symbol: "𐇲",
+  },
+  {
+    id: "terracotta-wax",
+    name: "Terracotta Clay",
+    color: "from-[#B0523C] to-[#7B3222]",
+    borderColor: "#5F2417",
+    textColor: "#F5C2B6",
+    symbol: "♥",
+  },
+  {
+    id: "midnight-navy",
+    name: "Midnight Navy",
+    color: "from-[#1F2C3F] to-[#121B27]",
+    borderColor: "#0B1119",
+    textColor: "#BAC9E0",
+    symbol: "☽",
+  },
 ];
 
 export const puzzles = [
-  { 
-    id: "memory", 
-    name: "Memory Match", 
-    description: "Flip & match cute romantic pairs to unlock", 
-    icon: "🧩",
-    difficulty: "Easy & Fun"
+  {
+    id: "memory",
+    name: "Archival Memory Match",
+    description: "Pair classic engraved symbols to break the seal",
+    category: "Engraved Pairs",
   },
-  { 
-    id: "unscramble", 
-    name: "Word Unscramble", 
-    description: "Guess a secret keyword or answer a sweet trivia question", 
-    icon: "🔤",
-    difficulty: "Thoughtful"
+  {
+    id: "unscramble",
+    name: "Cipher Decryption",
+    description: "Reorder letterforms to decipher a secret memory",
+    category: "Letter Lock",
   },
-  { 
-    id: "find-rose", 
-    name: "Find the Rose", 
-    description: "Uncover the secret blooming rose hidden in the bouquet", 
-    icon: "🌹",
-    difficulty: "Quick & Cute"
-  }
+  {
+    id: "find-rose",
+    name: "Botanical Discovery",
+    description: "Find the single wild blossom in the herbarium",
+    category: "Seek & Find",
+  },
+];
+
+export interface Theme {
+  id: string;
+  name: string;
+  bgClass: string;
+  envelopeClass: string;
+  envelopeBorder: string;
+  envelopeLining: string;
+  textColor: string;
+  accentColor: string;
+  paperBg: string;
+  paperBorder: string;
+  particleSymbol: string;
+}
+
+export const themes: Theme[] = [
+  {
+    id: "linen-natural",
+    name: "Natural Linen",
+    bgClass: "dark-parchment-desk",
+    envelopeClass: "bg-[#EAE4D9]",
+    envelopeBorder: "#D8CEBE",
+    envelopeLining: "#F2ECE2",
+    textColor: "text-[#2B2723]",
+    accentColor: "#9C4E3D",
+    paperBg: "aged-parchment",
+    paperBorder: "border-[#E7E0D3]",
+    particleSymbol: "✦",
+  },
 ];
 
 export const sampleLetterPresets = [
   {
-    title: "Always & Forever 💕",
-    message: "To the person who makes every day brighter: thank you for being my favorite part of every morning and my sweetest dream every night. Here's a little reminder of how loved you are!",
-    ending: "Yours always, with all my love ❤️",
-    puzzleAnswer: "LOVE",
-    puzzleQuestion: "What brings us together?",
+    title: "Lamplight Devotion",
+    message:
+      "I sit by the lamplight tonight thinking of the distance between us, and the quiet comfort you bring to my thoughts.\n\nTime and again, you make the rush of the world fall still. There is no one in this life whose company I cherish more deeply, in conversation or in silence. Until the morning brings us together again, know that you are held in the highest and warmest corner of my heart.",
+    ending: "Yours with constant devotion and affection, always.",
+    puzzleAnswer: "ALWAYS",
+    puzzleQuestion: "The eternal promise between our hearts:",
   },
   {
-    title: "Happy Birthday Sweetheart 🎂",
-    message: "Wishing the sweetest, most wonderful human the happiest birthday! May this year bring you all the warmth, joy, and laughter that you give everyone around you.",
-    ending: "P.S. Save me a slice of cake! 🍰✨",
-    puzzleAnswer: "SMILE",
-    puzzleQuestion: "What lights up the room when you enter?",
+    title: "To My Distant Star",
+    message:
+      "If words could bridge the miles tonight, these lines would carry the sound of my heartbeat to your doorstep.\n\nYou have given my days purpose and my evenings peace. Remember, whenever the night seems heavy, that under the same quiet stars someone loves you with all their being.",
+    ending: "Ever faithfully and tenderly yours,",
+    puzzleAnswer: "STARS",
+    puzzleQuestion: "What we gaze upon from afar:",
   },
   {
-    title: "Thinking of You 🌸",
-    message: "Just a gentle surprise to remind you to take a deep breath and smile today. You are doing amazing, and I am so grateful to have you in my life.",
-    ending: "Sending you the biggest warm hug! 🧸",
-    puzzleAnswer: "HUGS",
-    puzzleQuestion: "What do I want to give you right now?",
-  }
+    title: "A Timeless Keepsake",
+    message:
+      "Some things in this changing world remain unchanged, and among them is my profound gratitude for having you in my story.\n\nThank you for every laughter shared, every quiet understanding, and every grace you offer so effortlessly.",
+    ending: "With all my fondness and respect,",
+    puzzleAnswer: "FOREVER",
+    puzzleQuestion: "How long this memory will endure:",
+  },
 ];

@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Heart } from "lucide-react";
+import { motion } from "framer-motion";
 import { sounds } from "@/lib/audio";
+import { triggerConfetti } from "@/lib/confetti";
 
-const FLOWER_VARIETIES = ["🌸", "🌷", "🌼", "🌺", "💐", "🌻", "🪻"];
+const BOTANICAL_SYMBOLS = ["✿", "✤", "𐇲", "✦", "❦", "❀"];
 
 export function FindRosePuzzle({ onComplete }: { onComplete: () => void }) {
   const [items] = useState(() => {
-    const list = Array(11).fill(null).map((_, i) => FLOWER_VARIETIES[i % FLOWER_VARIETIES.length]);
-    list.push("🌹");
+    const list = Array(11).fill(null).map((_, i) => BOTANICAL_SYMBOLS[i % BOTANICAL_SYMBOLS.length]);
+    list.push("⚘");
     return list.sort(() => Math.random() - 0.5);
   });
 
@@ -20,19 +20,16 @@ export function FindRosePuzzle({ onComplete }: { onComplete: () => void }) {
   const handleSelect = (index: number, item: string) => {
     if (foundIndex !== null || wrongIndices.includes(index)) return;
 
-    if (item === "🌹") {
+    if (item === "⚘") {
       setFoundIndex(index);
       sounds.playVictoryFanfare();
-      import("canvas-confetti").then((module) => {
-        const confetti = module.default || module;
-        confetti({
-          particleCount: 80,
-          spread: 90,
-          origin: { y: 0.6 },
-          colors: ["#f43f5e", "#fb7185", "#fda4af", "#ffe4e6"],
-        });
+      triggerConfetti({
+        particleCount: 50,
+        spread: 75,
+        origin: { y: 0.65 },
+        colors: ["#9C4E3D", "#C49B45", "#801726"],
       });
-      setTimeout(onComplete, 1600);
+      setTimeout(onComplete, 1400);
     } else {
       sounds.playPop();
       setWrongIndices((prev) => [...prev, index]);
@@ -40,21 +37,21 @@ export function FindRosePuzzle({ onComplete }: { onComplete: () => void }) {
   };
 
   return (
-    <div className="p-6 sm:p-8 bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-pink-200/80 flex flex-col items-center max-w-sm w-full mx-4 relative z-10 cute-shadow-lg">
-      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-pink-50 border border-pink-200 rounded-full text-xs font-bold text-pink-700 mb-3">
-        <Sparkles className="w-3.5 h-3.5 text-pink-500" />
-        <span>Flower Garden Mystery</span>
+    <div className="p-7 sm:p-9 bg-white rounded-2xl border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm w-full mx-4 relative z-10">
+      <div className="text-center space-y-1 mb-6">
+        <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-stone-400 font-sans-clean">
+          Botanical Discovery
+        </span>
+        <h2 className="text-xl sm:text-2xl font-serif-editorial font-medium text-stone-900">
+          Locate the Crimson Blossom
+        </h2>
+        <p className="text-xs text-stone-500 font-serif-editorial italic">
+          Select the unique wild blossom hidden among the botanical grid
+        </p>
       </div>
 
-      <h2 className="text-xl sm:text-2xl font-cute font-bold text-gray-800 text-center mb-1">
-        Find the Hidden Red Rose 🌹
-      </h2>
-      <p className="text-xs text-pink-900/60 font-medium mb-5 text-center">
-        Tap the garden blossoms to uncover the secret rose
-      </p>
-
-      {/* Grid of flowers */}
-      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 w-full mb-4">
+      {/* Grid */}
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 w-full mb-5">
         {items.map((item, i) => {
           const isWrong = wrongIndices.includes(i);
           const isFound = foundIndex === i;
@@ -62,45 +59,33 @@ export function FindRosePuzzle({ onComplete }: { onComplete: () => void }) {
           return (
             <motion.button
               key={i}
-              whileHover={!isWrong && !isFound ? { scale: 1.12, rotate: 6 } : {}}
-              whileTap={!isWrong && !isFound ? { scale: 0.9 } : {}}
+              whileHover={!isWrong && !isFound ? { y: -2 } : {}}
+              whileTap={!isWrong && !isFound ? { scale: 0.96 } : {}}
               onClick={() => handleSelect(i, item)}
               disabled={isWrong || foundIndex !== null}
-              className={`h-16 sm:h-18 rounded-2xl flex items-center justify-center transition-all duration-300 relative select-none ${
+              className={`h-16 sm:h-18 rounded-xl flex items-center justify-center transition-all duration-200 relative select-none border ${
                 isFound
-                  ? "bg-gradient-to-br from-red-100 to-rose-200 border-2 border-red-400 shadow-lg scale-110"
+                  ? "bg-[#FAF3F0] border-[#9C4E3D] text-[#9C4E3D] shadow-editorial-sm scale-105"
                   : isWrong
-                  ? "bg-gray-100/80 border border-gray-200 opacity-40 grayscale"
-                  : "bg-white hover:bg-pink-50/80 border-2 border-pink-200 shadow-sm hover:border-pink-300"
+                  ? "bg-stone-50 border-stone-100 opacity-30 text-stone-300"
+                  : "bg-[#FCFAF7] hover:bg-white border-stone-200 text-stone-600 shadow-editorial-sm"
               }`}
             >
-              <span className={`text-3xl sm:text-4xl filter drop-shadow-sm ${isFound ? "animate-bounce" : ""}`}>
+              <span className={`text-2xl font-serif-editorial select-none ${isFound ? "font-bold text-3xl" : ""}`}>
                 {item}
               </span>
-              {isFound && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: [1, 1.4, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2 }}
-                  className="absolute -top-2 -right-2 text-sm"
-                >
-                  ✨
-                </motion.div>
-              )}
             </motion.button>
           );
         })}
       </div>
 
-      <div className="text-xs font-semibold text-pink-800/60">
+      <div className="text-[11px] text-stone-500 font-sans-clean tracking-wide">
         {wrongIndices.length > 0 && foundIndex === null ? (
-          <span>Keep looking! Hint: it has deep velvet red petals ❤️</span>
+          <span>Keep seeking the solitary crimson bloom...</span>
         ) : foundIndex !== null ? (
-          <span className="text-rose-600 font-bold flex items-center gap-1">
-            You found it! Opening your letter... <Heart className="w-3.5 h-3.5 fill-current" />
-          </span>
+          <span className="text-[#9C4E3D] font-medium">Blossom discovered. Unfolding letter...</span>
         ) : (
-          <span>12 blossoms in the garden</span>
+          <span>12 botanical tiles</span>
         )}
       </div>
     </div>

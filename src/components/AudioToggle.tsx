@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Volume2, VolumeX, Music } from "lucide-react";
+import { useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 import { sounds } from "@/lib/audio";
 
-export function AudioToggle({ autoStartPrompt = false }: { autoStartPrompt?: boolean }) {
+export function AudioToggle() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   const toggle = () => {
     sounds.playPop();
@@ -14,23 +13,31 @@ export function AudioToggle({ autoStartPrompt = false }: { autoStartPrompt?: boo
       setIsPlaying(playing);
     });
     setIsPlaying(active);
-    setHasInteracted(true);
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+    <div className="fixed top-5 right-5 z-50">
       <button
         onClick={toggle}
-        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md border transition-all duration-300 shadow-sm ${
+        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border transition-all duration-200 shadow-editorial-sm backdrop-blur-md ${
           isPlaying
-            ? "bg-pink-500/90 text-white border-pink-400 shadow-pink-200 animate-pulse-gentle"
-            : "bg-white/80 text-pink-900 border-pink-200 hover:bg-white hover:border-pink-300"
+            ? "bg-stone-900 text-stone-100 border-stone-900"
+            : "bg-white/90 text-stone-700 border-stone-200/90 hover:border-stone-300 hover:text-stone-900"
         }`}
-        title="Toggle Music Box Melody"
+        title="Toggle subtle acoustic ambient audio"
       >
-        <Music className={`w-3.5 h-3.5 ${isPlaying ? "animate-spin" : ""}`} style={{ animationDuration: "6s" }} />
-        <span>{isPlaying ? "Music Box Playing 🎵" : "Play Music 🎶"}</span>
-        {isPlaying ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5 opacity-60" />}
+        {isPlaying ? (
+          <>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Audio On</span>
+            <Volume2 className="w-3.5 h-3.5" />
+          </>
+        ) : (
+          <>
+            <span>Sound</span>
+            <VolumeX className="w-3.5 h-3.5 opacity-60" />
+          </>
+        )}
       </button>
     </div>
   );
