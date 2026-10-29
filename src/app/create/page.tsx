@@ -21,23 +21,22 @@ import {
   puzzles,
 } from "@/lib/themes";
 import { EnvelopeCard } from "@/components/EnvelopeCard";
-import { VintageRadio } from "@/components/VintageRadio";
-import { VintageBadges } from "@/components/VintageBadges";
+import { RetroRadioLetter } from "@/components/RetroRadioLetter";
 import { sounds } from "@/lib/audio";
 
 const OCCASIONS = [
+  "1990s Mixtape Letter",
   "Love & Devotion",
   "A Distant Remembrance",
   "Milestone & Anniversary",
   "In Thought & Silence",
-  "Confidential Note",
 ];
 
 const VINTAGE_PRESETS = [
   {
-    title: "Lamplight Devotion",
+    title: "1994 Cassette Mixtape",
     message:
-      "I sit by the lamplight tonight thinking of the distance between us, and the quiet comfort you bring to my thoughts.\n\nTime and again, you make the rush of the world fall still. There is no one in this life whose company I cherish more deeply, in conversation or in silence. Until the morning brings us together again, know that you are held in the highest and warmest corner of my heart.",
+      "I made this mixtape and penned these lines thinking of you.\n\nPress play on the radio above, let the music fill the room, and know that you are my favorite melody in this noisy world. Thank you for making ordinary days feel like a song worth remembering forever.",
     ending: "Yours with constant devotion and affection, always.",
     puzzleAnswer: "ALWAYS",
     puzzleQuestion: "The eternal promise between our hearts:",
@@ -69,7 +68,7 @@ export default function CreatePage() {
   const [selectedBadges, setSelectedBadges] = useState<string[]>([
     "keeper-of-heart",
     "eternal-rose",
-    "guiding-star",
+    "first-class-love",
   ]);
   const [puzzle, setPuzzle] = useState("memory");
   const [puzzleQuestion, setPuzzleQuestion] = useState("The eternal promise between our hearts:");
@@ -82,7 +81,7 @@ export default function CreatePage() {
   const [activeStep, setActiveStep] = useState<
     "recipient" | "letter" | "envelope" | "badges" | "lock"
   >("recipient");
-  const [previewTab, setPreviewTab] = useState<"envelope" | "letter">("envelope");
+  const [previewTab, setPreviewTab] = useState<"envelope" | "letter">("letter");
   const [publishing, setPublishing] = useState(false);
   const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -218,16 +217,16 @@ export default function CreatePage() {
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-amber-900/40">
           <div>
             <div className="flex items-center gap-3">
-              <span className="text-2xl text-amber-400">⚜</span>
+              <span className="text-2xl text-amber-400">📻</span>
               <h1 className="text-2xl sm:text-3xl font-vintage-heading tracking-widest text-amber-100 font-bold">
                 KEEPSAKE
               </h1>
               <span className="text-[9px] tracking-[0.3em] uppercase font-vintage-serif text-amber-300/80 border border-amber-700/60 px-2 py-0.5 rounded-xs bg-amber-950/40">
-                1924 ATELIER
+                1990s ATELIER
               </span>
             </div>
             <p className="text-xs text-amber-200/60 mt-1 font-vintage-body italic tracking-wider">
-              Bespoke Vintage Letters • Embedded Wireless Radio • Honorary Badges & Wax Seals
+              1990s Retro Radio Letters • Pinned Commemorative Badges • Antique Sealed Envelopes
             </p>
           </div>
 
@@ -239,7 +238,7 @@ export default function CreatePage() {
               className="px-4 py-2 rounded-xs text-xs font-vintage-serif tracking-wider uppercase border border-amber-500/40 bg-amber-950/50 text-amber-200 hover:bg-amber-900/60 hover:text-amber-100 transition-colors flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <Eye className="w-3.5 h-3.5 text-amber-400" />
-              <span>Inspect Sample Letter</span>
+              <span>Inspect Sample Radio Letter</span>
             </a>
           </div>
         </header>
@@ -254,7 +253,7 @@ export default function CreatePage() {
                 { id: "recipient", label: "I. Recipient" },
                 { id: "letter", label: "II. Letter" },
                 { id: "envelope", label: "III. Envelope" },
-                { id: "badges", label: "IV. Badges & Seal" },
+                { id: "badges", label: "IV. Radio Badges" },
                 { id: "lock", label: "V. Memory Lock" },
               ].map((step) => (
                 <button
@@ -283,7 +282,7 @@ export default function CreatePage() {
               >
                 <div className="space-y-1.5">
                   <label className="block text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                    Recipient Name (Penmanship on Envelope)
+                    Recipient Name (Penmanship on Envelope & Mixtape)
                   </label>
                   <input
                     type="text"
@@ -293,7 +292,7 @@ export default function CreatePage() {
                     onChange={(e) => setName(e.target.value)}
                   />
                   <p className="text-[11px] text-amber-900/60 font-vintage-body italic">
-                    Rendered in authentic 19th-century Spencerian calligraphy with sweeping swashes.
+                    Rendered in authentic 1990s mixtape label and Spencerian calligraphy.
                   </p>
                 </div>
 
@@ -345,7 +344,7 @@ export default function CreatePage() {
                 {/* Letter Stationery Style Picker */}
                 <div className="space-y-2">
                   <label className="block text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                    Choose Parchment Stationery Style (5 Distinct Types)
+                    Parchment Stationery Style (5 Distinct Types)
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {letterStyles.map((style) => {
@@ -379,10 +378,10 @@ export default function CreatePage() {
                 {/* Presets */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-amber-900/15">
                   <label className="text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                    Letter Text
+                    Letter Penmanship
                   </label>
                   <div className="flex items-center gap-1.5 text-xs">
-                    <span className="text-amber-900/60 font-vintage-body italic">Presets:</span>
+                    <span className="text-amber-900/60 font-vintage-body italic">Mixtape Presets:</span>
                     {VINTAGE_PRESETS.map((preset, i) => (
                       <button
                         key={i}
@@ -443,7 +442,7 @@ export default function CreatePage() {
                 {/* Photo Attachment */}
                 <div className="space-y-2">
                   <label className="block text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                    Mount Archival Photograph (Optional)
+                    Attach Polaroid Photograph (Optional)
                   </label>
                   <div className="flex items-center gap-4">
                     <label className="cursor-pointer px-4 py-2 rounded-xs border border-amber-900/40 hover:border-amber-900 bg-[#fdfaf3] text-xs font-vintage-serif font-bold uppercase tracking-wider text-amber-950 flex items-center gap-2 transition-colors">
@@ -504,7 +503,7 @@ export default function CreatePage() {
               </motion.div>
             )}
 
-            {/* STEP 3: ENVELOPE STYLES (5 DISTINCT TYPES) */}
+            {/* STEP 3: ENVELOPE STYLES */}
             {activeStep === "envelope" && (
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
@@ -556,12 +555,12 @@ export default function CreatePage() {
                   }}
                   className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-xs text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
                 >
-                  Configure Badges & Wax Seal →
+                  Configure Radio Badges & Wax Seal →
                 </button>
               </motion.div>
             )}
 
-            {/* STEP 4: BADGES & WAX SEAL */}
+            {/* STEP 4: RADIO BADGES & WAX SEAL */}
             {activeStep === "badges" && (
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
@@ -572,7 +571,7 @@ export default function CreatePage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                      Honorary Commemorative Badges (Pinned to the Letter)
+                      Enamel Badges (Pinned to the Radio Bar)
                     </label>
                     <span className="text-[10px] text-amber-900/60 font-vintage-body italic">
                       Tap to select / deselect
@@ -617,7 +616,7 @@ export default function CreatePage() {
                 {/* Wax Seal Selector */}
                 <div className="space-y-2 pt-2 border-t border-amber-900/20">
                   <label className="block text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                    Molten Wax Signet
+                    Molten Wax Signet (On Envelope)
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {waxSeals.map((seal) => {
@@ -814,7 +813,7 @@ export default function CreatePage() {
           <div className="lg:col-span-5 sticky top-8 space-y-4">
             <div className="flex items-center justify-between px-1">
               <span className="text-[10px] tracking-[0.25em] uppercase font-vintage-serif font-bold text-amber-300/70">
-                Writing Desk Preview
+                Desk Live Preview
               </span>
 
               <div className="flex items-center gap-1 p-0.5 bg-amber-950/80 rounded-xs border border-amber-800/60 text-[11px] font-vintage-serif">
@@ -844,13 +843,13 @@ export default function CreatePage() {
                       : "text-amber-300/70 hover:text-amber-100"
                   }`}
                 >
-                  Parchment
+                  Radio Letter
                 </button>
               </div>
             </div>
 
             {/* Preview Desk */}
-            <div className="w-full rounded-sm p-5 sm:p-7 flex flex-col items-center justify-center min-h-[380px] border border-amber-900/40 shadow-2xl transition-colors duration-500 relative overflow-hidden dark-parchment-desk">
+            <div className="w-full rounded-sm p-4 sm:p-6 flex flex-col items-center justify-center min-h-[420px] border border-amber-900/40 shadow-2xl transition-colors duration-500 relative overflow-hidden dark-parchment-desk">
               <div className="absolute inset-0 paper-texture pointer-events-none opacity-30" />
 
               {previewTab === "envelope" ? (
@@ -873,58 +872,18 @@ export default function CreatePage() {
                   </div>
                 </div>
               ) : (
-                <div
-                  className={`relative z-10 w-full max-w-sm ${currentLetter.paperBg} rounded-xs p-5 shadow-2xl border ${currentLetter.paperClass} space-y-4`}
-                >
-                  <div className="text-center border-b border-current/20 pb-2">
-                    <span className="text-sm">{currentLetter.crest}</span>
-                    <h4 className="text-[9px] tracking-widest uppercase font-vintage-serif font-bold opacity-80">
-                      {currentLetter.name}
-                    </h4>
-                  </div>
-
-                  <h3 className="font-vintage-calligraphy text-3xl">
-                    Dearest {name || "Beloved"},
-                  </h3>
-
-                  <p
-                    className={`leading-relaxed ${
-                      fontChoice === "serif"
-                        ? "font-vintage-body italic text-base leading-relaxed"
-                        : fontChoice === "script"
-                        ? "font-vintage-script text-xl leading-relaxed"
-                        : "font-vintage-calligraphy text-2xl leading-relaxed"
-                    }`}
-                    style={{ color: currentLetter.textColor }}
-                  >
-                    {letterText}
-                  </p>
-
-                  {/* Radio preview in letter */}
-                  <div className="py-1">
-                    <VintageRadio />
-                  </div>
-
-                  {image && (
-                    <div className="relative p-1.5 bg-white border border-amber-900/30 max-w-[170px] mx-auto shadow-md">
-                      <div className="aspect-[4/3] overflow-hidden bg-stone-100">
-                        <img src={image} alt="Attachment" className="w-full h-full object-cover sepia-[0.3]" />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Badges preview in letter */}
-                  {selectedBadges.length > 0 && (
-                    <div className="pt-2 border-t border-current/20">
-                      <VintageBadges selectedBadgeIds={selectedBadges} />
-                    </div>
-                  )}
-
-                  {message && (
-                    <p className="font-vintage-calligraphy text-2xl pt-2 border-t border-current/20">
-                      {message}
-                    </p>
-                  )}
+                <div className="relative z-10 w-full">
+                  <RetroRadioLetter
+                    name={name}
+                    letterText={letterText}
+                    fontChoice={fontChoice}
+                    message={message}
+                    image={image}
+                    letterStyle={currentLetter}
+                    envelopeStyle={envelopeStyle}
+                    selectedBadgeIds={selectedBadges}
+                    interactive={true}
+                  />
                 </div>
               )}
             </div>

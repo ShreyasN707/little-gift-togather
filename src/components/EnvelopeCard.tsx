@@ -46,7 +46,7 @@ export function EnvelopeCard({
     <div className="relative flex flex-col items-center justify-center p-3 select-none">
       {/* 3D Envelope Container */}
       <motion.div
-        className="relative w-[340px] sm:w-[440px] h-[230px] sm:h-[285px] rounded-lg overflow-visible cursor-pointer transition-transform duration-300"
+        className="relative w-[340px] sm:w-[440px] h-[230px] sm:h-[285px] rounded-none overflow-visible cursor-pointer transition-transform duration-300"
         whileHover={interactive && !isOpen ? { y: -4, scale: 1.015 } : {}}
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}
@@ -55,7 +55,7 @@ export function EnvelopeCard({
       >
         {/* Outer Frame Border according to style */}
         <div
-          className={`absolute inset-0 rounded-lg shadow-2xl ${
+          className={`absolute inset-0 rounded-none shadow-2xl ${
             isAirmail
               ? "airmail-chevron-border"
               : isVictorian
@@ -69,7 +69,7 @@ export function EnvelopeCard({
         >
           {/* Main Envelope Body */}
           <div
-            className={`w-full h-full rounded-md relative overflow-hidden flex flex-col justify-between p-6 sm:p-8 border ${
+            className={`w-full h-full rounded-none relative overflow-hidden flex flex-col justify-between p-6 sm:p-8 border ${
               isCelestial
                 ? "bg-gradient-to-br from-[#121829] via-[#0d1322] to-[#070b14] text-[#f6eedb] border-cyan-500/30"
                 : isVictorian
@@ -89,7 +89,7 @@ export function EnvelopeCard({
               <>
                 <div className="absolute top-0 bottom-0 left-1/3 w-2 bg-amber-800/60 shadow-md pointer-events-none z-15" />
                 <div className="absolute left-0 right-0 top-1/2 h-2 bg-amber-800/60 shadow-md pointer-events-none z-15" />
-                <div className="absolute top-4 left-4 z-20 bg-amber-100 border border-amber-800 px-2 py-1 rounded shadow-xs rotate-3">
+                <div className="absolute top-4 left-4 z-20 bg-amber-100 border border-amber-800 px-2 py-1 rounded-none shadow-xs rotate-3">
                   <span className="text-[8px] font-vintage-serif font-bold tracking-widest uppercase text-amber-950">
                     PARCEL NO. 74
                   </span>
@@ -248,7 +248,7 @@ export function EnvelopeCard({
 
         {/* Envelope Top Flap */}
         <motion.div
-          className="absolute top-0 left-0 right-0 h-36 rounded-t-lg z-20 origin-top overflow-hidden border-t-2"
+          className="absolute top-0 left-0 right-0 h-36 rounded-none z-20 origin-top overflow-hidden border-t-2"
           animate={{
             rotateX: isOpen ? 180 : 0,
             zIndex: isOpen ? 5 : 25,
@@ -348,7 +348,7 @@ export function EnvelopeCard({
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-amber-950/95 border border-amber-600/40 text-amber-200 text-[10px] tracking-[0.2em] uppercase font-vintage-serif px-3 py-1 rounded-sm shadow-xl pointer-events-none"
+              className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-amber-950/95 border border-amber-600/40 text-amber-200 text-[10px] tracking-[0.2em] uppercase font-vintage-serif px-3 py-1 rounded-none shadow-xl pointer-events-none"
             >
               Break Wax Seal
             </motion.div>

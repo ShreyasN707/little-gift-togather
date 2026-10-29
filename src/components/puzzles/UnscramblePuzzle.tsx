@@ -71,7 +71,7 @@ export function UnscramblePuzzle({
   };
 
   return (
-    <div className="p-7 sm:p-9 bg-white rounded-2xl border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm sm:max-w-md w-full mx-4 relative z-10">
+    <div className="p-7 sm:p-9 bg-white rounded-none border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm sm:max-w-md w-full mx-4 relative z-10">
       <div className="text-center space-y-1 mb-6">
         <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-stone-400 font-sans-clean">
           Keyword Decryption
@@ -96,7 +96,7 @@ export function UnscramblePuzzle({
             <div
               key={i}
               onClick={handleDeselectLast}
-              className={`w-10 sm:w-12 h-12 sm:h-14 rounded-lg border flex items-center justify-center text-lg sm:text-xl font-medium font-serif-editorial cursor-pointer transition-all ${
+              className={`w-10 sm:w-12 h-12 sm:h-14 rounded-none border flex items-center justify-center text-lg sm:text-xl font-medium font-serif-editorial cursor-pointer transition-all ${
                 char
                   ? "bg-[#F7F4EE] border-stone-800 text-stone-900 shadow-editorial-sm"
                   : "bg-stone-50/50 border-dashed border-stone-200 text-stone-300"
@@ -119,7 +119,7 @@ export function UnscramblePuzzle({
               whileTap={!isSelected ? { scale: 0.95 } : {}}
               onClick={() => handleSelect(item)}
               disabled={isSelected}
-              className={`w-11 sm:w-12 h-11 sm:h-12 rounded-lg text-base sm:text-lg font-serif-editorial font-medium transition-all duration-150 border ${
+              className={`w-11 sm:w-12 h-11 sm:h-12 rounded-none text-base sm:text-lg font-serif-editorial font-medium transition-all duration-150 border ${
                 isSelected
                   ? "bg-stone-50 text-stone-300 border-stone-100 cursor-not-allowed opacity-50"
                   : "bg-white text-stone-900 hover:bg-stone-50 border-stone-300 shadow-editorial-sm"
@@ -136,14 +136,14 @@ export function UnscramblePuzzle({
         <button
           onClick={handleDeselectLast}
           disabled={selectedIds.length === 0}
-          className="text-[11px] uppercase tracking-wider px-3 py-1.5 rounded border border-stone-200 text-stone-600 hover:bg-stone-50 disabled:opacity-40 transition-colors font-sans-clean"
+          className="text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-none border border-stone-200 text-stone-600 hover:bg-stone-50 disabled:opacity-40 transition-colors font-sans-clean"
         >
           Backspace
         </button>
         <button
           onClick={handleReset}
           disabled={selectedIds.length === 0}
-          className="text-[11px] uppercase tracking-wider px-3 py-1.5 rounded border border-stone-200 text-stone-600 hover:bg-stone-50 disabled:opacity-40 transition-colors font-sans-clean"
+          className="text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-none border border-stone-200 text-stone-600 hover:bg-stone-50 disabled:opacity-40 transition-colors font-sans-clean"
         >
           Reset
         </button>

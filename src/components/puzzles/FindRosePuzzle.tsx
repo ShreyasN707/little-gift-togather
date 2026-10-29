@@ -37,7 +37,7 @@ export function FindRosePuzzle({ onComplete }: { onComplete: () => void }) {
   };
 
   return (
-    <div className="p-7 sm:p-9 bg-white rounded-2xl border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm w-full mx-4 relative z-10">
+    <div className="p-7 sm:p-9 bg-white rounded-none border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm w-full mx-4 relative z-10">
       <div className="text-center space-y-1 mb-6">
         <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-stone-400 font-sans-clean">
           Botanical Discovery
@@ -63,7 +63,7 @@ export function FindRosePuzzle({ onComplete }: { onComplete: () => void }) {
               whileTap={!isWrong && !isFound ? { scale: 0.96 } : {}}
               onClick={() => handleSelect(i, item)}
               disabled={isWrong || foundIndex !== null}
-              className={`h-16 sm:h-18 rounded-xl flex items-center justify-center transition-all duration-200 relative select-none border ${
+              className={`h-16 sm:h-18 rounded-none flex items-center justify-center transition-all duration-200 relative select-none border ${
                 isFound
                   ? "bg-[#FAF3F0] border-[#9C4E3D] text-[#9C4E3D] shadow-editorial-sm scale-105"
                   : isWrong

@@ -59,7 +59,7 @@ export function MemoryPuzzle({ onComplete }: { onComplete: () => void }) {
   const totalPairs = cards.length / 2;
 
   return (
-    <div className="p-7 sm:p-9 bg-white rounded-2xl border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm w-full mx-4 relative z-10">
+    <div className="p-7 sm:p-9 bg-white rounded-none border border-stone-200/90 shadow-editorial-lg flex flex-col items-center max-w-sm w-full mx-4 relative z-10">
       <div className="text-center space-y-1 mb-6">
         <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-stone-400 font-sans-clean">
           Authentication Key
@@ -84,7 +84,7 @@ export function MemoryPuzzle({ onComplete }: { onComplete: () => void }) {
               whileHover={{ scale: isMatched ? 1 : 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => handleCardClick(i)}
-              className={`h-16 sm:h-20 rounded-xl flex items-center justify-center transition-all duration-200 relative select-none border ${
+              className={`h-16 sm:h-20 rounded-none flex items-center justify-center transition-all duration-200 relative select-none border ${
                 isMatched
                   ? "bg-stone-50 border-stone-300/80 text-stone-800"
                   : isFlipped

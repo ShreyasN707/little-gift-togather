@@ -162,3 +162,12 @@
     0 8px 24px -4px rgba(30, 20, 10, 0.25),
     0 25px 50px -12px rgba(10, 5, 2, 0.35);
 }
+
+/* Authentic translucent aged masking tape holding photo to radio */
+.vintage-tape-strip {
+  background: rgba(246, 234, 208, 0.78);
+  backdrop-filter: blur(0.5px);
+  border-left: 2px dashed rgba(160, 120, 70, 0.45);
+  border-right: 2px dashed rgba(160, 120, 70, 0.45);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25), inset 0 0 4px rgba(255, 255, 255, 0.4);
+}

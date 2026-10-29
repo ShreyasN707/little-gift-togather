@@ -1,5 +1,4 @@
-// Vintage Web Audio API sound engine
-// Supports radio tuning static, gramophone music box stations, pops, and chimes
+// 1990s Retro Audio Engine with Cassette Deck Mechanical Clunks, Tuning Static, and 90s Nostalgia Melodies
 
 export interface RadioStation {
   id: string;
@@ -12,11 +11,11 @@ export interface RadioStation {
 
 export const RADIO_STATIONS: RadioStation[] = [
   {
-    id: "gramophone-waltz",
-    name: "1924 Gramophone Waltz",
-    genre: "Antique Music Box",
-    frequency: "94.2 AM",
-    tempo: 450,
+    id: "mixtape-lofi",
+    name: "Mixtape Side A • 1994",
+    genre: "90s Lofi Cassette Romance",
+    frequency: "FM 98.5 MHz",
+    tempo: 420,
     melody: [
       523.25, 659.25, 783.99, 1046.5, 880.0, 783.99, 659.25, 587.33,
       523.25, 659.25, 783.99, 1046.5, 1174.66, 1046.5, 880.0, 783.99,
@@ -25,11 +24,11 @@ export const RADIO_STATIONS: RadioStation[] = [
     ],
   },
   {
-    id: "moonlight-serenade",
-    name: "Midnight Serenade",
-    genre: "Nocturne Chimes",
-    frequency: "101.5 FM",
-    tempo: 520,
+    id: "city-pop",
+    name: "Tokyo FM • Midnight Wave",
+    genre: "1990s City Pop Nostalgia",
+    frequency: "FM 103.2 MHz",
+    tempo: 380,
     melody: [
       440.0, 523.25, 659.25, 880.0, 783.99, 659.25, 523.25, 587.33,
       659.25, 587.33, 523.25, 440.0, 392.0, 440.0, 523.25, 659.25,
@@ -37,11 +36,11 @@ export const RADIO_STATIONS: RadioStation[] = [
     ],
   },
   {
-    id: "cafe-romance",
-    name: "Parisian Café Echo",
-    genre: "Sweet Accordion Music Box",
-    frequency: "88.7 AM",
-    tempo: 380,
+    id: "slow-jam",
+    name: "Golden Hour Radio • 1998",
+    genre: "Sweet R&B Chime Ballad",
+    frequency: "AM 880 kHz",
+    tempo: 490,
     melody: [
       392.0, 493.88, 587.33, 783.99, 698.46, 587.33, 493.88, 587.33,
       659.25, 783.99, 880.0, 987.77, 880.0, 783.99, 659.25, 587.33,
@@ -91,6 +90,31 @@ class SoundManager {
     return this.bgmPlaying;
   }
 
+  // 1990s Mechanical Cassette Button Clunk / Click
+  public playCassetteClunk() {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.initCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      // Heavy plastic button mechanical snap
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.exponentialRampToValueAtTime(45, now + 0.08);
+
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } catch {}
+  }
+
   // Radio static tuning noise
   public playTuningStatic() {
     if (this.isMuted) return;
@@ -126,6 +150,7 @@ class SoundManager {
   }
 
   public nextStation() {
+    this.playCassetteClunk();
     this.playTuningStatic();
     this.currentStationIndex = (this.currentStationIndex + 1) % RADIO_STATIONS.length;
     if (this.bgmPlaying) {
@@ -137,39 +162,20 @@ class SoundManager {
   }
 
   public toggleRadio() {
+    this.playCassetteClunk();
     if (this.bgmPlaying) {
       this.stopBgm();
     } else {
       this.playTuningStatic();
       setTimeout(() => {
         this.startBgm();
-      }, 150);
+      }, 120);
     }
     return this.bgmPlaying;
   }
 
   public playPop() {
-    if (this.isMuted) return;
-    try {
-      const ctx = this.initCtx();
-      if (!ctx) return;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const now = ctx.currentTime;
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(380, now);
-      osc.frequency.exponentialRampToValueAtTime(750, now + 0.07);
-
-      gain.gain.setValueAtTime(0.18, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.07);
-    } catch {}
+    this.playCassetteClunk();
   }
 
   public playChime(freq = 659.25) {
@@ -196,26 +202,13 @@ class SoundManager {
   }
 
   public playSealPop() {
+    this.playCassetteClunk();
     if (this.isMuted) return;
     try {
       const ctx = this.initCtx();
       if (!ctx) return;
       const now = ctx.currentTime;
 
-      // Deep tactile wax pop
-      const osc1 = ctx.createOscillator();
-      const gain1 = ctx.createGain();
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(240, now);
-      osc1.frequency.exponentialRampToValueAtTime(90, now + 0.14);
-      gain1.gain.setValueAtTime(0.35, now);
-      gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
-      osc1.connect(gain1);
-      gain1.connect(ctx.destination);
-      osc1.start(now);
-      osc1.stop(now + 0.14);
-
-      // Gold shimmer chime
       [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
         const o = ctx.createOscillator();
         const g = ctx.createGain();
@@ -282,11 +275,12 @@ class SoundManager {
           const gain = c.createGain();
           const now = c.currentTime;
 
+          // Warm synthesizer chime tone
           osc.type = "sine";
           const freq = melody[noteIndex % melody.length];
           osc.frequency.setValueAtTime(freq, now);
 
-          gain.gain.setValueAtTime(0.07, now);
+          gain.gain.setValueAtTime(0.09, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
 
           osc.connect(gain);
