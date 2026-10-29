@@ -42,6 +42,59 @@ export function EnvelopeCard({
   const isCelestial = envelopeStyle === "celestial-noir";
   const isBotanical = envelopeStyle === "botanical-herbarium";
 
+  // Dynamic seal colors according to seal ID and envelope theme
+  const sealColors =
+    seal.id === "forest-botanical" || isBotanical
+      ? {
+          grad1: "#2e6f40",
+          grad2: "#1e4d2b",
+          grad3: "#13351d",
+          grad4: "#07170c",
+          inner: "#173b22",
+          symbol: isBotanical ? "⚘" : seal.symbol,
+          accent: "#a7f3d0",
+        }
+      : seal.id === "midnight-navy" || isCelestial
+      ? {
+          grad1: "#1d4ed8",
+          grad2: "#1e3a8a",
+          grad3: "#0f172a",
+          grad4: "#030712",
+          inner: "#172554",
+          symbol: isCelestial ? "✧" : seal.symbol,
+          accent: "#bae6fd",
+        }
+      : seal.id === "antique-gold"
+      ? {
+          grad1: "#d97706",
+          grad2: "#b45309",
+          grad3: "#78350f",
+          grad4: "#451a03",
+          inner: "#92400e",
+          symbol: seal.symbol,
+          accent: "#fef3c7",
+        }
+      : seal.id === "terracotta-wax" || isTwine
+      ? {
+          grad1: "#c2410c",
+          grad2: "#9a3412",
+          grad3: "#662008",
+          grad4: "#350e04",
+          inner: "#7c2d12",
+          symbol: isTwine ? "⚜" : seal.symbol,
+          accent: "#fed7aa",
+        }
+      : {
+          // Burgundy Royal default / Victorian
+          grad1: "#be123c",
+          grad2: "#881337",
+          grad3: "#4c0519",
+          grad4: "#22020a",
+          inner: "#5f0a20",
+          symbol: isVictorian ? "👑" : seal.symbol,
+          accent: "#fde2e8",
+        };
+
   return (
     <div className="relative flex flex-col items-center justify-center p-3 select-none">
       {/* 3D Envelope Container */}
@@ -59,25 +112,25 @@ export function EnvelopeCard({
             isAirmail
               ? "airmail-chevron-border"
               : isVictorian
-              ? "bg-[#2b080f] p-2 border-2 border-amber-500/60"
+              ? "bg-[#2b080f] p-2 border-2 border-amber-500/70 shadow-[0_15px_35px_rgba(0,0,0,0.85)]"
               : isCelestial
-              ? "bg-[#0b101d] p-1.5 border border-cyan-400/40"
+              ? "bg-[#070b14] p-1.5 border border-cyan-400/50 shadow-[0_15px_35px_rgba(0,0,0,0.9)]"
               : isBotanical
-              ? "bg-[#25392b] p-1.5 border border-emerald-600/40"
-              : "p-2 border-2 border-amber-900/40 bg-[#3a2213]"
+              ? "bg-[#1c2c20] p-1.5 border border-emerald-600/50 shadow-[0_15px_35px_rgba(0,0,0,0.85)]"
+              : "p-2 border-2 border-amber-900/60 bg-[#351d10] shadow-[0_15px_35px_rgba(0,0,0,0.85)]"
           }`}
         >
           {/* Main Envelope Body */}
           <div
             className={`w-full h-full rounded-none relative overflow-hidden flex flex-col justify-between p-6 sm:p-8 border ${
               isCelestial
-                ? "bg-gradient-to-br from-[#121829] via-[#0d1322] to-[#070b14] text-[#f6eedb] border-cyan-500/30"
+                ? "bg-gradient-to-br from-[#0c1322] via-[#080d19] to-[#04060c] text-[#f0f9ff] border-cyan-500/40"
                 : isVictorian
                 ? "bg-gradient-to-br from-[#4a121c] via-[#3b0c14] to-[#24060b] text-[#fce8ce] border-amber-500/50"
                 : isBotanical
-                ? "bg-gradient-to-br from-[#dce8dd] via-[#cfded0] to-[#b8cdba] text-[#1c2c1f] border-emerald-800/30"
+                ? "bg-gradient-to-br from-[#dce8dd] via-[#cfded0] to-[#b8cdba] text-[#1c2c1f] border-emerald-800/40"
                 : isTwine
-                ? "bg-[#e8d5b5] text-[#2c190d] border-amber-950/40"
+                ? "bg-gradient-to-br from-[#ebd8ba] via-[#dec6a2] to-[#cfb48c] text-[#2c190d] border-amber-950/40"
                 : "aged-parchment text-[#2b170c] border-amber-900/30"
             }`}
           >
@@ -87,11 +140,11 @@ export function EnvelopeCard({
             {/* TWINE OVERLAY (if Twine style) */}
             {isTwine && (
               <>
-                <div className="absolute top-0 bottom-0 left-1/3 w-2 bg-amber-800/60 shadow-md pointer-events-none z-15" />
-                <div className="absolute left-0 right-0 top-1/2 h-2 bg-amber-800/60 shadow-md pointer-events-none z-15" />
-                <div className="absolute top-4 left-4 z-20 bg-amber-100 border border-amber-800 px-2 py-1 rounded-none shadow-xs rotate-3">
-                  <span className="text-[8px] font-vintage-serif font-bold tracking-widest uppercase text-amber-950">
-                    PARCEL NO. 74
+                <div className="absolute top-0 bottom-0 left-1/3 w-2.5 bg-amber-900/70 shadow-md pointer-events-none z-15" />
+                <div className="absolute left-0 right-0 top-1/2 h-2.5 bg-amber-900/70 shadow-md pointer-events-none z-15" />
+                <div className="absolute top-4 left-4 z-20 bg-[#fbf5e8] border-2 border-amber-900 px-2.5 py-1 rounded-none shadow-md rotate-2">
+                  <span className="text-[7.5px] font-vintage-serif font-bold tracking-widest uppercase text-amber-950">
+                    OVERLAND WAYBILL NO. 74
                   </span>
                 </div>
               </>
@@ -99,47 +152,57 @@ export function EnvelopeCard({
 
             {/* CELESTIAL STARS (if Celestial style) */}
             {isCelestial && (
-              <div className="absolute inset-0 pointer-events-none opacity-40">
-                <span className="absolute top-4 left-6 text-amber-300 text-xs">✦</span>
-                <span className="absolute top-12 left-20 text-cyan-200 text-[10px]">✧</span>
-                <span className="absolute bottom-6 right-10 text-amber-300 text-sm">✦</span>
-                <span className="absolute top-8 right-24 text-cyan-200 text-xs">✧</span>
-                <span className="absolute bottom-10 left-14 text-amber-200 text-xs">☽</span>
+              <div className="absolute inset-0 pointer-events-none opacity-60">
+                <span className="absolute top-3 left-6 text-amber-300 text-xs">✦</span>
+                <span className="absolute top-10 left-24 text-cyan-200 text-[11px]">✧</span>
+                <span className="absolute bottom-6 right-12 text-amber-300 text-sm">✦</span>
+                <span className="absolute top-7 right-28 text-cyan-200 text-xs">✧</span>
+                <span className="absolute bottom-10 left-12 text-cyan-300 text-xs">☽</span>
+                <div className="absolute top-8 left-16 w-32 h-32 border border-cyan-500/15 rounded-full pointer-events-none" />
+              </div>
+            )}
+
+            {/* BOTANICAL LEAF FLORA (if Botanical style) */}
+            {isBotanical && (
+              <div className="absolute inset-0 pointer-events-none opacity-30">
+                <span className="absolute top-3 left-4 text-emerald-900 text-sm">𐇲</span>
+                <span className="absolute bottom-4 right-6 text-emerald-900 text-base">⚘</span>
+                <span className="absolute bottom-4 left-8 text-emerald-800 text-xs">🌿</span>
               </div>
             )}
 
             {/* Inner Filigree / Frame */}
             <div
-              className={`absolute inset-3 border pointer-events-none rounded-xs ${
+              className={`absolute inset-3 border pointer-events-none rounded-none ${
                 isVictorian
-                  ? "border-amber-400/40"
+                  ? "border-amber-400/50"
                   : isCelestial
-                  ? "border-cyan-400/20"
+                  ? "border-cyan-400/30"
                   : isBotanical
-                  ? "border-emerald-800/20"
+                  ? "border-emerald-800/30"
                   : "border-amber-800/25"
               }`}
             >
               <div
                 className={`absolute inset-0.5 border border-dashed pointer-events-none ${
                   isVictorian
-                    ? "border-amber-400/20"
+                    ? "border-amber-400/30"
                     : isCelestial
-                    ? "border-cyan-400/15"
-                    : "border-amber-900/15"
+                    ? "border-cyan-400/20"
+                    : "border-amber-900/20"
                 }`}
               />
-              <span className="absolute -top-2 -left-2 text-xs opacity-50 select-none">
-                {isBotanical ? "𐇲" : isCelestial ? "✧" : "❧"}
+              <span className="absolute -top-2 -left-2 text-xs opacity-60 select-none">
+                {isBotanical ? "𐇲" : isCelestial ? "✧" : isVictorian ? "👑" : "❧"}
               </span>
-              <span className="absolute -top-2 -right-2 text-xs opacity-50 select-none">
-                {isBotanical ? "𐇲" : isCelestial ? "✧" : "☙"}
+              <span className="absolute -top-2 -right-2 text-xs opacity-60 select-none">
+                {isBotanical ? "𐇲" : isCelestial ? "✧" : isVictorian ? "👑" : "☙"}
               </span>
-              <span className="absolute -bottom-2 -left-2 text-xs opacity-50 select-none">
-                {isBotanical ? "𐇲" : isCelestial ? "✧" : "❧"}
+              <span className="absolute -bottom-2 -left-2 text-xs opacity-60 select-none">
+                {isBotanical ? "𐇲" : isCelestial ? "✧" : isVictorian ? "👑" : "❧"}
               </span>
-              <span className="absolute -bottom-2 -right-2 text-xs opacity-50 select-none">
-                {isBotanical ? "𐇲" : isCelestial ? "✧" : "☙"}
+              <span className="absolute -bottom-2 -right-2 text-xs opacity-60 select-none">
+                {isBotanical ? "𐇲" : isCelestial ? "✧" : isVictorian ? "👑" : "☙"}
               </span>
             </div>
 
@@ -147,26 +210,38 @@ export function EnvelopeCard({
             <div className="absolute top-4 right-5 z-20 pointer-events-none">
               <div className="relative transform rotate-2">
                 <div
-                  className={`w-14 sm:w-16 h-18 sm:h-20 p-1 flex flex-col items-center justify-between rounded-xs border border-dashed shadow-sm ${
+                  className={`w-14 sm:w-16 h-18 sm:h-20 p-1 flex flex-col items-center justify-between rounded-none border border-dashed shadow-sm ${
                     isCelestial
-                      ? "bg-[#1f293d] border-amber-400/50 text-amber-200"
+                      ? "bg-[#141e30] border-cyan-400/50 text-cyan-200"
                       : isVictorian
-                      ? "bg-[#5c1622] border-amber-400/60 text-amber-200"
+                      ? "bg-[#5c1622] border-amber-400/70 text-amber-200"
                       : isBotanical
                       ? "bg-[#f4faf4] border-emerald-800/40 text-emerald-950"
+                      : isTwine
+                      ? "bg-[#f5ebd9] border-amber-900/50 text-amber-950"
                       : "bg-[#fbf6ec] border-[#b59b75] text-amber-950"
                   }`}
                 >
-                  <span className="text-[7px] tracking-[0.2em] font-vintage-serif uppercase font-bold opacity-80">
-                    {isBotanical ? "JARDIN BOTANIQUE" : isCelestial ? "ROYAL OBS." : "ROYAL MAIL"}
+                  <span className="text-[6.5px] tracking-[0.2em] font-vintage-serif uppercase font-bold opacity-80 text-center">
+                    {isBotanical
+                      ? "KEW HERBARIUM"
+                      : isCelestial
+                      ? "OBS. ROYAL"
+                      : isVictorian
+                      ? "ROYAL DISPATCH"
+                      : isTwine
+                      ? "OVERLAND POST"
+                      : "ROYAL AIRMAIL"}
                   </span>
                   <div className="w-9 h-11 border border-current/30 flex flex-col items-center justify-center">
                     <span className="text-xl">
-                      {isBotanical ? "⚘" : isCelestial ? "☽" : isVictorian ? "👑" : "⚜"}
+                      {isBotanical ? "⚘" : isCelestial ? "☽" : isVictorian ? "👑" : isTwine ? "⚜" : "✉"}
                     </span>
-                    <span className="text-[8px] font-vintage-serif font-bold">1924</span>
+                    <span className="text-[7.5px] font-vintage-serif font-bold">
+                      {isVictorian ? "1890" : isCelestial ? "1888" : isBotanical ? "1912" : isTwine ? "1884" : "1924"}
+                    </span>
                   </div>
-                  <span className="text-[7px] font-vintage-serif uppercase tracking-widest font-bold opacity-80">
+                  <span className="text-[6.5px] font-vintage-serif uppercase tracking-widest font-bold opacity-80">
                     SPECIAL POST
                   </span>
                 </div>
@@ -174,27 +249,63 @@ export function EnvelopeCard({
                 {/* Circular Postmark */}
                 <div
                   className={`absolute -bottom-3 -left-4 w-16 h-16 border-2 rounded-full flex flex-col items-center justify-center pointer-events-none -rotate-12 ${
-                    isCelestial || isVictorian
+                    isCelestial
+                      ? "border-cyan-300/40 text-cyan-200/60"
+                      : isVictorian
                       ? "border-amber-300/40 text-amber-200/60"
                       : "border-stone-800/60 text-stone-800/70"
                   }`}
                 >
-                  <span className="text-[6px] tracking-widest uppercase font-bold">G.P.O. DESPATCH</span>
-                  <span className="text-[7px] font-mono font-bold my-0.5">14 OCT 1924</span>
-                  <span className="text-[6px] tracking-widest uppercase font-bold">FIRST CLASS</span>
+                  <span className="text-[5.5px] tracking-widest uppercase font-bold">
+                    {isVictorian
+                      ? "CHANCELLERY"
+                      : isCelestial
+                      ? "OBSERVATORY"
+                      : isBotanical
+                      ? "BOTANICAL POST"
+                      : isTwine
+                      ? "STAGECOACH"
+                      : "G.P.O. DESPATCH"}
+                  </span>
+                  <span className="text-[6.5px] font-mono font-bold my-0.5">
+                    {isVictorian
+                      ? "28 NOV 1890"
+                      : isCelestial
+                      ? "21 MAR 1888"
+                      : isBotanical
+                      ? "18 JUN 1912"
+                      : isTwine
+                      ? "12 OCT 1884"
+                      : "14 OCT 1924"}
+                  </span>
+                  <span className="text-[5.5px] tracking-widest uppercase font-bold">FIRST CLASS</span>
                 </div>
               </div>
             </div>
 
             {/* Courier Rubber Stamp (Top Left) */}
-            <div className="absolute top-5 left-5 z-20 pointer-events-none opacity-60 transform -rotate-6">
+            <div className="absolute top-5 left-5 z-20 pointer-events-none opacity-70 transform -rotate-6">
               <div
-                className={`border-2 px-2 py-0.5 rounded-xs ${
-                  isCelestial || isVictorian ? "border-amber-400/60 text-amber-300" : "border-red-900/60 text-red-950"
+                className={`border-2 px-2 py-0.5 rounded-none ${
+                  isCelestial
+                    ? "border-cyan-400/60 text-cyan-300"
+                    : isVictorian
+                    ? "border-amber-400/60 text-amber-300"
+                    : isBotanical
+                    ? "border-emerald-800/70 text-emerald-900"
+                    : "border-red-900/60 text-red-950"
                 }`}
               >
-                <span className="text-[8px] tracking-[0.25em] font-vintage-serif font-bold uppercase">
-                  CONFIDENTIAL • BY COURIER
+                <span className="text-[7.5px] tracking-[0.25em] font-vintage-serif font-bold uppercase">
+                  {isVictorian
+                    ? "ROYAL PRIVILEGE • CONFIDENTIAL"
+                    : isCelestial
+                    ? "ASTRONOMICAL • FIRST MAGNITUDE"
+                    : isBotanical
+                    ? "CONSERVATORY SPECIMEN • BOTANICAL"
+                    : isTwine
+                    ? "OVERLAND PARCEL • REGISTERED"
+                    : "CONFIDENTIAL • BY COURIER"}
                 </span>
               </div>
             </div>
@@ -202,20 +313,36 @@ export function EnvelopeCard({
             {/* Addressing */}
             <div className="relative z-20 mt-10 sm:mt-12 text-center space-y-0.5">
               <p
-                className={`text-[10px] tracking-[0.3em] font-vintage-serif uppercase font-semibold ${
-                  isCelestial || isVictorian ? "text-amber-300/70" : "text-amber-950/60"
+                className={`text-[9.5px] tracking-[0.3em] font-vintage-serif uppercase font-semibold ${
+                  isCelestial
+                    ? "text-cyan-300/80"
+                    : isVictorian
+                    ? "text-amber-300/80"
+                    : isBotanical
+                    ? "text-emerald-900/70"
+                    : "text-amber-950/70"
                 }`}
               >
-                To the Esteemed Presence of
+                {isVictorian
+                  ? "To the Royal Presence of"
+                  : isCelestial
+                  ? "To the Starlight Presence of"
+                  : isBotanical
+                  ? "To the Cherished Presence of"
+                  : isTwine
+                  ? "In Trust to the Hands of"
+                  : "To the Esteemed Presence of"}
               </p>
               <h3
                 className={`text-4xl sm:text-5xl font-vintage-calligraphy tracking-wide py-1 ${
                   isCelestial
-                    ? "text-amber-200 drop-shadow-[0_2px_10px_rgba(240,210,130,0.3)]"
+                    ? "text-cyan-100 drop-shadow-[0_2px_10px_rgba(56,189,248,0.35)]"
                     : isVictorian
                     ? "text-amber-100 drop-shadow-[0_2px_8px_rgba(240,200,120,0.4)]"
                     : isBotanical
                     ? "text-emerald-950"
+                    : isTwine
+                    ? "text-amber-950"
                     : "text-amber-950"
                 }`}
               >
@@ -223,25 +350,55 @@ export function EnvelopeCard({
               </h3>
               <div className="flex items-center justify-center gap-2 opacity-50">
                 <span className="h-[1px] w-12 bg-current" />
-                <span className="text-xs font-vintage-serif">❦</span>
+                <span className="text-xs font-vintage-serif">
+                  {isBotanical ? "⚘" : isCelestial ? "✧" : isVictorian ? "👑" : "❦"}
+                </span>
                 <span className="h-[1px] w-12 bg-current" />
               </div>
               <p
                 className={`text-[11px] font-vintage-body italic tracking-widest ${
-                  isCelestial || isVictorian ? "text-amber-200/70" : "text-amber-900/70"
+                  isCelestial
+                    ? "text-cyan-200/75"
+                    : isVictorian
+                    ? "text-amber-200/75"
+                    : isBotanical
+                    ? "text-emerald-900/80"
+                    : "text-amber-900/80"
                 }`}
               >
-                Containing Private Words & Remembrance
+                {isVictorian
+                  ? "Bearing Imperial Words & Royal Remembrance"
+                  : isCelestial
+                  ? "Carrying Cosmic Words Across the Night"
+                  : isBotanical
+                  ? "Preserved with Wild Rose & Garden Memories"
+                  : isTwine
+                  ? "Inscribed on Frontier Parchment"
+                  : "Containing Private Words & Remembrance"}
               </p>
             </div>
 
             {/* Bottom Seal Notice */}
             <div
-              className={`relative z-20 flex justify-center items-center opacity-40 text-[8px] tracking-[0.3em] uppercase font-vintage-serif ${
-                isCelestial || isVictorian ? "text-amber-200" : "text-amber-950"
+              className={`relative z-20 flex justify-center items-center opacity-50 text-[7.5px] tracking-[0.3em] uppercase font-vintage-serif ${
+                isCelestial
+                  ? "text-cyan-200"
+                  : isVictorian
+                  ? "text-amber-200"
+                  : isBotanical
+                  ? "text-emerald-950"
+                  : "text-amber-950"
               }`}
             >
-              ARCHIVAL DESPATCH NO. 1924-B
+              {isVictorian
+                ? "ROYAL CHANCELLERY DESPATCH NO. 1890-R"
+                : isCelestial
+                ? "CELESTIAL FOLIO NO. 1888-ASTRO"
+                : isBotanical
+                ? "KEW HERBARIUM FOLIO NO. 1912-KB"
+                : isTwine
+                ? "OVERLAND WAYBILL NO. 1884-W"
+                : "AEROMARITIME DESPATCH NO. 1924-A"}
             </div>
           </div>
         </div>
@@ -258,20 +415,48 @@ export function EnvelopeCard({
             transformStyle: "preserve-3d",
             clipPath: "polygon(0 0, 100% 0, 50% 100%)",
             backgroundColor: isCelestial
-              ? "#0c121e"
+              ? "#0c1424"
               : isVictorian
-              ? "#540b15"
+              ? "#450811"
               : isBotanical
-              ? "#1d3023"
+              ? "#1d3324"
+              : isTwine
+              ? "#3a2012"
               : "#2b1418",
-            borderColor: isCelestial ? "#38bdf8" : "#c59b48",
-            boxShadow: isOpen ? "none" : "0 6px 20px -2px rgba(0,0,0,0.5)",
+            borderColor: isCelestial
+              ? "#38bdf8"
+              : isVictorian
+              ? "#fbbf24"
+              : isBotanical
+              ? "#34d399"
+              : "#c59b48",
+            boxShadow: isOpen ? "none" : "0 6px 20px -2px rgba(0,0,0,0.6)",
           }}
         >
           <div className="w-full h-full relative">
-            <div className="absolute inset-0 opacity-25 bg-[radial-gradient(#c59b48_1.5px,transparent_1.5px)] [background-size:14px_14px]" />
             <div
-              className="absolute inset-0 border-b-4 border-amber-500/50"
+              className="absolute inset-0 opacity-25"
+              style={{
+                backgroundImage: isCelestial
+                  ? "radial-gradient(#38bdf8 1.5px, transparent 1.5px)"
+                  : isVictorian
+                  ? "radial-gradient(#ffd700 1.5px, transparent 1.5px)"
+                  : isBotanical
+                  ? "radial-gradient(#34d399 1.5px, transparent 1.5px)"
+                  : "radial-gradient(#c59b48 1.5px, transparent 1.5px)",
+                backgroundSize: "14px 14px",
+              }}
+            />
+            <div
+              className={`absolute inset-0 border-b-4 ${
+                isCelestial
+                  ? "border-cyan-400/60"
+                  : isVictorian
+                  ? "border-amber-400/70"
+                  : isBotanical
+                  ? "border-emerald-400/60"
+                  : "border-amber-500/50"
+              }`}
               style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
             />
           </div>
@@ -294,13 +479,13 @@ export function EnvelopeCard({
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <radialGradient id="waxGradDynamic" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stopColor="#c5283d" />
-                  <stop offset="50%" stopColor="#8b1e2d" />
-                  <stop offset="85%" stopColor="#540b15" />
-                  <stop offset="100%" stopColor="#2b0006" />
+                <radialGradient id={`waxGrad-${seal.id}-${envelopeStyle}`} cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stopColor={sealColors.grad1} />
+                  <stop offset="50%" stopColor={sealColors.grad2} />
+                  <stop offset="85%" stopColor={sealColors.grad3} />
+                  <stop offset="100%" stopColor={sealColors.grad4} />
                 </radialGradient>
-                <linearGradient id="goldReliefDynamic" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id={`goldRelief-${seal.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#ffd875" />
                   <stop offset="50%" stopColor="#c59b48" />
                   <stop offset="100%" stopColor="#755219" />
@@ -309,18 +494,18 @@ export function EnvelopeCard({
 
               <path
                 d="M50 4 C68 3, 85 14, 91 30 C97 45, 96 64, 88 77 C80 90, 63 97, 47 96 C30 95, 12 87, 6 71 C0 55, 3 36, 12 23 C21 10, 36 5, 50 4 Z"
-                fill="url(#waxGradDynamic)"
+                fill={`url(#waxGrad-${seal.id}-${envelopeStyle})`}
               />
-              <circle cx="50" cy="50" r="32" stroke="#4a0710" strokeWidth="2.5" fill="#69121d" />
+              <circle cx="50" cy="50" r="32" stroke={sealColors.grad4} strokeWidth="2.5" fill={sealColors.inner} />
               <circle
                 cx="50"
                 cy="50"
                 r="28"
-                stroke="url(#goldReliefDynamic)"
+                stroke={`url(#goldRelief-${seal.id})`}
                 strokeWidth="1"
                 strokeDasharray="3 2"
                 fill="none"
-                opacity="0.8"
+                opacity="0.85"
               />
               <text
                 x="50"
@@ -328,10 +513,10 @@ export function EnvelopeCard({
                 textAnchor="middle"
                 fontSize="24"
                 fontFamily="Cinzel Decorative, serif"
-                fill="url(#goldReliefDynamic)"
+                fill={`url(#goldRelief-${seal.id})`}
                 style={{ filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.8))" }}
               >
-                {seal.symbol}
+                {sealColors.symbol}
               </text>
             </svg>
 
@@ -348,7 +533,7 @@ export function EnvelopeCard({
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-amber-950/95 border border-amber-600/40 text-amber-200 text-[10px] tracking-[0.2em] uppercase font-vintage-serif px-3 py-1 rounded-none shadow-xl pointer-events-none"
+              className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-amber-950/95 border border-amber-600/40 text-amber-200 text-[9.5px] tracking-[0.2em] uppercase font-vintage-serif px-3 py-1 rounded-none shadow-xl pointer-events-none"
             >
               Break Wax Seal
             </motion.div>

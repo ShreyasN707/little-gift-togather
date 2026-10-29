@@ -18,15 +18,6 @@ interface RetroRadioLetterProps {
   interactive?: boolean;
 }
 
-// Organic locations so small box stamps stick on random places across the sleek radio bar
-const STAMP_RANDOM_POSITIONS = [
-  { className: "left-[19%] sm:left-[22%] -top-3.5 rotate-[-3.5deg]" },
-  { className: "left-[43%] sm:left-[46%] -top-3.5 rotate-[3.5deg]" },
-  { className: "right-[26%] sm:right-[30%] -top-3.5 rotate-[-2.5deg]" },
-  { className: "left-[32%] sm:left-[35%] -bottom-3.5 rotate-[2.5deg]" },
-  { className: "right-[11%] sm:right-[14%] -bottom-3.5 rotate-[-3deg]" },
-];
-
 export function RetroRadioLetter({
   name,
   letterText,
@@ -42,14 +33,174 @@ export function RetroRadioLetter({
   const [station, setStation] = useState<RadioStation>(sounds.getCurrentStation());
   const [activeTooltip, setActiveTooltip] = useState<VintageBadge | null>(null);
 
+  // Determine active theme configuration based on envelopeStyle & letterStyle
+  const isVictorian = envelopeStyle === "victorian-gilded" || letterStyle?.id === "royal-decree";
+  const isCelestial = envelopeStyle === "celestial-noir" || letterStyle?.id === "celestial-parchment";
+  const isBotanical = envelopeStyle === "botanical-herbarium" || letterStyle?.id === "love-poem-folio";
+  const isTypewriter = letterStyle?.id === "antique-typewriter";
+  const isTwine = envelopeStyle === "parchment-twine" || letterStyle?.id === "aged-parchment";
+
+  const theme = isVictorian
+    ? {
+        id: "victorian",
+        name: "Victorian Royal Phonograph",
+        era: "Circa 1890",
+        chassisBg: "bg-gradient-to-r from-[#1c0409] via-[#330811] to-[#1c0409]",
+        chassisBorder: "border-[#d4af37]",
+        topLedgeBg: "bg-gradient-to-r from-[#2a060e] via-[#450a17] to-[#2a060e]",
+        topLedgeBorder: "border-amber-300/40",
+        dialBg: "bg-[#0f0205] border-[#d4af37]/60 text-[#fcedc7]",
+        dialRuler: "text-amber-300/70 font-vintage-heading tracking-widest",
+        needleColor: "#fbbf24",
+        screwColor: "bg-gradient-to-br from-amber-300 to-yellow-600 border-amber-900",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#8b1528] via-[#a81c34] to-[#781020] text-amber-100 border-[#f3e5ab]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
+        soundBtnPlayLabel: "♫ PLAY WALTZ",
+        soundBtnPauseLabel: "❚❚ SILENCE",
+        stereoLed: "bg-amber-400 shadow-[0_0_8px_#fbbf24]",
+        tunerBtnBg: "bg-[#180307] text-amber-200 border-amber-500/50 hover:bg-[#2b060e]",
+        clampColor: "from-amber-300 via-amber-500 to-amber-800 border-amber-950",
+        crest: "👑",
+        folioHeader: "DEI GRATIA • IMPERIAL ROYAL DISPATCH 1890",
+        footerWatermark: "ROYAL CHANCELLERY • SEALED IN PERPETUITY 👑",
+        pennedNote: "Penned in the royal court for",
+      }
+    : isCelestial
+    ? {
+        id: "celestial",
+        name: "Midnight Observatory Shortwave",
+        era: "Astronomical Starlight",
+        chassisBg: "bg-gradient-to-r from-[#050811] via-[#0c1322] to-[#050811]",
+        chassisBorder: "border-cyan-400/60",
+        topLedgeBg: "bg-gradient-to-r from-[#0a1224] via-[#121e3a] to-[#0a1224]",
+        topLedgeBorder: "border-cyan-300/40",
+        dialBg: "bg-[#02050b] border-cyan-500/50 text-cyan-200",
+        dialRuler: "text-cyan-300/70 font-mono tracking-widest",
+        needleColor: "#38bdf8",
+        screwColor: "bg-gradient-to-br from-cyan-200 to-blue-400 border-cyan-800",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#0369a1] via-[#0284c7] to-[#075985] text-cyan-50 border-cyan-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
+        soundBtnPlayLabel: "✧ STELLAR TRANSIT",
+        soundBtnPauseLabel: "❚❚ MUTED",
+        stereoLed: "bg-cyan-400 shadow-[0_0_8px_#22d3ee]",
+        tunerBtnBg: "bg-[#060c18] text-cyan-200 border-cyan-500/50 hover:bg-[#0c182f]",
+        clampColor: "from-cyan-300 via-blue-500 to-cyan-900 border-cyan-950",
+        crest: "✧",
+        folioHeader: "ASTRONOMICA • MIDNIGHT STELLAR FOLIO",
+        footerWatermark: "OBSERVED UNDER THE SAME STARS • ☽ ✦",
+        pennedNote: "Penned under astronomical starlight for",
+      }
+    : isBotanical
+    ? {
+        id: "botanical",
+        name: "Botanical Conservatory Transceiver",
+        era: "Kew Gardens 1912",
+        chassisBg: "bg-gradient-to-r from-[#0b170f] via-[#16271c] to-[#0b170f]",
+        chassisBorder: "border-[#4e825a]",
+        topLedgeBg: "bg-gradient-to-r from-[#122418] via-[#1d3826] to-[#122418]",
+        topLedgeBorder: "border-emerald-300/40",
+        dialBg: "bg-[#060e09] border-emerald-600/50 text-emerald-200",
+        dialRuler: "text-emerald-300/70 font-vintage-serif tracking-widest",
+        needleColor: "#34d399",
+        screwColor: "bg-gradient-to-br from-emerald-200 to-amber-700 border-emerald-950",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#235836] via-[#2f6f46] to-[#1c482c] text-emerald-50 border-emerald-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
+        soundBtnPlayLabel: "🌿 HERBARIUM FM",
+        soundBtnPauseLabel: "❚❚ PAUSE",
+        stereoLed: "bg-emerald-400 shadow-[0_0_8px_#34d399]",
+        tunerBtnBg: "bg-[#08130d] text-emerald-200 border-emerald-500/50 hover:bg-[#122419]",
+        clampColor: "from-emerald-300 via-emerald-600 to-emerald-950 border-emerald-950",
+        crest: "⚘",
+        folioHeader: "FLORA & SILVA • BOTANICAL FOLIO 1912",
+        footerWatermark: "GATHERED IN MEMORY • WILD ROSE IMPRINT ⚘",
+        pennedNote: "Penned in the conservatory gardens for",
+      }
+    : isTypewriter
+    ? {
+        id: "typewriter",
+        name: "1940s Field Dispatch Receiver",
+        era: "Circa 1942",
+        chassisBg: "bg-gradient-to-r from-[#171917] via-[#242622] to-[#171917]",
+        chassisBorder: "border-stone-500",
+        topLedgeBg: "bg-gradient-to-r from-[#222521] via-[#333731] to-[#222521]",
+        topLedgeBorder: "border-stone-300/40",
+        dialBg: "bg-[#0e0f0d] border-stone-600/60 text-amber-100",
+        dialRuler: "text-amber-400/70 font-mono tracking-widest",
+        needleColor: "#f97316",
+        screwColor: "bg-gradient-to-br from-stone-300 to-stone-500 border-stone-700",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#2b2b29] via-[#3d3d3a] to-[#242422] text-amber-200 border-stone-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]",
+        soundBtnPlayLabel: "⌨ TRANSMIT ♫",
+        soundBtnPauseLabel: "❚❚ STOP",
+        stereoLed: "bg-amber-400 shadow-[0_0_8px_#fbbf24]",
+        tunerBtnBg: "bg-[#0f100e] text-stone-300 border-stone-500/50 hover:bg-[#1c1d1a]",
+        clampColor: "from-stone-300 via-stone-500 to-stone-800 border-stone-900",
+        crest: "⌨",
+        folioHeader: "SIGNAL CORPS • FIELD DISPATCH NO. 1942",
+        footerWatermark: "TRANSMITTED VIA TYPEWRITER DISPATCH ⌨",
+        pennedNote: "Typed on vintage bond paper for",
+      }
+    : isTwine
+    ? {
+        id: "twine",
+        name: "Western Dispatch Telegraph & Radio",
+        era: "Circa 1884",
+        chassisBg: "bg-gradient-to-r from-[#201108] via-[#321a0d] to-[#201108]",
+        chassisBorder: "border-[#966336]",
+        topLedgeBg: "bg-gradient-to-r from-[#2b170c] via-[#442413] to-[#2b170c]",
+        topLedgeBorder: "border-amber-400/40",
+        dialBg: "bg-[#110803] border-amber-700/60 text-amber-100",
+        dialRuler: "text-amber-300/70 font-mono tracking-widest",
+        needleColor: "#f59e0b",
+        screwColor: "bg-gradient-to-br from-amber-300 to-yellow-700 border-amber-950",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#7c3d18] via-[#944a1e] to-[#693314] text-amber-100 border-amber-400/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
+        soundBtnPlayLabel: "⚲ SHORTWAVE ♫",
+        soundBtnPauseLabel: "❚❚ OFF",
+        stereoLed: "bg-amber-400 shadow-[0_0_8px_#f59e0b]",
+        tunerBtnBg: "bg-[#130904] text-amber-200 border-amber-700/50 hover:bg-[#201007]",
+        clampColor: "from-amber-400 via-amber-600 to-amber-950 border-amber-950",
+        crest: "⚜",
+        folioHeader: "TERRA INCOGNITA • PIONEER DISPATCH 1884",
+        footerWatermark: "DISPATCHED BY PRIVATE COURIER • ⚜",
+        pennedNote: "Inscribed on aged parchment for",
+      }
+    : {
+        // 1924 Airmail Default
+        id: "airmail",
+        name: "1924 Transatlantic Aeromaritime Tuner",
+        era: "Circa 1924",
+        chassisBg: "bg-gradient-to-r from-[#171411] via-[#261f18] to-[#171411]",
+        chassisBorder: "border-[#b8623b]",
+        topLedgeBg: "bg-gradient-to-r from-[#221c15] via-[#352c22] to-[#221c15]",
+        topLedgeBorder: "border-amber-300/40",
+        dialBg: "bg-[#0e0c09] border-amber-700/60 text-amber-100",
+        dialRuler: "text-amber-300/70 font-mono tracking-widest",
+        needleColor: "#ea580c",
+        screwColor: "bg-gradient-to-br from-amber-200 to-amber-500 border-amber-800",
+        soundBtnBg:
+          "bg-gradient-to-r from-[#991b1b] via-[#b91c1c] to-[#7f1d1d] text-amber-50 border-amber-400/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
+        soundBtnPlayLabel: "✈ AIRWAVE ♫",
+        soundBtnPauseLabel: "❚❚ MUTE",
+        stereoLed: "bg-amber-400 shadow-[0_0_8px_#f97316]",
+        tunerBtnBg: "bg-[#120f0b] text-amber-200 border-amber-700/50 hover:bg-[#1e1913]",
+        clampColor: "from-amber-300 via-amber-600 to-amber-950 border-amber-950",
+        crest: "✉",
+        folioHeader: "PAR AVION • TRANSATLANTIC DISPATCH 1924",
+        footerWatermark: "CARRIED BY AIRMAIL COURIER • ✉",
+        pennedNote: "Carried across continents for",
+      };
+
   useEffect(() => {
+    // Automatically tune station to the chosen theme era
+    sounds.setStationForTheme(theme.id);
     setIsPlaying(sounds.getIsPlaying());
     const unsubscribe = sounds.subscribeStation((playing, currStation) => {
       setIsPlaying(playing);
       setStation(currStation);
     });
     return unsubscribe;
-  }, []);
+  }, [theme.id]);
 
   const handleTogglePlay = () => {
     const active = sounds.toggleRadio();
@@ -63,164 +214,58 @@ export function RetroRadioLetter({
 
   const activeBadges = vintageBadges.filter((b) => selectedBadgeIds.includes(b.id));
 
-  // Determine active theme configuration based on envelopeStyle & letterStyle
-  const isVictorian = envelopeStyle === "victorian-gilded" || letterStyle?.id === "royal-decree";
-  const isCelestial = envelopeStyle === "celestial-noir" || letterStyle?.id === "celestial-parchment";
-  const isBotanical = envelopeStyle === "botanical-herbarium" || letterStyle?.id === "love-poem-folio";
-  const isTypewriter = letterStyle?.id === "antique-typewriter";
-  const isTwine = envelopeStyle === "parchment-twine" || letterStyle?.id === "aged-parchment";
-
-  const theme = isVictorian
-    ? {
-        id: "victorian",
-        name: "Victorian Royal Phonograph",
-        chassisBg: "bg-gradient-to-r from-[#1c0409] via-[#330811] to-[#1c0409]",
-        chassisBorder: "border-[#d4af37]",
-        accentGlow: "rgba(212, 175, 55, 0.45)",
-        dialBg: "bg-[#0f0205] border-[#d4af37]/60 text-[#fcedc7]",
-        dialRuler: "text-amber-300/70 font-vintage-heading tracking-widest",
-        needleColor: "#fbbf24",
-        screwColor: "bg-gradient-to-br from-amber-300 to-yellow-600 border-amber-900",
-        chassisPlate: "bg-[#25050c] border-[#d4af37]/70 text-[#f3e5ab] text-[7.5px] font-vintage-heading tracking-widest",
-        chassisPlateText: "ROYAL OPERA BROADCAST • 1890",
-        soundBtnBg:
-          "bg-gradient-to-r from-[#8b1528] via-[#a81c34] to-[#781020] text-amber-100 border-[#f3e5ab]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
-        soundBtnPlayLabel: "♫ PLAY WALTZ",
-        soundBtnPauseLabel: "❚❚ SILENCE",
-        stereoLed: "bg-amber-400 shadow-[0_0_8px_#fbbf24]",
-        tunerBtnBg: "bg-[#180307] text-amber-200 border-amber-500/50 hover:bg-[#2b060e]",
-      }
-    : isCelestial
-    ? {
-        id: "celestial",
-        name: "Midnight Observatory Shortwave",
-        chassisBg: "bg-gradient-to-r from-[#050811] via-[#0c1322] to-[#050811]",
-        chassisBorder: "border-cyan-400/60",
-        accentGlow: "rgba(34, 211, 238, 0.45)",
-        dialBg: "bg-[#02050b] border-cyan-500/50 text-cyan-200",
-        dialRuler: "text-cyan-300/70 font-mono tracking-widest",
-        needleColor: "#38bdf8",
-        screwColor: "bg-gradient-to-br from-cyan-200 to-blue-400 border-cyan-800",
-        chassisPlate: "bg-[#08101e] border-cyan-500/60 text-cyan-300 text-[7.5px] font-mono tracking-widest",
-        chassisPlateText: "CELESTIAL TRANSIT • FREQ-98.4",
-        soundBtnBg:
-          "bg-gradient-to-r from-[#0369a1] via-[#0284c7] to-[#075985] text-cyan-50 border-cyan-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
-        soundBtnPlayLabel: "✧ STELLAR RADIO",
-        soundBtnPauseLabel: "❚❚ MUTED",
-        stereoLed: "bg-cyan-400 shadow-[0_0_8px_#22d3ee]",
-        tunerBtnBg: "bg-[#060c18] text-cyan-200 border-cyan-500/50 hover:bg-[#0c182f]",
-      }
-    : isBotanical
-    ? {
-        id: "botanical",
-        name: "Botanical Conservatory Transceiver",
-        chassisBg: "bg-gradient-to-r from-[#0b170f] via-[#16271c] to-[#0b170f]",
-        chassisBorder: "border-[#4e825a]",
-        accentGlow: "rgba(52, 211, 153, 0.4)",
-        dialBg: "bg-[#060e09] border-emerald-600/50 text-emerald-200",
-        dialRuler: "text-emerald-300/70 font-vintage-serif tracking-widest",
-        needleColor: "#34d399",
-        screwColor: "bg-gradient-to-br from-emerald-200 to-amber-700 border-emerald-950",
-        chassisPlate: "bg-[#102016] border-emerald-600/60 text-emerald-200 text-[7.5px] font-vintage-serif tracking-widest",
-        chassisPlateText: "ROYAL BOTANIC WIRELESS • 1912",
-        soundBtnBg:
-          "bg-gradient-to-r from-[#235836] via-[#2f6f46] to-[#1c482c] text-emerald-50 border-emerald-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
-        soundBtnPlayLabel: "🌿 HERBARIUM FM",
-        soundBtnPauseLabel: "❚❚ PAUSE",
-        stereoLed: "bg-emerald-400 shadow-[0_0_8px_#34d399]",
-        tunerBtnBg: "bg-[#08130d] text-emerald-200 border-emerald-500/50 hover:bg-[#122419]",
-      }
-    : isTypewriter
-    ? {
-        id: "typewriter",
-        name: "1940s Field Dispatch Receiver",
-        chassisBg: "bg-gradient-to-r from-[#171917] via-[#242622] to-[#171917]",
-        chassisBorder: "border-stone-500",
-        accentGlow: "rgba(249, 115, 22, 0.35)",
-        dialBg: "bg-[#0e0f0d] border-stone-600/60 text-amber-100",
-        dialRuler: "text-amber-400/70 font-mono tracking-widest",
-        needleColor: "#f97316",
-        screwColor: "bg-gradient-to-br from-stone-300 to-stone-500 border-stone-700",
-        chassisPlate: "bg-[#141513] border-stone-400 text-stone-200 text-[7.5px] font-mono tracking-widest",
-        chassisPlateText: "SIGNAL CORPS MODEL RT-42",
-        soundBtnBg:
-          "bg-gradient-to-r from-[#2b2b29] via-[#3d3d3a] to-[#242422] text-amber-200 border-stone-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]",
-        soundBtnPlayLabel: "⌨ TRANSMIT ♫",
-        soundBtnPauseLabel: "❚❚ STOP",
-        stereoLed: "bg-amber-400 shadow-[0_0_8px_#fbbf24]",
-        tunerBtnBg: "bg-[#0f100e] text-stone-300 border-stone-500/50 hover:bg-[#1c1d1a]",
-      }
-    : isTwine
-    ? {
-        id: "twine",
-        name: "Rustic Walnut Shortwave Tuner",
-        chassisBg: "bg-gradient-to-r from-[#201108] via-[#321a0d] to-[#201108]",
-        chassisBorder: "border-[#966336]",
-        accentGlow: "rgba(217, 119, 6, 0.4)",
-        dialBg: "bg-[#110803] border-amber-700/60 text-amber-100",
-        dialRuler: "text-amber-300/70 font-mono tracking-widest",
-        needleColor: "#f59e0b",
-        screwColor: "bg-gradient-to-br from-amber-300 to-yellow-700 border-amber-950",
-        chassisPlate: "bg-[#220f06] border-amber-700/70 text-amber-300 text-[7.5px] font-vintage-serif tracking-widest",
-        chassisPlateText: "WESTERN DISPATCH TELEGRAPH • 1884",
-        soundBtnBg:
-          "bg-gradient-to-r from-[#7c3d18] via-[#944a1e] to-[#693314] text-amber-100 border-amber-400/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
-        soundBtnPlayLabel: "⚲ SHORTWAVE ♫",
-        soundBtnPauseLabel: "❚❚ OFF",
-        stereoLed: "bg-amber-400 shadow-[0_0_8px_#f59e0b]",
-        tunerBtnBg: "bg-[#130904] text-amber-200 border-amber-700/50 hover:bg-[#201007]",
-      }
-    : {
-        // 1924 Airmail Default
-        id: "airmail",
-        name: "1924 Transatlantic Aeromaritime Tuner",
-        chassisBg: "bg-gradient-to-r from-[#171411] via-[#261f18] to-[#171411]",
-        chassisBorder: "border-[#b8623b]",
-        accentGlow: "rgba(234, 88, 12, 0.4)",
-        dialBg: "bg-[#0e0c09] border-amber-700/60 text-amber-100",
-        dialRuler: "text-amber-300/70 font-mono tracking-widest",
-        needleColor: "#ea580c",
-        screwColor: "bg-gradient-to-br from-amber-200 to-amber-500 border-amber-800",
-        chassisPlate: "bg-[#1d1610] border-red-700/70 text-amber-200 text-[7.5px] font-mono tracking-widest",
-        chassisPlateText: "IMPERIAL AIRWAYS • GPO WIRELESS 1924",
-        soundBtnBg:
-          "bg-gradient-to-r from-[#991b1b] via-[#b91c1c] to-[#7f1d1d] text-amber-50 border-amber-400/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]",
-        soundBtnPlayLabel: "✈ AIRWAVE ♫",
-        soundBtnPauseLabel: "❚❚ MUTE",
-        stereoLed: "bg-amber-400 shadow-[0_0_8px_#f97316]",
-        tunerBtnBg: "bg-[#120f0b] text-amber-200 border-amber-700/50 hover:bg-[#1e1913]",
-      };
-
   return (
     <div className="w-full max-w-5xl mx-auto my-5 select-none flex flex-col items-center rounded-none relative">
       {/* ========================================================================= */}
-      {/* 1. SLENDER, SLIM HORIZONTAL RADIO BAR (SINGLE SLEEK HARDWARE ROW)          */}
+      {/* 1. TACTILE 3D RETRO RADIO RECEIVER CHASSIS (NO NEON GLOW)                */}
       {/* ========================================================================= */}
       <div className="w-full relative z-30">
-        {/* Left Cast Metal End-Plate */}
-        <div className="absolute top-0 bottom-0 -left-2 sm:-left-3.5 w-2 sm:w-3.5 bg-gradient-to-r from-stone-800 via-stone-700 to-stone-900 border-y-2 border-l-2 border-black/80 flex flex-col justify-between py-1.5 items-center shadow-2xl pointer-events-none rounded-none">
-          <div className="w-1.5 h-1.5 bg-amber-400 border border-amber-900 rounded-none shadow-xs" />
-          <div className="w-0.5 sm:w-1 h-3 bg-black/80 rounded-none" />
-          <div className="w-1.5 h-1.5 bg-amber-400 border border-amber-900 rounded-none shadow-xs" />
+        {/* Left 3D Cast Metal End-Plate with Bevel & Rivets */}
+        <div className="absolute top-0 bottom-0 -left-2.5 sm:-left-4 w-2.5 sm:w-4 bg-gradient-to-r from-stone-800 via-stone-700 to-stone-900 border-t border-l border-stone-500 border-b-2 border-r-2 border-black/95 flex flex-col justify-between py-1.5 items-center shadow-2xl pointer-events-none rounded-none">
+          <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-gradient-to-br from-amber-300 to-yellow-600 border border-amber-950 rounded-none shadow-xs flex items-center justify-center">
+            <div className="w-1 h-px bg-black/80" />
+          </div>
+          <div className="w-0.5 sm:w-1 h-3.5 bg-black/80 border-r border-stone-600/40 rounded-none" />
+          <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-gradient-to-br from-amber-300 to-yellow-600 border border-amber-950 rounded-none shadow-xs flex items-center justify-center">
+            <div className="w-1 h-px bg-black/80" />
+          </div>
         </div>
 
-        {/* Right Cast Metal End-Plate */}
-        <div className="absolute top-0 bottom-0 -right-2 sm:-right-3.5 w-2 sm:w-3.5 bg-gradient-to-r from-stone-900 via-stone-700 to-stone-800 border-y-2 border-r-2 border-black/80 flex flex-col justify-between py-1.5 items-center shadow-2xl pointer-events-none rounded-none">
-          <div className="w-1.5 h-1.5 bg-amber-400 border border-amber-900 rounded-none shadow-xs" />
-          <div className="w-0.5 sm:w-1 h-3 bg-black/80 rounded-none" />
-          <div className="w-1.5 h-1.5 bg-amber-400 border border-amber-900 rounded-none shadow-xs" />
+        {/* Right 3D Cast Metal End-Plate with Bevel & Rivets */}
+        <div className="absolute top-0 bottom-0 -right-2.5 sm:-right-4 w-2.5 sm:w-4 bg-gradient-to-r from-stone-900 via-stone-700 to-stone-800 border-t border-l border-stone-500 border-b-2 border-r-2 border-black/95 flex flex-col justify-between py-1.5 items-center shadow-2xl pointer-events-none rounded-none">
+          <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-gradient-to-br from-amber-300 to-yellow-600 border border-amber-950 rounded-none shadow-xs flex items-center justify-center">
+            <div className="w-1 h-px bg-black/80" />
+          </div>
+          <div className="w-0.5 sm:w-1 h-3.5 bg-black/80 border-r border-stone-600/40 rounded-none" />
+          <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-gradient-to-br from-amber-300 to-yellow-600 border border-amber-950 rounded-none shadow-xs flex items-center justify-center">
+            <div className="w-1 h-px bg-black/80" />
+          </div>
         </div>
 
-        {/* The Sleek, Slim Horizontal Radio Bar (Height ~36px) */}
+        {/* 3D Top Cabinet Shelf (Extrusion Face with realistic depth & highlights) */}
         <div
-          className={`w-full relative rounded-none border-2 ${theme.chassisBorder} ${theme.chassisBg} text-white px-3 sm:px-5 py-1.5 transition-colors duration-500`}
+          className={`w-full h-3 sm:h-3.5 rounded-none border-t-2 border-x-2 ${theme.topLedgeBorder} ${theme.topLedgeBg} relative overflow-hidden`}
           style={{
-            boxShadow: `0 20px 35px -8px rgba(0,0,0,0.92), 0 8px 16px -4px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.25), 0 0 20px ${theme.accentGlow}`,
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -1px 2px rgba(0,0,0,0.6)",
           }}
         >
-          {/* Telescoping Antenna Hint (Top Right Metallic Ridge) */}
-          <div className="absolute -top-1.5 right-12 w-28 h-1 bg-gradient-to-r from-amber-400/60 via-amber-200/90 to-amber-500/60 border border-black/80 rounded-none shadow-xs pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-white/12 to-black/30 pointer-events-none" />
+          {/* Telescoping Antenna mounted on top surface with pivot hinge */}
+          <div className="absolute top-1 right-12 flex items-center gap-1 pointer-events-none">
+            <div className="w-2.5 h-1.5 bg-gradient-to-r from-amber-400 to-amber-600 border border-black/90 rounded-none shadow-xs" />
+            <div className="w-28 sm:w-36 h-1 bg-gradient-to-r from-stone-400 via-stone-200 to-stone-400 border border-black/80 rounded-none shadow-xs" />
+            <div className="w-1.5 h-1.5 bg-amber-300 border border-black/90 rounded-none shadow-xs" />
+          </div>
+        </div>
 
+        {/* The Front Console Chassis (NATURAL 3D CABINET SHADOW, ZERO NEON GLOW) */}
+        <div
+          className={`w-full relative rounded-none border-x-2 border-b-[3px] border-black/90 ${theme.chassisBorder} ${theme.chassisBg} text-white px-3 sm:px-5 py-2 transition-colors duration-500`}
+          style={{
+            boxShadow:
+              "0 22px 36px -4px rgba(0, 0, 0, 0.92), 0 10px 18px -3px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -2px 0 rgba(0, 0, 0, 0.8)",
+          }}
+        >
           {/* Sharp Square Brass Rivet Screws in 4 Corners */}
           <div className={`absolute top-1 left-1.5 w-2 h-2 rounded-none border border-black/80 ${theme.screwColor} flex items-center justify-center shadow-xs`}>
             <div className="w-1.5 h-px bg-black/70" />
@@ -228,32 +273,32 @@ export function RetroRadioLetter({
           <div className={`absolute top-1 right-1.5 w-2 h-2 rounded-none border border-black/80 ${theme.screwColor} flex items-center justify-center shadow-xs`}>
             <div className="w-1.5 h-px bg-black/70" />
           </div>
-          <div className={`absolute bottom-1 left-1.5 w-2 h-2 rounded-none border border-black/80 ${theme.screwColor} flex items-center justify-center shadow-xs`}>
+          <div className={`absolute bottom-1.5 left-1.5 w-2 h-2 rounded-none border border-black/80 ${theme.screwColor} flex items-center justify-center shadow-xs`}>
             <div className="w-1.5 h-px bg-black/70" />
           </div>
-          <div className={`absolute bottom-1 right-1.5 w-2 h-2 rounded-none border border-black/80 ${theme.screwColor} flex items-center justify-center shadow-xs`}>
+          <div className={`absolute bottom-1.5 right-1.5 w-2 h-2 rounded-none border border-black/80 ${theme.screwColor} flex items-center justify-center shadow-xs`}>
             <div className="w-1.5 h-px bg-black/70" />
           </div>
 
           {/* =================================================================== */}
-          {/* SINGLE SLENDER HORIZONTAL ROW: ALL CONTROLS & GLASS TUNING SCALE     */}
+          {/* SINGLE SLENDER HORIZONTAL ROW: ALL CONTROLS & CLEAN BADGES          */}
           {/* =================================================================== */}
-          <div className="flex items-center justify-between gap-2 sm:gap-3 flex-wrap lg:flex-nowrap">
-            {/* LEFT: SOUND PLAY/PAUSE BUTTON & AUDIO EQUALIZER */}
+          <div className="flex items-center justify-between gap-2.5 sm:gap-3.5 flex-nowrap">
+            {/* LEFT: SOUND PLAY/PAUSE BUTTON, 3D EQUALIZER & ROTARY TUNING KNOB */}
             <div className="flex items-center gap-2 shrink-0">
-              {/* Tactile Theme Sound Button with Sharp Corners */}
+              {/* Tactile Theme Sound Button with 3D Keycap Bevel */}
               <motion.button
-                whileTap={{ scale: 0.96 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={handleTogglePlay}
-                className={`h-7 sm:h-8 px-3 rounded-none flex items-center justify-center gap-1.5 font-vintage-serif text-[10px] sm:text-[11px] font-bold tracking-wider uppercase border shadow-md active:translate-y-0.5 transition-all cursor-pointer ${theme.soundBtnBg}`}
-                title="Toggle Retro Radio Audio"
+                className={`h-7 sm:h-8 px-3 rounded-none flex items-center justify-center gap-1.5 font-vintage-serif text-[10px] sm:text-[11px] font-bold tracking-wider uppercase border-t border-l border-white/20 border-b-[3px] border-r-[2px] border-black/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_6px_rgba(0,0,0,0.65)] active:border-b active:border-r active:translate-y-[2px] active:translate-x-[1px] transition-all cursor-pointer ${theme.soundBtnBg}`}
+                title="Toggle Radio Audio"
               >
                 <span>{isPlaying ? theme.soundBtnPauseLabel : theme.soundBtnPlayLabel}</span>
               </motion.button>
 
-              {/* Slender Phosphor Equalizer Bars (Sharp Corners) */}
-              <div className="flex items-end gap-0.5 h-4 px-1.5 py-0.5 bg-black/70 rounded-none border border-white/10">
-                {Array.from({ length: 7 }).map((_, i) => (
+              {/* Slender Phosphor Equalizer Bars (Sharp Corners, Recessed Slot) */}
+              <div className="flex items-end gap-0.5 h-4 px-1.5 py-0.5 bg-black/85 rounded-none border border-white/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.95)]">
+                {Array.from({ length: 6 }).map((_, i) => (
                   <motion.span
                     key={i}
                     className="w-1 rounded-none"
@@ -272,50 +317,68 @@ export function RetroRadioLetter({
                 ))}
               </div>
 
-              {/* Rotary Tune Button */}
-              <button
+              {/* 3D Knurled Rotary Tune Knob */}
+              <motion.button
+                whileTap={{ rotate: 45 }}
                 onClick={handleNextStation}
-                className={`h-7 sm:h-8 px-2 rounded-none border text-[9.5px] font-mono uppercase tracking-wider flex items-center gap-1 transition-all cursor-pointer ${theme.tunerBtnBg}`}
-                title="Tune to next radio frequency"
+                className="h-7 sm:h-8 px-2 sm:px-2.5 rounded-none bg-gradient-to-b from-stone-800 via-stone-700 to-stone-900 border-t border-l border-white/25 border-b-[3px] border-r-[2px] border-black text-amber-200 text-[9.5px] font-mono uppercase tracking-wider flex items-center gap-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_3px_6px_rgba(0,0,0,0.7)] active:border-b active:border-r active:translate-y-[2px] active:translate-x-[1px] cursor-pointer"
+                title="Rotate to tune next frequency station"
               >
-                <RotateCw className="w-2.5 h-2.5" />
-                <span className="hidden sm:inline">TUNE</span>
-              </button>
+                {/* Knurled dial indicator */}
+                <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-stone-950 via-stone-700 to-stone-500 border border-black flex items-center justify-center shadow-inner">
+                  <div className="w-1 h-1 bg-amber-400 rounded-none shadow-xs" />
+                </div>
+                <RotateCw className="w-2.5 h-2.5 opacity-70" />
+                <span className="hidden sm:inline font-bold">TUNE</span>
+              </motion.button>
             </div>
 
-            {/* CENTER: SLENDER HORIZONTAL FREQUENCY SCALE (GLASS DIAL) */}
+            {/* CENTER: SLENDER HORIZONTAL FREQUENCY SCALE (GLASS DIAL, DEEP INSET 3D) */}
             <div
-              className={`flex-1 min-w-[180px] h-7 sm:h-8 px-2.5 rounded-none border flex items-center justify-between gap-2 shadow-inner relative overflow-hidden ${theme.dialBg}`}
+              className={`flex-1 min-w-[150px] sm:min-w-[220px] h-7 sm:h-8 px-2.5 rounded-none border flex items-center justify-between gap-2 relative overflow-hidden ${theme.dialBg}`}
+              style={{
+                boxShadow:
+                  "inset 0 4px 8px rgba(0,0,0,0.95), inset 0 -1px 2px rgba(255,255,255,0.12), 0 1px 0 rgba(255,255,255,0.08)",
+              }}
             >
+              {/* Subtle glass reflection highlight */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 40%, transparent 60%)",
+                }}
+              />
+
               {/* Frequency readout */}
               <div className="flex items-center gap-1.5 text-[8.5px] font-mono tracking-wider shrink-0 z-10">
-                <span className="px-1 py-0.2 rounded-none bg-black/80 border border-current font-bold text-amber-200">
+                <span className="px-1 py-0.2 rounded-none bg-black/95 border border-current font-bold text-amber-200">
                   {station.frequency}
                 </span>
-                <span className="font-vintage-serif font-bold text-[11px] truncate max-w-[110px] sm:max-w-[180px] text-stone-200">
+                <span className="font-vintage-serif font-bold text-[11px] truncate max-w-[100px] sm:max-w-[180px] text-stone-200">
                   {station.name}
                 </span>
               </div>
 
-              {/* Horizontal Radio Scale Ruler (Sharp ticks) */}
-              <div className={`hidden sm:flex flex-1 items-center justify-around text-[7.5px] opacity-60 px-2 border-x border-current/25 ${theme.dialRuler}`}>
-                <span>88</span>
+              {/* Horizontal Radio Scale Ruler (Ticks matching theme) */}
+              <div className={`hidden md:flex flex-1 items-center justify-around text-[7.5px] opacity-60 px-2 border-x border-current/25 ${theme.dialRuler}`}>
+                <span>{theme.id === "victorian" ? "VIII" : theme.id === "celestial" ? "α" : "88"}</span>
                 <span>•</span>
-                <span>94</span>
+                <span>{theme.id === "victorian" ? "X" : theme.id === "celestial" ? "β" : "94"}</span>
                 <span>•</span>
-                <span className="font-bold underline">98</span>
+                <span className="font-bold underline">{theme.id === "victorian" ? "XII" : theme.id === "celestial" ? "γ" : "98"}</span>
                 <span>•</span>
-                <span>102</span>
+                <span>{theme.id === "victorian" ? "XIV" : theme.id === "celestial" ? "δ" : "102"}</span>
                 <span>•</span>
-                <span>108</span>
+                <span>{theme.id === "victorian" ? "XVI" : theme.id === "celestial" ? "Ω" : "108"}</span>
               </div>
 
-              {/* Sliding Illuminated Needle */}
+              {/* Sliding Illuminated Needle (Internal scale lamp, no background bleeding) */}
               <motion.div
                 className="absolute top-0 bottom-0 w-0.5 pointer-events-none"
                 style={{
                   backgroundColor: theme.needleColor,
-                  boxShadow: `0 0 8px ${theme.needleColor}`,
+                  boxShadow: `0 0 4px ${theme.needleColor}`,
                 }}
                 animate={{
                   left: isPlaying ? ["25%", "68%", "45%", "80%", "30%"] : "50%",
@@ -334,90 +397,60 @@ export function RetroRadioLetter({
                     isPlaying ? theme.stereoLed : "bg-red-800"
                   }`}
                 />
-                <span className="hidden md:inline">{isPlaying ? "STEREO" : "OFF"}</span>
+                <span className="hidden sm:inline">{isPlaying ? "STEREO" : "OFF"}</span>
               </div>
             </div>
 
-            {/* RIGHT: STAMPED MODEL PLATE & DETAILS */}
-            <div className="hidden xl:flex items-center gap-2 shrink-0">
-              <div className={`px-2 py-0.5 border rounded-none ${theme.chassisPlate}`}>
-                {theme.chassisPlateText}
-              </div>
+            {/* RIGHT: CLEAN, UNCLUTTERED 3D MONOGRAM BOX STAMPS */}
+            {activeBadges.length > 0 && (
+              <div className="flex items-center gap-1.5 shrink-0 pl-1">
+                {activeBadges.map((badge) => {
+                  const isSelected = activeTooltip?.id === badge.id;
 
-              {/* Acoustic Grille Slits */}
-              <div className="flex items-center gap-0.5 px-1 py-0.5 bg-black/50 border border-white/10 rounded-none">
-                <span className="w-0.5 h-3 bg-black/80 border-l border-white/20" />
-                <span className="w-0.5 h-3 bg-black/80 border-l border-white/20" />
-                <span className="w-0.5 h-3 bg-black/80 border-l border-white/20" />
-              </div>
+                  return (
+                    <div key={badge.id} className="relative">
+                      {/* Clean 3D square monogram stamp badge */}
+                      <motion.button
+                        whileHover={{ scale: 1.12, zIndex: 40 }}
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => {
+                          sounds.playPop();
+                          setActiveTooltip(isSelected ? null : badge);
+                        }}
+                        className={`w-6 sm:w-7 h-6 sm:h-7 rounded-none border-2 border-amber-300/80 bg-gradient-to-br ${badge.color} text-white flex items-center justify-center shadow-[0_3px_6px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.45)] cursor-pointer select-none relative overflow-hidden transition-transform`}
+                        title={`${badge.name} • ${badge.title}`}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-tr from-white/25 via-transparent to-transparent pointer-events-none" />
+                        <span className="text-[11px] sm:text-xs leading-none drop-shadow-xs relative z-10">
+                          {badge.symbol}
+                        </span>
+                      </motion.button>
 
-              <div className="text-[7px] font-mono text-stone-400/70 tracking-tighter">
-                VOL [▮▮▮▯]
+                      {/* Tooltip */}
+                      <AnimatePresence>
+                        {isSelected && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 5 }}
+                            className="absolute z-50 bottom-full right-0 mb-2 w-48 p-2.5 bg-stone-950 border border-amber-500 text-[#f6eedb] rounded-none text-center shadow-2xl font-sans"
+                          >
+                            <span className="block text-[8px] font-vintage-serif uppercase tracking-wider text-amber-400 font-bold">
+                              {badge.title}
+                            </span>
+                            <h6 className="text-xs font-bold text-white my-0.5">{badge.name}</h6>
+                            <p className="text-[9.5px] text-stone-300 leading-tight">
+                              {badge.description}
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
+            )}
           </div>
-
-          {/* =================================================================== */}
-          {/* SMALL BOX POSTAGE STAMPS STUCK ON RANDOM PLACES ON THE RADIO BAR    */}
-          {/* =================================================================== */}
-          {activeBadges.map((badge, idx) => {
-            const pos = STAMP_RANDOM_POSITIONS[idx % STAMP_RANDOM_POSITIONS.length];
-            const isSelected = activeTooltip?.id === badge.id;
-
-            return (
-              <div key={badge.id} className={`absolute z-40 ${pos.className}`}>
-                <motion.button
-                  whileHover={{ scale: 1.18, zIndex: 50, rotate: 0 }}
-                  whileTap={{ scale: 0.94 }}
-                  onClick={() => {
-                    sounds.playPop();
-                    setActiveTooltip(isSelected ? null : badge);
-                  }}
-                  className={`w-7 sm:w-8 h-8 sm:h-9 rounded-none border border-dashed border-amber-200/90 bg-gradient-to-br ${badge.color} text-white flex flex-col items-center justify-between p-1 cursor-pointer select-none transition-transform`}
-                  style={{
-                    boxShadow: "0 3px 8px rgba(0,0,0,0.8), inset 0 0 2px rgba(255,255,255,0.4)",
-                  }}
-                  title={`Stamp: ${badge.name} • ${badge.title}`}
-                >
-                  {/* Stamp Denomination Header */}
-                  <div className="w-full flex justify-between items-center text-[5px] font-mono tracking-tighter opacity-80 uppercase leading-none">
-                    <span>POST</span>
-                    <span>10¢</span>
-                  </div>
-
-                  {/* Stamp Emblem Symbol */}
-                  <span className="text-xs sm:text-sm leading-none drop-shadow-xs my-auto">
-                    {badge.symbol}
-                  </span>
-
-                  {/* Stamp Fine Label */}
-                  <span className="text-[5px] sm:text-[5.5px] font-mono font-bold tracking-tighter uppercase truncate w-full text-center opacity-90 leading-none">
-                    {badge.name.split(" ")[0]}
-                  </span>
-                </motion.button>
-
-                {/* Sharp Box Tooltip */}
-                <AnimatePresence>
-                  {isSelected && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 5 }}
-                      className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2.5 bg-stone-950 border border-amber-500 text-[#f6eedb] rounded-none text-center shadow-2xl font-sans"
-                    >
-                      <span className="block text-[8px] font-vintage-serif uppercase tracking-wider text-amber-400 font-bold">
-                        {badge.title}
-                      </span>
-                      <h6 className="text-xs font-bold text-white my-0.5">{badge.name}</h6>
-                      <p className="text-[9.5px] text-stone-300 leading-tight">
-                        {badge.description}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
 
           {/* Recessed Paper Feed Channel on Underside of Radio */}
           <div className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-black border-t border-stone-900 pointer-events-none z-10 shadow-inner" />
@@ -466,7 +499,7 @@ export function RetroRadioLetter({
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. ATTACHED WIDE PARCHMENT LETTER (SEPARATE SHEET HANGING UNDERNEATH)     */}
+      {/* 3. ATTACHED WIDE PARCHMENT LETTER (FOLLOWS ACTIVE HISTORICAL THEME)       */}
       {/* ========================================================================= */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -491,17 +524,17 @@ export function RetroRadioLetter({
         {/* Ambient Drop Shadow falling from the Radio Bar onto the top margin of the paper */}
         <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black/35 via-black/10 to-transparent pointer-events-none" />
 
-        {/* Wide Landscape Header Banner */}
+        {/* Wide Landscape Header Banner - Dynamic by Theme */}
         <div className="flex items-center justify-between pb-3 mb-5 border-b border-current/20 relative z-10 pt-2">
-          <div className="flex items-center gap-2 opacity-75">
-            <span className="text-lg">{letterStyle ? letterStyle.crest : "⚜"}</span>
+          <div className="flex items-center gap-2 opacity-80">
+            <span className="text-lg">{theme.crest}</span>
             <span className="text-[8.5px] tracking-[0.25em] uppercase font-vintage-serif font-bold">
-              EX CORDE • ARCHIVAL FOLIO NO. 1924-B
+              {theme.folioHeader}
             </span>
           </div>
 
-          <div className="text-[9.5px] font-vintage-body italic opacity-70">
-            Penned & broadcast with affection for {name || "My Beloved"}
+          <div className="text-[9.5px] font-vintage-body italic opacity-75">
+            {theme.pennedNote} {name || "My Beloved"}
           </div>
         </div>
 
@@ -588,18 +621,15 @@ export function RetroRadioLetter({
         {/* Clear any floats */}
         <div className="clear-both" />
 
-        {/* Horizontally Long Footer Watermark */}
+        {/* Horizontally Long Footer Watermark - Dynamic by Theme */}
         <div className="mt-7 pt-3 flex justify-between items-end relative z-10 border-t border-dashed border-current/20">
           <div className="text-[8.5px] font-vintage-serif tracking-widest uppercase opacity-60">
-            RADIO DISPATCH • SPECIAL COMMENDATION
+            {theme.name.toUpperCase()} • {theme.era.toUpperCase()}
           </div>
           <div className="flex items-center gap-2 opacity-85">
             <span className="text-[9px] font-vintage-serif uppercase tracking-widest">
-              SEALED WITH MELODY
+              {theme.footerWatermark}
             </span>
-            <div className="w-5 h-5 rounded-none bg-red-950 border border-amber-500/60 flex items-center justify-center text-amber-300 text-xs shadow-inner">
-              ❦
-            </div>
           </div>
         </div>
       </motion.div>

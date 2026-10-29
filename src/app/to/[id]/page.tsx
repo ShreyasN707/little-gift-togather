@@ -32,19 +32,19 @@ interface LetterState {
 const DEFAULT_DEMO: LetterState = {
   name: "Eleanor",
   theme: "linen-natural",
-  envelopeStyle: "vintage-airmail",
-  letterStyle: "aged-parchment",
+  envelopeStyle: "victorian-gilded",
+  letterStyle: "royal-decree",
   waxSeal: "burgundy-monogram",
-  selectedBadges: ["keeper-of-heart", "eternal-rose", "first-class-love"],
+  selectedBadges: ["keeper-of-heart", "eternal-rose", "secret-keeper"],
   puzzle: "memory",
   puzzleQuestion: "Our favorite promise to keep:",
   puzzleAnswer: "ALWAYS",
   letterText:
-    "I made this mixtape and penned these lines thinking of you.\n\nPress play on the radio above, let the music fill the quiet room, and know that you are my favorite melody in this noisy world. Thank you for making every ordinary day feel like a song worth remembering forever.",
+    "I compose this imperial dispatch and penned these lines in honor of our enduring bond.\n\nPress play on the receiver above, let the waltz fill the room, and know that your presence brings constant comfort to my thoughts. Thank you for making every ordinary day feel like a memory worth cherishing forever.",
   fontChoice: "calligraphy",
   message: "Yours with constant devotion and all my affection, always.",
   image: "/vintage_keepsake.jpg",
-  occasion: "1990s Mixtape Letter",
+  occasion: "Royal Victorian Dispatch (1890)",
 };
 
 export default function ViewPage({ params }: { params: Promise<{ id: string }> }) {
@@ -101,9 +101,61 @@ export default function ViewPage({ params }: { params: Promise<{ id: string }> }
     }
   }, [id]);
 
+function getThemeMeta(envelopeStyle?: string, letterStyleId?: string, occasion?: string) {
+  const isVictorian = envelopeStyle === "victorian-gilded" || letterStyleId === "royal-decree";
+  const isCelestial = envelopeStyle === "celestial-noir" || letterStyleId === "celestial-parchment";
+  const isBotanical = envelopeStyle === "botanical-herbarium" || letterStyleId === "love-poem-folio";
+  const isTwine = envelopeStyle === "parchment-twine" || letterStyleId === "aged-parchment";
+
+  if (isVictorian) {
+    return {
+      icon: "👑",
+      defaultOccasion: "Royal Victorian Dispatch • 1890",
+      subtitle: "A sealed gilded vellum envelope bearing an imperial royal receiver and handwritten letter.",
+      footer: "KEEPSAKE • ROYAL CHANCELLERY & CORRESPONDENCE 1890",
+      loading: "Unsealing Royal Victorian Folio...",
+    };
+  }
+  if (isCelestial) {
+    return {
+      icon: "✧",
+      defaultOccasion: "Midnight Constellation Folio • Astronomical",
+      subtitle: "A midnight starlight envelope carrying a celestial receiver and stardust note.",
+      footer: "KEEPSAKE • ROYAL OBSERVATORY & CELESTIAL DISPATCH",
+      loading: "Aligning Celestial Constellations...",
+    };
+  }
+  if (isBotanical) {
+    return {
+      icon: "⚘",
+      defaultOccasion: "Botanical Conservatory Keepsake • 1912",
+      subtitle: "A sealed botanical envelope with pressed wild rose and conservatory wireless note.",
+      footer: "KEEPSAKE • ROYAL BOTANIC GARDENS KEW • HERBARIUM 1912",
+      loading: "Gathering Pressed Botanical Folio...",
+    };
+  }
+  if (isTwine) {
+    return {
+      icon: "⚜",
+      defaultOccasion: "Rustic Archival Keepsake • 1884",
+      subtitle: "A twine-bound parchment envelope carrying an archival telegraph receiver and penned letter.",
+      footer: "KEEPSAKE • OVERLAND PIONEER DISPATCH 1884",
+      loading: "Untying Courier Twine & Parchment...",
+    };
+  }
+  return {
+    icon: "✉",
+    defaultOccasion: "Transatlantic Airmail Dispatch • 1924",
+    subtitle: "A sealed airmail envelope carrying a transatlantic wireless receiver and handwritten note.",
+    footer: "KEEPSAKE • TRANSATLANTIC AIRMAIL & CORRESPONDENCE 1924",
+    loading: "Unsealing Transatlantic Airmail Dispatch...",
+  };
+}
+
   const currentTheme = themes.find((t) => t.id === state?.theme) || themes[0];
   const currentLetterStyle =
     letterStyles.find((ls) => ls.id === state?.letterStyle) || letterStyles[0];
+  const themeMeta = getThemeMeta(state?.envelopeStyle, state?.letterStyle, state?.occasion);
 
   const handleEnvelopeOpen = () => {
     setEnvelopeOpen(true);
@@ -133,7 +185,7 @@ export default function ViewPage({ params }: { params: Promise<{ id: string }> }
     return (
       <div className="min-h-screen dark-parchment-desk flex flex-col items-center justify-center p-4">
         <p className="font-vintage-calligraphy text-amber-200/70 text-2xl tracking-wider">
-          Unsealing 1990s mixtape & letter...
+          Unsealing archival keepsake letter...
         </p>
       </div>
     );
@@ -202,19 +254,21 @@ export default function ViewPage({ params }: { params: Promise<{ id: string }> }
               transition={{ duration: 0.5 }}
               className="text-center space-y-6 max-w-md mx-auto p-6"
             >
-              <div className="inline-block p-3 rounded-full border border-amber-500/30 bg-amber-950/40 text-amber-400 shadow-xl">
-                <span className="text-3xl">📻</span>
+              <div className="inline-block p-3.5 rounded-none border border-amber-500/40 bg-amber-950/50 text-amber-300 shadow-2xl">
+                <span className="text-3xl">{themeMeta.icon}</span>
               </div>
 
               <div className="space-y-2">
                 <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-amber-400/80 font-vintage-serif">
-                  {state.occasion || "1990s Mixtape Letter"}
+                  {state.occasion && state.occasion !== "1990s Mixtape Letter"
+                    ? state.occasion
+                    : themeMeta.defaultOccasion}
                 </span>
                 <h1 className="text-4xl sm:text-5xl font-vintage-calligraphy text-amber-100 tracking-wide">
                   A Letter for {state.name}
                 </h1>
-                <p className="text-sm text-amber-200/60 font-vintage-body italic leading-relaxed pt-1">
-                  A sealed vintage envelope containing a sleek wireless radio and handwritten note.
+                <p className="text-sm text-amber-200/70 font-vintage-body italic leading-relaxed pt-1">
+                  {themeMeta.subtitle}
                 </p>
               </div>
 
@@ -297,17 +351,24 @@ export default function ViewPage({ params }: { params: Promise<{ id: string }> }
               className="w-full max-w-4xl mx-auto flex flex-col items-center space-y-6 py-4"
             >
               {/* THE HORIZONTALLY LONG RETRO RADIO BAR + ATTACHED WIDE LETTER */}
-              <RetroRadioLetter
-                name={state.name}
-                letterText={state.letterText || ""}
-                fontChoice={state.fontChoice}
-                message={state.message}
-                image={state.image}
-                letterStyle={currentLetterStyle}
-                envelopeStyle={state.envelopeStyle || "vintage-airmail"}
-                selectedBadgeIds={state.selectedBadges}
-                interactive={true}
-              />
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.8, ease: [0.25,1,0.5,1] }}
+                className="w-full flex justify-center"
+              >
+                <RetroRadioLetter
+                  name={state.name}
+                  letterText={state.letterText || ""}
+                  fontChoice={state.fontChoice}
+                  message={state.message}
+                  image={state.image}
+                  letterStyle={currentLetterStyle}
+                  envelopeStyle={state.envelopeStyle || "vintage-airmail"}
+                  selectedBadgeIds={state.selectedBadges}
+                  interactive={true}
+                />
+              </motion.div>
 
               {/* Action Bar */}
               <div className="flex flex-wrap items-center justify-center gap-4 w-full">
@@ -331,9 +392,9 @@ export default function ViewPage({ params }: { params: Promise<{ id: string }> }
         </AnimatePresence>
       </div>
 
-      {/* Footer */}
-      <footer className="mt-auto py-5 relative z-10 text-center text-[9px] tracking-[0.3em] uppercase font-vintage-serif text-amber-400/40">
-        KEEPSAKE • 1990S MIXTAPE & ARCHIVAL CORRESPONDENCE
+      {/* Dynamic Theme Footer */}
+      <footer className="mt-auto py-5 relative z-10 text-center text-[9px] tracking-[0.3em] uppercase font-vintage-serif text-amber-400/50">
+        {themeMeta.footer}
       </footer>
     </div>
   );

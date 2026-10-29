@@ -25,54 +25,98 @@ import { RetroRadioLetter } from "@/components/RetroRadioLetter";
 import { sounds } from "@/lib/audio";
 
 const OCCASIONS = [
-  "1990s Mixtape Letter",
-  "Love & Devotion",
+  "Royal Victorian Dispatch (1890)",
+  "Midnight Constellation Folio",
+  "Botanical Herbarium Keepsake (1912)",
+  "Rustic Archival Keepsake (1884)",
+  "Transatlantic Airmail (1924)",
+  "Love & Timeless Devotion",
   "A Distant Remembrance",
   "Milestone & Anniversary",
-  "In Thought & Silence",
 ];
 
 const VINTAGE_PRESETS = [
   {
-    title: "1994 Cassette Mixtape",
+    title: "Royal Victorian (1890)",
+    occasion: "Royal Victorian Dispatch (1890)",
+    envelopeStyle: "victorian-gilded",
+    letterStyle: "royal-decree",
+    waxSealId: "burgundy-monogram",
+    selectedBadges: ["keeper-of-heart", "eternal-rose", "secret-keeper"],
     message:
-      "I made this mixtape and penned these lines thinking of you.\n\nPress play on the radio above, let the music fill the room, and know that you are my favorite melody in this noisy world. Thank you for making ordinary days feel like a song worth remembering forever.",
-    ending: "Yours with constant devotion and affection, always.",
-    puzzleAnswer: "ALWAYS",
-    puzzleQuestion: "The eternal promise between our hearts:",
+      "Dearest Eleanor,\n\nI compose this royal dispatch in honor of our enduring bond. In a world of fleeting moments, the dignity and warmth of your presence remains my greatest comfort.\n\nMay the waltz playing above and these handwritten words remind you of my steadfast devotion, sealed in perpetuity in the royal court of memory.",
+    ending: "Ever with imperial respect and affection, yours faithfully.",
+    puzzleAnswer: "DEVOTION",
+    puzzleQuestion: "The royal promise between our hearts:",
   },
   {
-    title: "To My Distant Star",
+    title: "Midnight Constellation",
+    occasion: "Midnight Constellation Folio",
+    envelopeStyle: "celestial-noir",
+    letterStyle: "celestial-parchment",
+    waxSealId: "midnight-navy",
+    selectedBadges: ["guiding-star", "secret-keeper", "keeper-of-heart"],
     message:
-      "If words could bridge the miles tonight, these lines would carry the sound of my heartbeat to your doorstep.\n\nYou have given my days purpose and my evenings peace. Remember, whenever the night seems heavy, that under the same quiet stars someone loves you with all their being.",
-    ending: "Ever faithfully and tenderly yours,",
+      "If words could bridge the cosmic expanse tonight, these lines would carry the quiet glow of starlight directly to your window.\n\nYou have been my true north in the darkest skies. Remember, whenever the night feels vast, that under the same celestial sphere someone loves you with all their being.",
+    ending: "Forever guided by your light across the ether,",
     puzzleAnswer: "STARS",
-    puzzleQuestion: "What we gaze upon from afar:",
+    puzzleQuestion: "What guides our journey across the night:",
   },
   {
-    title: "A Timeless Keepsake",
+    title: "Botanical Herbarium (1912)",
+    occasion: "Botanical Herbarium Keepsake (1912)",
+    envelopeStyle: "botanical-herbarium",
+    letterStyle: "love-poem-folio",
+    waxSealId: "forest-botanical",
+    selectedBadges: ["eternal-rose", "keeper-of-heart", "secret-keeper"],
     message:
-      "Some things in this changing world remain unchanged, and among them is my profound gratitude for having you in my story.\n\nThank you for every laughter shared, every quiet understanding, and every grace you offer so effortlessly.",
-    ending: "With all my fondness and respect,",
-    puzzleAnswer: "FOREVER",
-    puzzleQuestion: "How long this memory will endure:",
+      "Among all the rare blooms gathered in the gardens of memory, your friendship is the one that never withers.\n\nLike pressed petals preserved between the pages of an antique folio, every shared laugh and quiet kindness remains as vibrant as the day it was given.",
+    ending: "With timeless tenderness and fond remembrance,",
+    puzzleAnswer: "ROSE",
+    puzzleQuestion: "The wild blossom preserved in our memories:",
+  },
+  {
+    title: "Rustic Parchment & Twine (1884)",
+    occasion: "Rustic Archival Keepsake (1884)",
+    envelopeStyle: "parchment-twine",
+    letterStyle: "aged-parchment",
+    waxSealId: "terracotta-wax",
+    selectedBadges: ["keeper-of-heart", "secret-keeper", "first-class-love"],
+    message:
+      "I write these lines by the hearth fire after a long journey across the miles.\n\nNo distance or passing year can dim the gratitude I hold for you. You have been a steady anchor and an open heart, and my thoughts return to you as surely as dawn follows dusk.",
+    ending: "Yours across every frontier, always.",
+    puzzleAnswer: "ALWAYS",
+    puzzleQuestion: "The enduring promise between our hearts:",
+  },
+  {
+    title: "Transatlantic Airmail (1924)",
+    occasion: "Transatlantic Airmail (1924)",
+    envelopeStyle: "vintage-airmail",
+    letterStyle: "aged-parchment",
+    waxSealId: "burgundy-monogram",
+    selectedBadges: ["first-class-love", "keeper-of-heart", "guiding-star"],
+    message:
+      "Carried across the ocean on the wings of the morning post, this letter arrives with all the speed the airmail service allows.\n\nThough continents and seas lie between us, every note on this shortwave frequency carries my warmest thoughts directly to you.",
+    ending: "Dispatched with first-class priority and fondness,",
+    puzzleAnswer: "YOU",
+    puzzleQuestion: "The destination of all my fondest thoughts:",
   },
 ];
 
 export default function CreatePage() {
   const [name, setName] = useState("Eleanor");
   const [occasion, setOccasion] = useState(OCCASIONS[0]);
-  const [envelopeStyle, setEnvelopeStyle] = useState("vintage-airmail");
-  const [letterStyle, setLetterStyle] = useState("aged-parchment");
+  const [envelopeStyle, setEnvelopeStyle] = useState("victorian-gilded");
+  const [letterStyle, setLetterStyle] = useState("royal-decree");
   const [waxSealId, setWaxSealId] = useState("burgundy-monogram");
   const [selectedBadges, setSelectedBadges] = useState<string[]>([
     "keeper-of-heart",
     "eternal-rose",
-    "first-class-love",
+    "secret-keeper",
   ]);
   const [puzzle, setPuzzle] = useState("memory");
-  const [puzzleQuestion, setPuzzleQuestion] = useState("The eternal promise between our hearts:");
-  const [puzzleAnswer, setPuzzleAnswer] = useState("ALWAYS");
+  const [puzzleQuestion, setPuzzleQuestion] = useState("The royal promise between our hearts:");
+  const [puzzleAnswer, setPuzzleAnswer] = useState("DEVOTION");
   const [letterText, setLetterText] = useState(VINTAGE_PRESETS[0].message);
   const [fontChoice, setFontChoice] = useState<"calligraphy" | "script" | "serif">("calligraphy");
   const [message, setMessage] = useState(VINTAGE_PRESETS[0].ending);
@@ -96,6 +140,11 @@ export default function CreatePage() {
     setMessage(preset.ending);
     if (preset.puzzleAnswer) setPuzzleAnswer(preset.puzzleAnswer);
     if (preset.puzzleQuestion) setPuzzleQuestion(preset.puzzleQuestion);
+    if (preset.occasion) setOccasion(preset.occasion);
+    if (preset.envelopeStyle) setEnvelopeStyle(preset.envelopeStyle);
+    if (preset.letterStyle) setLetterStyle(preset.letterStyle);
+    if (preset.waxSealId) setWaxSealId(preset.waxSealId);
+    if (preset.selectedBadges) setSelectedBadges(preset.selectedBadges);
   };
 
   const handleToggleBadge = (badgeId: string) => {
@@ -221,7 +270,7 @@ export default function CreatePage() {
               <h1 className="text-2xl sm:text-3xl font-vintage-heading tracking-widest text-amber-100 font-bold">
                 KEEPSAKE
               </h1>
-              <span className="text-[9px] tracking-[0.3em] uppercase font-vintage-serif text-amber-300/80 border border-amber-700/60 px-2 py-0.5 rounded-xs bg-amber-950/40">
+              <span className="text-[9px] tracking-[0.3em] uppercase font-vintage-serif text-amber-300/80 border border-amber-700/60 px-2 py-0.5 rounded-none bg-amber-950/40">
                 1990s ATELIER
               </span>
             </div>
@@ -235,7 +284,7 @@ export default function CreatePage() {
               href="/to/demo"
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2 rounded-xs text-xs font-vintage-serif tracking-wider uppercase border border-amber-500/40 bg-amber-950/50 text-amber-200 hover:bg-amber-900/60 hover:text-amber-100 transition-colors flex items-center gap-2 shadow-lg cursor-pointer"
+              className="px-4 py-2 rounded-none text-xs font-vintage-serif tracking-wider uppercase border border-amber-500/40 bg-amber-950/50 text-amber-200 hover:bg-amber-900/60 hover:text-amber-100 transition-colors flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <Eye className="w-3.5 h-3.5 text-amber-400" />
               <span>Inspect Sample Radio Letter</span>
@@ -282,17 +331,17 @@ export default function CreatePage() {
               >
                 <div className="space-y-1.5">
                   <label className="block text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                    Recipient Name (Penmanship on Envelope & Mixtape)
+                    Recipient Name (Penmanship on Envelope & Letter)
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 rounded-xs border border-amber-900/30 focus:border-amber-900 bg-[#fdfbf6] text-[#241309] font-vintage-calligraphy text-3xl outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-none border border-amber-900/30 focus:border-amber-900 bg-[#fdfbf6] text-[#241309] font-vintage-calligraphy text-3xl outline-none transition-colors"
                     placeholder="e.g. Eleanor, Julian, My Beloved"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                   <p className="text-[11px] text-amber-900/60 font-vintage-body italic">
-                    Rendered in authentic 1990s mixtape label and Spencerian calligraphy.
+                    Inscribed with calligraphic penmanship and period radio tuning metadata.
                   </p>
                 </div>
 
@@ -309,7 +358,7 @@ export default function CreatePage() {
                           sounds.playPop();
                           setOccasion(occ);
                         }}
-                        className={`px-3 py-1.5 rounded-xs text-xs font-vintage-serif uppercase tracking-wider border transition-colors cursor-pointer ${
+                        className={`px-3 py-1.5 rounded-none text-xs font-vintage-serif uppercase tracking-wider border transition-colors cursor-pointer ${
                           occasion === occ
                             ? "bg-amber-950 text-amber-100 border-amber-950 font-bold"
                             : "bg-[#fbf7ee] text-amber-950 border-amber-900/25 hover:border-amber-800"
@@ -327,7 +376,7 @@ export default function CreatePage() {
                     sounds.playPop();
                     setActiveStep("letter");
                   }}
-                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-xs text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
+                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-none text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
                 >
                   Proceed to Letter Composition →
                 </button>
@@ -356,7 +405,7 @@ export default function CreatePage() {
                             sounds.playPop();
                             setLetterStyle(style.id);
                           }}
-                          className={`p-3 rounded-xs border cursor-pointer transition-all flex items-center gap-3 ${
+                          className={`p-3 rounded-none border cursor-pointer transition-all flex items-center gap-3 ${
                             isSelected
                               ? "border-amber-900 bg-amber-100/70 shadow-md font-bold"
                               : "border-amber-900/25 bg-[#fdfaf3] hover:border-amber-800"
@@ -376,18 +425,20 @@ export default function CreatePage() {
                 </div>
 
                 {/* Presets */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-amber-900/15">
-                  <label className="text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
-                    Letter Penmanship
-                  </label>
-                  <div className="flex items-center gap-1.5 text-xs">
-                    <span className="text-amber-900/60 font-vintage-body italic">Mixtape Presets:</span>
+                <div className="flex flex-col gap-2 pt-2 border-t border-amber-900/15">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
+                      Letter Penmanship & Historical Themes
+                    </label>
+                    <span className="text-amber-900/60 font-vintage-body italic text-xs">Era Presets:</span>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5">
                     {VINTAGE_PRESETS.map((preset, i) => (
                       <button
                         key={i}
                         type="button"
                         onClick={() => handleApplyPreset(preset)}
-                        className="px-2 py-0.5 rounded-xs text-[11px] font-vintage-serif text-amber-900 border border-amber-900/30 hover:border-amber-900 bg-[#fdfaf3] transition-colors cursor-pointer"
+                        className="px-2.5 py-1 rounded-none text-[10.5px] font-vintage-serif text-amber-900 border border-amber-900/40 hover:border-amber-900 hover:bg-amber-100/60 bg-[#fdfaf3] transition-colors cursor-pointer shadow-xs active:translate-y-0.5"
                       >
                         {preset.title}
                       </button>
@@ -412,7 +463,7 @@ export default function CreatePage() {
                         sounds.playPop();
                         setFontChoice(font.id as any);
                       }}
-                      className={`px-3 py-1 rounded-xs text-xs font-vintage-serif border transition-colors cursor-pointer ${
+                      className={`px-3 py-1 rounded-none text-xs font-vintage-serif border transition-colors cursor-pointer ${
                         fontChoice === font.id
                           ? "bg-amber-950 text-amber-100 border-amber-950 font-bold"
                           : "bg-[#fdfaf3] text-amber-900 border-amber-900/25 hover:border-amber-800"
@@ -426,7 +477,7 @@ export default function CreatePage() {
                 <div className="relative">
                   <textarea
                     rows={7}
-                    className={`w-full p-5 rounded-xs border border-amber-900/30 focus:border-amber-900 bg-[#fdfbf6] text-[#26150b] text-base outline-none transition-colors leading-relaxed antique-ruled-lines ${
+                    className={`w-full p-5 rounded-none border border-amber-900/30 focus:border-amber-900 bg-[#fdfbf6] text-[#26150b] text-base outline-none transition-colors leading-relaxed antique-ruled-lines ${
                       fontChoice === "serif"
                         ? "font-vintage-body italic text-xl"
                         : fontChoice === "script"
@@ -445,7 +496,7 @@ export default function CreatePage() {
                     Attach Polaroid Photograph (Optional)
                   </label>
                   <div className="flex items-center gap-4">
-                    <label className="cursor-pointer px-4 py-2 rounded-xs border border-amber-900/40 hover:border-amber-900 bg-[#fdfaf3] text-xs font-vintage-serif font-bold uppercase tracking-wider text-amber-950 flex items-center gap-2 transition-colors">
+                    <label className="cursor-pointer px-4 py-2 rounded-none border border-amber-900/40 hover:border-amber-900 bg-[#fdfaf3] text-xs font-vintage-serif font-bold uppercase tracking-wider text-amber-950 flex items-center gap-2 transition-colors">
                       <Upload className="w-3.5 h-3.5 text-amber-800" />
                       <span>{image ? "Replace Photograph" : "Attach Album Photograph"}</span>
                       <input
@@ -458,7 +509,7 @@ export default function CreatePage() {
 
                     {image && (
                       <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-xs overflow-hidden border border-amber-900/40 p-0.5 bg-white">
+                        <div className="w-10 h-10 rounded-none overflow-hidden border border-amber-900/40 p-0.5 bg-white">
                           <img src={image} alt="Preview" className="w-full h-full object-cover sepia-[0.3]" />
                         </div>
                         <button
@@ -483,7 +534,7 @@ export default function CreatePage() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 rounded-xs border border-amber-900/30 focus:border-amber-900 bg-[#fdfbf6] text-[#241309] font-vintage-calligraphy text-3xl outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-none border border-amber-900/30 focus:border-amber-900 bg-[#fdfbf6] text-[#241309] font-vintage-calligraphy text-3xl outline-none transition-colors"
                     placeholder="e.g. Yours with constant devotion and affection, always."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
@@ -496,7 +547,7 @@ export default function CreatePage() {
                     sounds.playPop();
                     setActiveStep("envelope");
                   }}
-                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-xs text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
+                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-none text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
                 >
                   Choose Envelope Style →
                 </button>
@@ -524,7 +575,7 @@ export default function CreatePage() {
                             sounds.playPop();
                             setEnvelopeStyle(env.id);
                           }}
-                          className={`p-3.5 rounded-xs border cursor-pointer transition-all flex flex-col justify-between ${
+                          className={`p-3.5 rounded-none border cursor-pointer transition-all flex flex-col justify-between ${
                             isSelected
                               ? "border-amber-900 bg-amber-100/70 shadow-md font-bold scale-[1.01]"
                               : "border-amber-900/25 bg-[#fdfaf3] hover:border-amber-800"
@@ -534,7 +585,7 @@ export default function CreatePage() {
                             <span className="text-xs font-vintage-serif font-bold text-amber-950">
                               {env.name}
                             </span>
-                            <span className="text-[9px] uppercase tracking-wider text-amber-800 bg-amber-900/10 px-1.5 py-0.5 rounded-xs">
+                            <span className="text-[9px] uppercase tracking-wider text-amber-800 bg-amber-900/10 px-1.5 py-0.5 rounded-none">
                               {env.era}
                             </span>
                           </div>
@@ -553,7 +604,7 @@ export default function CreatePage() {
                     sounds.playPop();
                     setActiveStep("badges");
                   }}
-                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-xs text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
+                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-none text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
                 >
                   Configure Radio Badges & Wax Seal →
                 </button>
@@ -585,7 +636,7 @@ export default function CreatePage() {
                         <div
                           key={badge.id}
                           onClick={() => handleToggleBadge(badge.id)}
-                          className={`p-3 rounded-xs border cursor-pointer transition-all flex items-center gap-3 ${
+                          className={`p-3 rounded-none border cursor-pointer transition-all flex items-center gap-3 ${
                             isSelected
                               ? "border-amber-900 bg-amber-100/70 shadow-sm"
                               : "border-amber-900/20 bg-[#fdfaf3] opacity-60 hover:opacity-100"
@@ -628,7 +679,7 @@ export default function CreatePage() {
                             sounds.playPop();
                             setWaxSealId(seal.id);
                           }}
-                          className={`p-3 rounded-xs border cursor-pointer transition-all flex items-center gap-3 ${
+                          className={`p-3 rounded-none border cursor-pointer transition-all flex items-center gap-3 ${
                             isSelected
                               ? "border-amber-900 bg-amber-100/70 shadow-md font-bold"
                               : "border-amber-900/20 bg-[#fdfaf3] hover:border-amber-800"
@@ -657,7 +708,7 @@ export default function CreatePage() {
                     sounds.playPop();
                     setActiveStep("lock");
                   }}
-                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-xs text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
+                  className="w-full py-3.5 bg-gradient-to-r from-amber-900 to-amber-950 hover:from-amber-800 hover:to-amber-900 text-amber-50 rounded-none text-xs uppercase tracking-[0.2em] font-vintage-serif font-bold shadow-md transition-colors cursor-pointer"
                 >
                   Configure Archival Lock →
                 </button>
@@ -685,7 +736,7 @@ export default function CreatePage() {
                             sounds.playPop();
                             setPuzzle(p.id);
                           }}
-                          className={`p-4 rounded-xs border cursor-pointer transition-all flex flex-col gap-1.5 ${
+                          className={`p-4 rounded-none border cursor-pointer transition-all flex flex-col gap-1.5 ${
                             isSelected
                               ? "border-amber-900 bg-amber-100/60 shadow-md font-bold"
                               : "border-amber-900/25 bg-[#fdfaf3] hover:border-amber-800"
@@ -705,14 +756,14 @@ export default function CreatePage() {
                 </div>
 
                 {puzzle === "unscramble" && (
-                  <div className="p-4 rounded-xs bg-[#fdfaf3] border border-amber-900/30 space-y-3">
+                  <div className="p-4 rounded-none bg-[#fdfaf3] border border-amber-900/30 space-y-3">
                     <div className="space-y-1">
                       <label className="block text-xs uppercase tracking-widest font-vintage-serif font-bold text-amber-950">
                         Inscribed Clue Prompt
                       </label>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 rounded-xs border border-amber-900/30 bg-white text-xs outline-none focus:border-amber-900"
+                        className="w-full px-3 py-2 rounded-none border border-amber-900/30 bg-white text-xs outline-none focus:border-amber-900"
                         placeholder="e.g. The eternal promise between our hearts:"
                         value={puzzleQuestion}
                         onChange={(e) => setPuzzleQuestion(e.target.value)}
@@ -725,7 +776,7 @@ export default function CreatePage() {
                       <input
                         type="text"
                         maxLength={10}
-                        className="w-full px-3 py-2 rounded-xs border border-amber-900/30 bg-white text-xs font-vintage-serif tracking-widest uppercase outline-none focus:border-amber-900 font-bold"
+                        className="w-full px-3 py-2 rounded-none border border-amber-900/30 bg-white text-xs font-vintage-serif tracking-widest uppercase outline-none focus:border-amber-900 font-bold"
                         placeholder="e.g. ALWAYS"
                         value={puzzleAnswer}
                         onChange={(e) =>
@@ -741,7 +792,7 @@ export default function CreatePage() {
                   <button
                     disabled={publishing}
                     onClick={handlePublish}
-                    className="w-full py-4 rounded-xs bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 hover:from-amber-700 hover:to-amber-900 text-amber-100 font-vintage-serif text-xs uppercase tracking-[0.25em] font-bold shadow-2xl border border-amber-400/40 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                    className="w-full py-4 rounded-none bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 hover:from-amber-700 hover:to-amber-900 text-amber-100 font-vintage-serif text-xs uppercase tracking-[0.25em] font-bold shadow-2xl border border-amber-400/40 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
                     {publishing ? (
                       <>
@@ -761,7 +812,7 @@ export default function CreatePage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-5 rounded-xs bg-[#fdfaf3] border-2 border-amber-800 space-y-3 shadow-xl"
+                className="p-5 rounded-none bg-[#fdfaf3] border-2 border-amber-800 space-y-3 shadow-xl"
               >
                 <div className="flex items-center justify-between text-xs font-vintage-serif uppercase tracking-wider font-bold text-amber-950">
                   <span>⚜ Letter Sealed & Recorded</span>
@@ -772,11 +823,11 @@ export default function CreatePage() {
                     type="text"
                     readOnly
                     value={publishedUrl}
-                    className="flex-1 px-3 py-2 rounded-xs border border-amber-900/30 bg-white text-xs text-amber-950 font-mono outline-none"
+                    className="flex-1 px-3 py-2 rounded-none border border-amber-900/30 bg-white text-xs text-amber-950 font-mono outline-none"
                   />
                   <button
                     onClick={copyToClipboard}
-                    className="px-4 py-2 rounded-xs bg-amber-950 hover:bg-amber-900 text-amber-100 text-xs font-vintage-serif tracking-wider uppercase font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="px-4 py-2 rounded-none bg-amber-950 hover:bg-amber-900 text-amber-100 text-xs font-vintage-serif tracking-wider uppercase font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copied ? "Copied" : "Copy"}</span>
@@ -816,14 +867,14 @@ export default function CreatePage() {
                 Desk Live Preview
               </span>
 
-              <div className="flex items-center gap-1 p-0.5 bg-amber-950/80 rounded-xs border border-amber-800/60 text-[11px] font-vintage-serif">
+              <div className="flex items-center gap-1 p-0.5 bg-amber-950/80 rounded-none border border-amber-800/60 text-[11px] font-vintage-serif">
                 <button
                   type="button"
                   onClick={() => {
                     sounds.playPop();
                     setPreviewTab("envelope");
                   }}
-                  className={`px-3 py-1 rounded-xs transition-colors cursor-pointer uppercase tracking-wider ${
+                  className={`px-3 py-1 rounded-none transition-colors cursor-pointer uppercase tracking-wider ${
                     previewTab === "envelope"
                       ? "bg-amber-800 text-amber-100 font-bold"
                       : "text-amber-300/70 hover:text-amber-100"
@@ -837,7 +888,7 @@ export default function CreatePage() {
                     sounds.playPop();
                     setPreviewTab("letter");
                   }}
-                  className={`px-3 py-1 rounded-xs transition-colors cursor-pointer uppercase tracking-wider ${
+                  className={`px-3 py-1 rounded-none transition-colors cursor-pointer uppercase tracking-wider ${
                     previewTab === "letter"
                       ? "bg-amber-800 text-amber-100 font-bold"
                       : "text-amber-300/70 hover:text-amber-100"

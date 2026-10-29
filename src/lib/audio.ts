@@ -11,40 +11,58 @@ export interface RadioStation {
 
 export const RADIO_STATIONS: RadioStation[] = [
   {
-    id: "mixtape-lofi",
-    name: "Mixtape Side A • 1994",
-    genre: "90s Lofi Cassette Romance",
-    frequency: "FM 98.5 MHz",
-    tempo: 420,
+    id: "victorian-waltz",
+    name: "Vienna Royal Opera • 1890",
+    genre: "Viennese Classical Waltz",
+    frequency: "kHz 189.0",
+    tempo: 360,
     melody: [
-      523.25, 659.25, 783.99, 1046.5, 880.0, 783.99, 659.25, 587.33,
-      523.25, 659.25, 783.99, 1046.5, 1174.66, 1046.5, 880.0, 783.99,
-      698.46, 880.0, 1046.5, 880.0, 659.25, 783.99, 880.0, 659.25,
-      587.33, 659.25, 783.99, 880.0, 783.99, 659.25, 587.33, 523.25
+      523.25, 659.25, 783.99, 1046.5, 783.99, 659.25, 587.33, 659.25,
+      783.99, 880.0, 783.99, 659.25, 523.25, 587.33, 659.25, 523.25,
     ],
   },
   {
-    id: "city-pop",
-    name: "Tokyo FM • Midnight Wave",
-    genre: "1990s City Pop Nostalgia",
-    frequency: "FM 103.2 MHz",
-    tempo: 380,
+    id: "celestial-ether",
+    name: "Observatory FM • Stellar Ether",
+    genre: "Astronomical Stardust Chimes",
+    frequency: "FM 98.4 MHz",
+    tempo: 460,
     melody: [
-      440.0, 523.25, 659.25, 880.0, 783.99, 659.25, 523.25, 587.33,
-      659.25, 587.33, 523.25, 440.0, 392.0, 440.0, 523.25, 659.25,
-      698.46, 783.99, 880.0, 1046.5, 880.0, 783.99, 659.25, 523.25,
+      440.0, 659.25, 880.0, 1318.51, 880.0, 659.25, 523.25, 783.99,
+      1046.5, 783.99, 523.25, 659.25, 440.0, 523.25, 659.25, 440.0,
     ],
   },
   {
-    id: "slow-jam",
-    name: "Golden Hour Radio • 1998",
-    genre: "Sweet R&B Chime Ballad",
-    frequency: "AM 880 kHz",
-    tempo: 490,
+    id: "botanical-harp",
+    name: "Kew Conservatory • Harp & Strings",
+    genre: "Pastoral English Classical",
+    frequency: "FM 101.6 MHz",
+    tempo: 400,
     melody: [
-      392.0, 493.88, 587.33, 783.99, 698.46, 587.33, 493.88, 587.33,
-      659.25, 783.99, 880.0, 987.77, 880.0, 783.99, 659.25, 587.33,
-      523.25, 659.25, 783.99, 880.0, 783.99, 659.25, 523.25, 440.0,
+      392.0, 523.25, 659.25, 783.99, 659.25, 523.25, 440.0, 587.33,
+      698.46, 880.0, 698.46, 587.33, 523.25, 659.25, 523.25, 392.0,
+    ],
+  },
+  {
+    id: "twine-folk",
+    name: "Western Dispatch • Folk Melody",
+    genre: "Warm Acoustic Timber Ballad",
+    frequency: "AM 740 kHz",
+    tempo: 410,
+    melody: [
+      392.0, 493.88, 587.33, 783.99, 698.46, 587.33, 523.25, 659.25,
+      783.99, 880.0, 783.99, 659.25, 587.33, 493.88, 587.33, 523.25,
+    ],
+  },
+  {
+    id: "airmail-jazz",
+    name: "Imperial Airmail • 1924",
+    genre: "1920s Transatlantic Broadcast",
+    frequency: "FM 94.2 MHz",
+    tempo: 370,
+    melody: [
+      523.25, 659.25, 783.99, 880.0, 1046.5, 880.0, 783.99, 659.25,
+      587.33, 659.25, 783.99, 1046.5, 1174.66, 1046.5, 880.0, 783.99,
     ],
   },
 ];
@@ -158,6 +176,25 @@ class SoundManager {
       this.startBgm();
     } else {
       this.notifyStation();
+    }
+  }
+
+  public setStationForTheme(themeKey: string) {
+    let targetIndex = 4; // default airmail
+    if (themeKey === "victorian") targetIndex = 0;
+    else if (themeKey === "celestial") targetIndex = 1;
+    else if (themeKey === "botanical") targetIndex = 2;
+    else if (themeKey === "twine") targetIndex = 3;
+    else targetIndex = 4;
+
+    if (this.currentStationIndex !== targetIndex) {
+      this.currentStationIndex = targetIndex;
+      if (this.bgmPlaying) {
+        this.stopBgm();
+        this.startBgm();
+      } else {
+        this.notifyStation();
+      }
     }
   }
 

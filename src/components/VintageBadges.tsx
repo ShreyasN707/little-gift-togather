@@ -23,7 +23,7 @@ export function VintageBadges({
   return (
     <div className="relative w-full my-4">
       {/* Badge Ribbon Bar */}
-      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 p-3 bg-amber-950/20 border border-amber-900/30 rounded-xs">
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 p-3 bg-amber-950/20 border border-amber-900/30 rounded-none">
         <div className="w-full text-center mb-1">
           <span className="text-[9px] tracking-[0.3em] font-vintage-serif uppercase font-bold text-amber-900/80">
             HONORARY COMMEMORATIVE MEDALLIONS
@@ -49,7 +49,7 @@ export function VintageBadges({
                 title={badge.name}
               >
                 {/* Pin Head Clasp on Top */}
-                <div className="absolute -top-1 w-2.5 h-1.5 bg-amber-300 rounded-xs border border-amber-700 shadow-xs" />
+                <div className="absolute -top-1 w-2.5 h-1.5 bg-amber-300 rounded-none border border-amber-700 shadow-xs" />
 
                 {/* Inner relief circle */}
                 <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-full border border-dashed border-amber-200/60 flex items-center justify-center">
@@ -66,7 +66,7 @@ export function VintageBadges({
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
-                    className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2.5 bg-amber-950/95 border border-amber-500/50 rounded-xs shadow-2xl text-center text-[#f6eedb]"
+                    className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2.5 bg-amber-950/95 border border-amber-500/50 rounded-none shadow-2xl text-center text-[#f6eedb]"
                   >
                     <span className="block text-[8px] tracking-[0.2em] font-vintage-serif uppercase font-bold text-amber-400">
                       {badge.title}
